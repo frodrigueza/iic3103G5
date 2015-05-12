@@ -43,3 +43,10 @@ group :development, :test do
   gem 'spring'
 end
 
+group :production do
+	gem 'unicorn'
+	gem 'daemons'
+	gem 'rails_12factor'
+	gem 'puma'
+	gem 'pg'
+end
