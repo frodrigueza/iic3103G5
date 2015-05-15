@@ -1,5 +1,5 @@
 class B2bController < ApplicationController
-	before_action :set_orders_manager, only[:new_order, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
+	before_action :set_orders_manager, only: [:new_order, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
 
 	# documentacion
 	def documentation

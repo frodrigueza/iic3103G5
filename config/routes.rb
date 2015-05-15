@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   namespace :b2b do 
     post 'new_order'
-    post 'documentation'
+    get 'documentation'
     post 'notify_accepted_order'
     post 'notify_rejected_order'
     post 'cancel_previous_order'
