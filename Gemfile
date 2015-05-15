@@ -27,7 +27,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
+
+# sftp
+gem 'net-sftp'
+
+# scheduled tasks
+gem 'whenever'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -36,6 +42,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
+	# Registros en consola con colores => AwesomePrint.irb!
+	gem 'awesome_print'
+	# Registros en consola como tabla => Hirb.enab
+	# Muy buen debug en ejecucion
+	gem 'better_errors'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
@@ -44,9 +55,5 @@ group :development, :test do
 end
 
 group :production do
-	gem 'unicorn'
-	gem 'daemons'
-	gem 'rails_12factor'
-	gem 'puma'
 	gem 'pg'
 end

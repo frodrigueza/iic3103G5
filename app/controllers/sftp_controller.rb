@@ -1,0 +1,3 @@
+class SftpController < ApplicationController
+	
+end

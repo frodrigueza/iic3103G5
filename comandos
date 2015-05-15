@@ -1,0 +1,12 @@
+
+ALTER ROLE integra WITH PASSWORD 'integra';
+
+CREATE DATABASE integra_production;
+
+GRANT ALL PRIVILEGES ON DATABASE integra_production to integra;
+
+sudo nano /etc/nginx/sites-available/integra.conf
+
+sudo ln -sf /etc/nginx/sites-available/integra.conf /etc/nginx/sites-enabled/integra.conf
+
+M8yF.3@Pd

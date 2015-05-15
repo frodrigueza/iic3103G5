@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<xml>
+	<Pedido fecha="2015-05-13" hora="00:00">
+		<oc>5552be76e73577030023d9d4</oc>
+		<cliente>9</cliente>
+		<proveedor>5</proveedor>
+		<sku>26</sku>
+		<fechaEntrega>05.18.2015</fechaEntrega>
+		<cantidad>65</cantidad>
+		<precioUnitario>2218</precioUnitario>
+	</Pedido>
+</xml>

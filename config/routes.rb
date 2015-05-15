@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
-  get 'b2b/documentation'
+
+  # get 'sftp/get_new_orders'
+
+  # get 'b2b/documentation'
+
+  namespace :b2b do 
+    post 'new_order'
+    post 'documentation'
+    post 'notify_accepted_order'
+    post 'notify_rejected_order'
+    post 'cancel_previous_order'
+    post 'ask_for_token'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
