@@ -55,6 +55,9 @@ group :development, :test do
 end
 
 group :production do
-	gem 'pg'
+	gem 'unicorn'
+	gem 'daemons'
+	gem 'rails_12factor'
 	gem 'puma'
+	gem 'pg'
 end
