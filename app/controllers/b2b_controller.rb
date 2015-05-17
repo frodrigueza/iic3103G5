@@ -1,5 +1,6 @@
 class B2bController < ApplicationController
 	before_action :set_orders_manager, only: [:new_order, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
+	require 'net/http'
 
 	# documentacion
 	def documentation
@@ -10,21 +11,24 @@ class B2bController < ApplicationController
 	end
 
 	def notify_accepted_order
-    # Este método debe ir acompañado por un parámetro que es un string del id de la orden de compra.
-    # Este parámetro se pasará más abajo como id de orden de compra.
+	    order_id = params[:order_id]
 
-    # Primero hay que verificar Token. Si no existe, retornar error 401
-    require 'net/http'
-    result = Net::HTTP.get(URI.parse('http://chiri.ing.puc.cl/atenea/obtener/id'))
+	    url = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
+	    response = Net::HTTP.get_response(url)
 
-    if result == error then
-      # retornar error
-    else
-      # retornar que está bien. Hay que ver si esto debiera ir acompañado de un pago.
+	    order_hash = JSON.parse(response.body)[0]
+
+	    respond_to do |format|
+		    if order_hash["_id"] != nil
+	    		format.json {render json: {respuesta: 'Muchas gracias por avisar'}, status: 200}
+		    else
+	    		format.json {render json: {respuesta: 'Bad request error, ' + order_hash["msg"]}, status: 400}
+		    end
+	    end
+	
     end
 
 		
-	end
 
 	def notify_rejected_order
 		
