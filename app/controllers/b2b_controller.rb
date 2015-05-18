@@ -66,12 +66,33 @@ class B2bController < ApplicationController
 		    end
 	    end
 	
-    end
+  end
 
 		
 
 	def notify_rejected_order
-		
+    order_id = params[:order_id]
+
+    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
+    response = Net::HTTP.get_response(uri)
+
+    order_hash = JSON.parse(response.body)[0]
+
+    respond_to do |format|
+      if order_hash["_id"] != nil
+        uri2 = URI.parse('http://chiri.ing.puc.cl/atenea/anular/' + order_id.to_s)
+        #second_response = Net::HTTP.delete_response(uri2)
+        second_response = Net::HTTP::Delete.new(uri2.to_s)
+        second_order_hash = JSON.parse(second_response.body)[0]
+        if second_order_hash["_id"] != nil
+          format.json {render json: {respuesta: 'Muchas gracias por avisar'}, status: 200}
+        else
+          format.json {render json: {respuesta: 'Bad request error, ' + order_hash["msg"] + ', ' + second_order_hash["msg"]}, status: 400}
+        end
+      else
+        format.json {render json: {respuesta: 'Bad request error, ' + order_hash["msg"]}, status: 400}
+      end
+    end
 	end
 
 	def cancel_previous_order
