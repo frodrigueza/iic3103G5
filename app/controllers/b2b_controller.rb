@@ -29,8 +29,7 @@ class B2bController < ApplicationController
 
 	    			#Recepcionar OC
 	    			uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
-					params = {id_oc}
-					response = Net::HTTP.post_form(uri, params)
+					response = Net::HTTP.post_form(uri, id_oc)
 
 					#Revisar stock de materia prima en el almacen 55
 					
@@ -42,7 +41,7 @@ class B2bController < ApplicationController
 
 	    respond_to do |format|
     		if accepted
-    			format.json {render json: {id_oc: id_oc id_factura: id_factura}, status: 200}
+    			format.json {render json: {id_oc: id_oc, id_factura: id_factura}, status: 200}
     		else
     		 	format.json {render json: {msg: 'Orden de compra no valida'}, status: 400}
     		end
