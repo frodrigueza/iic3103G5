@@ -4,31 +4,31 @@ class AuthManager
 		case username
 			when 'grupo_1'
 				if password == 'grupo1abcd'
-					return hash
+					return token
 				end
 			when 'grupo_2'
 				if password == 'grupo2abcd'
-					return hash
+					return token
 				end
 			when 'grupo_3'
 				if password == 'grupo3abcd'
-					return hash
+					return token
 				end
 			when 'grupo_4'
 				if password == 'grupo4abcd'
-					return hash
+					return token
 				end
 			when 'grupo_5'
 				if password == 'grupo5abcd'
-					return hash
+					return token
 				end
 			when 'grupo_6'
 				if password == 'grupo6abcd'
-					return hash
+					return token
 				end
 			when 'grupo_7'
 				if password == 'grupo7abcd'
-					return hash
+					return token
 				end
 			else
 				return false
