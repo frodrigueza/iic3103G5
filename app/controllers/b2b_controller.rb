@@ -88,16 +88,25 @@ class B2bController < ApplicationController
 		
 
 	def notify_rejected_order
-		
+		order_id = params[:order_id]
+
+	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
+	    response = Net::HTTP.get_response(url)
+
+	    order_hash = JSON.parse(response.body)[0]
+
+	    respond_to do |format|
+		    if order_hash["_id"] != nil
+	    		format.json {render json: {respuesta: 'Muchas gracias por avisar'}, status: 200}
+		    else
+	    		format.json {render json: {respuesta: 'Bad request error, ' + order_hash["msg"]}, status: 400}
+		    end
+	    end	
 	end
 
 	def cancel_previous_order
 		
 	end
-
-	def ask_for_token
-		
-	end	
 
 	private
 	def set_orders_manager
