@@ -1,3 +1,7 @@
 # iic3103G5
 
-Probando push
+Consideraciones API
+
+Autenticacion ask_for_token
+username: grupoX
+password: grupoXabcd
