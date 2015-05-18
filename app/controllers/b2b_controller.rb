@@ -2,6 +2,8 @@ class B2bController < ApplicationController
 	before_action :set_orders_manager, :set_auth_manager, only: [:new_order, :documentation, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
 	require 'net/http'
 	require "uri"
+	require 'httparty'
+	require 'json'
 
 
 
@@ -14,13 +16,15 @@ class B2bController < ApplicationController
 		order_id = params[:order_id]
 
 		uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
-	    response = Net::HTTP.get_response(url)
+	    response = Net::HTTP.get_response(uri)
 
 	    order_hash = JSON.parse(response.body)[0]
+	    id_oc = order_hash["_id"]
+	    cliente = order_hash["cliente"]
 
 	    #Lista de codigos que poseemos. Si no esta 
 	    skus = [5,26,27,28,29,30,44]
-	    id_oc = order_hash["_id"]
+
 	    accepted = false
 
 	    if id != nil 
@@ -33,8 +37,21 @@ class B2bController < ApplicationController
 					response = Net::HTTP.post_form(uri, id_oc)
 
 					#Revisar stock de materia prima en el almacen 55
-					
+					id_almacen = "554be8d4b6355d03001ff96c"
+					hash = "hY8ytD5TLHvU8wVMUlRS8KQ4jHA="
+					header = {'Authorization' => "INTEGRACION grupo5:"+ hash}
+					query = {almacenId: id_almacen}
+					uri = URI.parse('http://integracion-2015-dev.herokuapp.com/bodega/skusWithStock/')
+					response = HTTParty.get(uri,:query => query,:headers => header)
+					#Ver si el stock es suficiente
 
+					#mover stock a bodega de despacho
+
+					#despachar
+
+
+					#Emitir factura
+					@id_factura = "12345"
 
 			end
 		end
@@ -42,7 +59,7 @@ class B2bController < ApplicationController
 
 	    respond_to do |format|
     		if accepted
-    			format.json {render json: {id_oc: id_oc, id_factura: id_factura}, status: 200}
+    			format.json {render json: {id_oc: id_oc, id_factura: @id_factura}, status: 200}
     		else
     		 	format.json {render json: {msg: 'Orden de compra no valida'}, status: 400}
     		end
@@ -55,7 +72,7 @@ class B2bController < ApplicationController
 	    order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
-	    response = Net::HTTP.get_response(url)
+	    response = Net::HTTP.get_response(uri)
 
 	    order_hash = JSON.parse(response.body)[0]
 
