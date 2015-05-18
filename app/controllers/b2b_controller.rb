@@ -1,7 +1,8 @@
 class B2bController < ApplicationController
-	before_action :set_orders_manager, only: [:new_order, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
+	before_action :set_orders_manager, :set_auth_manager, only: [:new_order, :documentation, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
 	require 'net/http'
 	require "uri"
+
 
 
 	# documentacion
@@ -91,8 +92,25 @@ class B2bController < ApplicationController
 		
 	end
 
+	def ask_for_token
+		username = params[:username]
+		password = params[:password]
+
+		respond_to do |format|
+			if @auth_manager.get_token(username, password)
+				format.json { render json:{token: @auth_manager.get_token(username, password)}, status: 200}
+			else
+				format.json {render json: {respuesta: 'Autenticación errónea'}, status: 401}
+			end
+		end
+	end
+
 	private
 	def set_orders_manager
 		@om = OrdersManager.new
+	end
+
+	def set_auth_manager
+		@auth_manager = AuthManager.new
 	end
 end
