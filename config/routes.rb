@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'home/index'
+  get 'home/search'
+  get 'home/error'
+
   # get 'sftp/get_new_orders'
 
   # get 'b2b/documentation'
@@ -13,11 +17,15 @@ Rails.application.routes.draw do
     post 'ask_for_token'
   end
 
+  namespace :orders do
+    get 'obtain_order'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

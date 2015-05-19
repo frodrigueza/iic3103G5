@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+
+h1{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+
+#search_tab{
+    text-align: center;
+}
+
+#contenedor_info_orden{
+    text-align: center;
+}

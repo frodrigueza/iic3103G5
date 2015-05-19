@@ -1,0 +1,14 @@
+<h1>Grupo 5 </h1>
+<p>Esta es la página de inicio</p>
+
+<hr>
+
+<div id="search_tab">
+  <%= form_tag("/orders/obtain_order", method: "get") do %>
+      <%= label_tag(:order_id, "Search for:") %>
+      <%= text_field_tag(:order_id) %>
+      <%= submit_tag("Search") %>
+  <% end %>
+</div>
+<hr>
+

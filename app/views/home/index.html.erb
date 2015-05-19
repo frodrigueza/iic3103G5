@@ -1,0 +1,108 @@
+<h1>Grupo 5 </h1>
+<p>IIC3103</p>
+
+<hr>
+
+<div id="search_tab">
+    <%= form_tag("/orders/obtain_order", method: "get") do %>
+        <%= label_tag(:order_id, "Buscar orden de compra:") %>
+        <%= text_field_tag(:order_id) %>
+        <%= submit_tag("Buscar") %>
+    <% end %>
+</div>
+<hr>
+<% if (defined?(init)).nil? then %>
+    <hr>
+<% elsif init == "no" %>
+    <div id="error">
+      <h3> Ha ocurrido el siguiente error: <%= error %> <h3>
+    </div>
+<% else%>
+    <h3> Orden de Compra encontrada </h3>
+    <div id="contenedor_info_orden">
+      <div class="infoOrden" id="infoId">
+        <div class="info_titulo">Id:</div>
+        <div class="info_data"><% if id == nil then %> No hay info <% else %> <%= id %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoDateCreacion">
+        <div class="info_titulo">Fecha creación:</div>
+        <div class="info_data"><% if fechaCreacion == nil then %> No hay info <% else %> <%= fechaCreacion %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCanal">
+        <div class="info_titulo">Canal:</div>
+        <div class="info_data"><% if canal == nil then %> No hay in_fo <% else %> <%= canal %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoProveedor">
+        <div class="info_titulo">Proveedor:</div>
+        <div class="info_data"><% if proveedor == nil then %> No hay info <% else %> <%= proveedor %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCliente">
+        <div class="info_titulo">Cliente:</div>
+        <div class="info_data"><% if cliente == nil then %> No hay info <% else %> <%= cliente %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoSku">
+        <div class="info_titulo">Sku:</div>
+        <div class="info_data"><% if sku == nil then %> No hay info <% else %> <%= sku %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCantidad">
+        <div class="info_titulo">Cantidad:</div>
+        <div class="info_data"><% if cantidad == nil then %> No hay info <% else %> <%= cantidad %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCantDespachada">
+        <div class="info_titulo">Cantidad despachada:</div>
+        <div class="info_data"><% if cantidadDespachada == nil then %> No hay info <% else %> <%= cantidadDespachada %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoPrecioUnidad">
+        <div class="info_titulo">Precio unitario:</div>
+        <div class="info_data"><% if precioUnitario == nil then %> No hay info <% else %> <%= precioUnitario %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoDateEntrega">
+        <div class="info_titulo">Fecha entrega:</div>
+        <div class="info_data"><% if fechaEntrega == nil then %> No hay info <% else %> <%= fechaEntrega %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoDateDespacho">
+        <div class="info_titulo">Fechas despachos:</div>
+        <div class="info_data"><% if fechasDespachos == nil then %> No hay info <% else %> <%= fechasDespachos %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoEstado">
+        <div class="info_titulo">Estado:</div>
+        <div class="info_data"><% if estado == nil then %> No hay info <% else %> <%= estado %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoRechazo">
+        <div class="info_titulo">Motivo rechazo:</div>
+        <div class="info_data"><% if motivoRechazo == nil then %> No hay info <% else %> <%= motivoRechazo %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoAnulacion">
+        <div class="info_titulo">Motivo anulación:</div>
+        <div class="info_data"><% if motivoAnulacion == nil then %> No hay info <% else %> <%= motivoAnulacion %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoNotas">
+        <div class="info_titulo">Notas:</div>
+        <div class="info_data"><% if notas == nil then %> No hay info <% else %> <%= notas %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoFactura">
+        <div class="info_titulo">Id factura:</div>
+        <div class="info_data"><% if idFactura == nil then %> No hay info <% else %> <%= idFactura %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoInventario">
+        <div class="info_titulo">Movimientos de Inventario:</div>
+        <div class="info_data"><% if (defined?(movInv)).nil? == true then %> No hay info <% elsif movInv == nil then %> No hay info <% else %> <%= movInv %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCantProducida">
+        <div class="info_titulo">Cantidad Producida:</div>
+        <div class="info_data"><% if (defined?(cantProd)).nil? == true then %> No hay info <% elsif cantProd == nil then %> No hay info <% else %> <%= cantProd %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoCompInsumos">
+        <div class="info_titulo">Compra de Insumos:</div>
+        <div class="info_data"><% if (defined?(compInsu)).nil? == true then %> No hay info <% elsif compInsu == nil then %> No hay info <% else %> <%= compInsu %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoNumFacturas">
+        <div class="info_titulo">Números de Facturas:</div>
+        <div class="info_data"><% if (defined?(numFact)).nil? == true then %> No hay info <% elsif numFact == nil then %> No hay info <% else %> <%= numFact %> <% end %></div>
+      </div>
+      <div class="infoOrden" id="infoMovBancarios">
+        <div class="info_titulo">Movimientos Bancarios:</div>
+        <div class="info_data"><% if (defined?(movBanc)).nil? == true then %> No hay info <% elsif movBanc == nil then %> No hay info <% else %> <%= movBanc %> <% end %></div>
+      </div>
+    </div>
+<% end %>

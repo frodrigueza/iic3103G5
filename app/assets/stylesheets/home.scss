@@ -1,0 +1,49 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+h1, h3{
+  text-align: center;
+}
+
+p{
+  text-align: center;
+}
+
+
+#search_tab{
+  text-align: center;
+}
+
+#contenedor_info_orden{
+  text-align: center;
+}
+.infoOrden{
+  display: block;
+  text-align: center;
+  vertical-align: center;
+  margin-top: 4px;
+}
+
+.info_titulo, .info_data{
+  display: inline-block;
+  font-size: 16px;
+  width: 250px;
+  height: 30px;
+  vertical-align: center;
+  padding-top: 3px;
+}
+.info_titulo{
+  font-weight: bold;
+  background-color: #faca19;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.info_data{
+  background-color: #f4f4f4;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-left: -3px;
+
+}
