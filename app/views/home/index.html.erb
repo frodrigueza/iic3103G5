@@ -7,7 +7,7 @@
     <%= form_tag("/orders/obtain_order", method: "get") do %>
         <%= label_tag(:order_id, "Buscar orden de compra:") %>
         <%= text_field_tag(:order_id) %>
-        <%= submit_tag("Buscar") %>
+        <%= submit_tag("Buscar", class: "btn btn-default") %>
     <% end %>
 </div>
 <hr>
@@ -20,6 +20,26 @@
 <% else%>
     <h3> Orden de Compra encontrada </h3>
     <div id="contenedor_info_orden">
+      <% if estado == nil then %>
+          <div id="estado" class="anulada">
+            <div id="titulo_estado">
+              Estado:
+            </div>
+            <div id="content_estado">
+              No hay info
+            </div>
+          </div>
+      <% else %>
+        <div id="estado" class="<%= estado %>">
+          <div id="titulo_estado">
+            Estado:
+          </div>
+          <div id="content_estado">
+            <%= estado %>
+          </div>
+        </div>
+      <% end %>
+    </div>
       <div class="infoOrden" id="infoId">
         <div class="info_titulo">Id:</div>
         <div class="info_data"><% if id == nil then %> No hay info <% else %> <%= id %> <% end %></div>
@@ -63,10 +83,6 @@
       <div class="infoOrden" id="infoDateDespacho">
         <div class="info_titulo">Fechas despachos:</div>
         <div class="info_data"><% if fechasDespachos == nil then %> No hay info <% else %> <%= fechasDespachos %> <% end %></div>
-      </div>
-      <div class="infoOrden" id="infoEstado">
-        <div class="info_titulo">Estado:</div>
-        <div class="info_data"><% if estado == nil then %> No hay info <% else %> <%= estado %> <% end %></div>
       </div>
       <div class="infoOrden" id="infoRechazo">
         <div class="info_titulo">Motivo rechazo:</div>

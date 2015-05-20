@@ -2,6 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body{
+  text-align: center;
+}
 h1, h3{
   text-align: center;
 }
@@ -46,4 +49,35 @@ p{
   border-bottom-right-radius: 5px;
   margin-left: -3px;
 
+}
+#estado{
+  text-align: center;
+  font-size: 20px;
+  height: 40px;
+  vertical-align: center;
+  padding-top:5px;
+}
+#titulo_estado{
+  font-weight: bold;
+  width: 100px;
+  display: inline-block;
+}
+#content_estado{
+  width: 100px;
+  display: inline-block;
+}
+.rechazada{
+  background-color: #ff293c;
+}
+.anulada{
+  background-color: #c6c6c6;
+}
+.creada{
+  background-color: #49cadd;
+}
+.aceptada{
+  background-color: #79dd58;
+}
+.finalizada{
+  background-color: #0eba0c;
 }
