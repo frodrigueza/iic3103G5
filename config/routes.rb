@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
   get 'home/index'
-  get 'home/search'
-  get 'home/error'
 
   # get 'sftp/get_new_orders'
 
