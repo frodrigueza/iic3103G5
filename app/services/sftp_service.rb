@@ -9,7 +9,6 @@ class SftpService
 	def read_new_orders
 
 		orders_manager = OrdersManager.new()
-
 		@sftp.dir.foreach("/Pedidos") do |entry|
 			if entry.name != "." && entry.name != ".."		
 				local_path_aux = "sftp_files/" + entry.name
@@ -21,14 +20,14 @@ class SftpService
 
 				hash = Hash.from_xml(contents)
 				final_hash = hash["xml"]["Pedido"]
-				final_hash[:canal] = 'ftp'
-				final_hash[:precio] = final_hash[:precioUnitario]
+				final_hash["canal"] = 'ftp'
+				final_hash["precio"] = final_hash[:precioUnitario]
+
+				# Hemos parseado completamente el pedido, ahora lo mandamos al orders manager
 
 				# enviamos el pedido al orders manager
-				orders_manager.send_new_order(final_hash)
-				a.a
+				orders_manager.evaluate_order(final_hash)
 			end
 		end
-		a.a
 	end
 end

@@ -14,7 +14,9 @@ M8yF.3@Pd
 
 
 bundle exec puma -e production -d -b unix:///tmp/my_app.sock --pidfile /home/azureuser/puma.pid
+rvmsudo bundle exec puma -e production -b unix:///tmp/my_app.sock --pidfile /home/administrator/puma.pid
 
+sudo kill -s SIGUSR2 9594
 
 upstream my_app {
         server unix:///tmp/my_app.sock;
