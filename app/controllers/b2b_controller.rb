@@ -84,7 +84,7 @@ class B2bController < ApplicationController
 	    end
 	end
 
-	def notify_accepted_order
+	def order_accepted
 	    order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
@@ -101,7 +101,7 @@ class B2bController < ApplicationController
 	    end
   	end
 
-	def notify_rejected_order
+	def order_rejected
 		order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
@@ -118,7 +118,7 @@ class B2bController < ApplicationController
 	    end
 	end
 
-	def cancel_previous_order
+	def cancel_order
 		order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
