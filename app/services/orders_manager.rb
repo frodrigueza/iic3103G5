@@ -1,51 +1,55 @@
 class OrdersManager
 
-	def manage_order(order_id)
-		httpm = HttpManager.new()
+	def self.manage_order(order_id)
 
-		order = httpm.get_order(order_id)		
-	end
+		oc = HttpManager.get_order(order_id)
+    answer = evaluate_order(oc)
+    if answer["status"] == 400
+      reject_order(order_id)
+      return
+    else
+      accept_order(order_id)
+    end
+
+    #Crear Pedido en BD
+
+    return answer
+
+  end
 
 	# vemos si es posible generar una orden de compra para un pedido determinado
 	# hash contiene los valores de los parametros pedidos
-	def evaluate_order(hash)
+	def self.evaluate_order(oc)
 		# respuesta a devolver
 		answer = {
 			status: 200,
-			mensaje: ""
+			mensaje: "La orden de compra " + oc["_id"] + " ha sido recepcionada correctamente"
 		}
 
 		# corresponde a nuestr empersa
-		if hash["proveedor"] != "5" 
+		if oc["proveedor"] != "5"
 			answer = {
 				status: 400,
-				mensaje: "El proveedor numero " + hash["proveedor"] + " no corresponde a nuestra empresa, nosotros somos la empresa 6"
+				mensaje: "El proveedor numero " + oc["proveedor"] + " no corresponde a nuestra empresa, nosotros somos la empresa 5"
 			}
 
 		# corresponde a los skus que nosostros trabajamos
-		elsif !skus.include?(hash["sku"].to_i )
+		elsif !GroupInfo.skus.include?(oc["sku"].to_i )
 			answer = {
 				status: 400,
 				mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus [5, 26, 27, 29, 30, 44]"
 			}
 
 		# la orden de compra no es nula
-		elsif hash["oc"] == nil
+		elsif oc["_id"] == nil
 			answer = {
 				status: 400,
 				mensaje: "El id de la orden de compra es nulo"
 			}
-
-		# todo en orden
-		else
-			answer = {
-				status: 200,
-				mensaje: "La orden de commpra " + hash["oc"] + " ha sido recepcionada correctamente"
-			}
-
-		end
+    end
 
 		return answer
+
 	end
 
 	# metodo que procesa la orden internamente
@@ -69,9 +73,6 @@ class OrdersManager
 
 
 	
-	# skus que trabaja la empresa
-	def skus
-		return [5, 26, 27, 28, 29, 30, 44]
-	end
+
 
 end
