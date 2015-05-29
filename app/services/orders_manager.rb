@@ -2,6 +2,7 @@ class OrdersManager
 
 	def self.manage_order(order_id)
 
+
 		oc = HttpManager.get_order(order_id)
     answer = evaluate_order(oc)
     if answer["status"] == 400
@@ -11,16 +12,35 @@ class OrdersManager
       accept_order(order_id)
     end
 
-    #Crear Pedido en BD
+
+    #pedido = create_order_db(oc)
+
+    #pedido_listo = PedidoManager.check_ready
+
+    #if pedido_listo = false
+      #return
+
+    # BodegaManager.mover_a_despacho
+    # BodegaManager.emitir_factura
+
+    # Esperar 8 días?
+
+    # Revisar si factura está aceptada en la API.
+      # Si no está rechazada, BodegaManager.despachar(oc)
 
     return answer
 
   end
 
+  def create_order_db(oc)
+    # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean)
+    # retornar el objeto Order con los campos ingresados
+  end
+
 	# vemos si es posible generar una orden de compra para un pedido determinado
 	# hash contiene los valores de los parametros pedidos
 	def self.evaluate_order(oc)
-		# respuesta a devolver
+    # Agregar un verificador de si oc existe o si es error 404
 		answer = {
 			status: 200,
 			mensaje: "La orden de compra " + oc["_id"] + " ha sido recepcionada correctamente"
@@ -68,9 +88,14 @@ class OrdersManager
 	end
 
 	def reject_order(order_id)
-		
+    # Setear la oc como rechazada en API curso
+		# Notificar orden rechazada a grupo cliente
 	end
 
+  def accept_order(order_id)
+    # Setear la oc como aceptada en API curso
+    # Notificar orden aceptada a grupo cliente
+  end
 
 	
 

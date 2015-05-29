@@ -11,15 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526160433) do
+ActiveRecord::Schema.define(version: 20150529204351) do
+
+  create_table "insumos", force: :cascade do |t|
+    t.string   "sku"
+    t.integer  "cantidad"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "orderid"
-    t.integer  "movimientos_inventario"
-    t.integer  "cantidad_producida"
-    t.integer  "compras_insumos"
-    t.integer  "numero_facturas"
-    t.integer  "movimientos_bancarios"
+    t.string   "movimientos_inventario"
+    t.string   "cantidad_producida"
+    t.string   "compras_insumos"
+    t.string   "numero_facturas"
+    t.string   "movimientos_bancarios"
+    t.boolean  "producto_compuesto"
+    t.datetime "fecha_entrega"
+    t.string   "sku"
+    t.integer  "cantidad"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

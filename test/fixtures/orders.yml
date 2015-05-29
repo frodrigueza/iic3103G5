@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  orderid: MyString
+  movimientos_inventario: 1
+  cantidad_producida: 1
+  compras_insumos: 1
+  numero_facturas: 1
+  movimientos_bancarios: 1
+
+two:
+  orderid: MyString
+  movimientos_inventario: 1
+  cantidad_producida: 1
+  compras_insumos: 1
+  numero_facturas: 1
+  movimientos_bancarios: 1
