@@ -1,15 +1,15 @@
 class OrdersManager
 
-	def self.manage_order(order_id)
+	def self.manage_order(oc_id)
 
 
-		oc = HttpManager.get_order(order_id)
+	oc = HttpManager.get_order(oc_id)
     answer = evaluate_order(oc)
     if answer["status"] == 400
-      reject_order(order_id, answer)
+      reject_order(oc_id, answer)
       return
     else
-      accept_order(order_id, answer)
+      accept_order(oc_id, answer)
     end
 
 
@@ -17,7 +17,7 @@ class OrdersManager
 
     pedido_listo = PedidoManager.check_ready(pedido)
 
-    if pedido_listo==true
+    if not pedido_listo
       return
     end
 
@@ -43,18 +43,21 @@ class OrdersManager
     # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
 
     tipo = define_type_order(oc)
+    insumos = []
     if tipo == "insumo"
       prod_compuesto = false
-      create_insumos(oc["sku"], oc["cantidad"], oc["_id"])
+      insumos.push create_insumos(oc[:sku], oc[:cantidad], oc[:_id])
     else
       prod_compuesto = true
-      detect_insumos(oc["sku"], oc["cantidad"], oc["_id"])
+      insumos = detect_insumos(oc[:sku], oc[:cantidad], oc[:_id])
     end
 
-    pedido = Order.new(:orderid => oc["_id"],
-                       :fecha_entrega => oc["fechaEntrega"],
-                       :sku => oc["sku"],
-                       :cantidad => oc["cantidad"],
+    pedido = Pedido.create(:oc_id => oc[:_id],
+                        :cliente => oc[:cliente]
+                        :canal => oc[:canal]
+                       :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
+                       :sku => oc[:sku],
+                       :cantidad => oc[:cantidad],
                        :movimientos_inventario => "",
                        :cantidad_producida => "",
                        :compras_insumos => "",
@@ -62,10 +65,12 @@ class OrdersManager
                        :movimientos_bancarios => "",
                        :producto_compuesto => prod_compuesto)
 
+    pedido.insumos = insumos
+
     return pedido
   end
 
-  def self.detect_insumos(sku, cantidad, orderid)
+  def self.detect_insumos(sku, cantidad, oc_id)
     insumos_necesarios = [
         {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
         {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '49', 'requerimiento' => 228},
@@ -121,15 +126,17 @@ class OrdersManager
     lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == sku }['cant_lote']
     cantidad_de_lotes = (cantidad.to_f/lote.to_f).ceil
 
+    insumos = []
     insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
-      create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes), orderid)
+      insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes), oc_id)
     end
 
-    return
+    return insumos
   end
 
-  def self.create_insumos(sku, cantidad, orderid)
-    Insumo.create(:sku => sku, :cantidad => cantidad, :orderid => orderid)
+  def self.create_insumos(sku, cantidad, oc_id)
+    insumo = Insumo.create(:sku => sku, :cantidad => cantidad, :pedido_id => pedido_id)
+    return insumo
   end
 
 
@@ -184,7 +191,7 @@ class OrdersManager
         '47' => 'compuesto',
         '48' => 'compuesto',
         '49' => 'compuesto'}
-    return tipos_segun_sku[oc["sku"]]
+    return tipos_segun_sku[oc[:sku]]
   end
 	# vemos si es posible generar una orden de compra para un pedido determinado
 	# hash contiene los valores de los parametros pedidos
@@ -192,63 +199,45 @@ class OrdersManager
     # Agregar un verificador de si oc existe o si es error 404
 		answer = {
 			status: 200,
-			mensaje: "La orden de compra " + oc["_id"] + " ha sido recepcionada correctamente"
+			mensaje: "La orden de compra " + oc[:_id] + " ha sido recepcionada correctamente"
 		}
 
 		# corresponde a nuestr empersa
 		if oc["proveedor"] != "5"
 			answer = {
 				status: 400,
-				mensaje: "El proveedor numero " + oc["proveedor"] + " no corresponde a nuestra empresa, nosotros somos la empresa 5"
+				mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa 5"
 			}
 
 		# corresponde a los skus que nosostros trabajamos
-		elsif !GroupInfo.skus.include?(oc["sku"].to_i )
+		elsif !GroupInfo.skus.include?(oc[:sku].to_i )
 			answer = {
 				status: 400,
 				mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus [5, 26, 27, 29, 30, 44]"
 			}
 
 		# la orden de compra no es nula
-		elsif oc["_id"] == nil
+		elsif oc[:_id] == nil
 			answer = {
 				status: 400,
 				mensaje: "El id de la orden de compra es nulo"
 			}
-    end
+        end
 
 		return answer
 
 	end
 
-	# metodo que procesa la orden internamente
-	def process_order(order_id)
-
-		# recepcionamos la orden de compra
-		uri = URI.parse('http://chiri.ing.puc.cl/atenea/recepcionar/' + hash["oc"])
-		params = {
-			order_id: hash["oc"]
-		}
-		response = Net::HTTP.post_form(uri, params)
-		p "orden " + hash["oc"] + " recepcionada satisfactoriamente"
-
-
-
-	end
-
-	def reject_order(order_id, answer)
+    def reject_order(order_id, answer)
     # Setear la oc como rechazada en API curso
-		# Notificar orden rechazada a grupo cliente
-	end
-
-  def accept_order(order_id, answer)
-    # Setear la oc como aceptada en API curso
-    # Notificar orden aceptada a grupo cliente
-  end
+    	# Notificar orden rechazada a grupo cliente
+    end
 
 
-
-	
+    def accept_order(order_id, answer)
+        # Setear la oc como aceptada en API curso
+        # Notificar orden aceptada a grupo cliente
+    end
 
 
 end
