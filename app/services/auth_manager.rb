@@ -1,37 +1,103 @@
 class AuthManager
-	def get_token(username, password)
-		token = '16d662914c0397d0ec2b49614bbb48d2914b3f079e21bd645f61e78834f7367336b17738c6824903265569e8b54bde33809c9b486f011f0c41efdfe7292eab3e'
-		case username
-			when 'grupo_1'
-				if password == 'grupo1abcd'
-					return token
-				end
-			when 'grupo_2'
-				if password == 'grupo2abcd'
-					return token
-				end
-			when 'grupo_3'
-				if password == 'grupo3abcd'
-					return token
-				end
-			when 'grupo_4'
-				if password == 'grupo4abcd'
-					return token
-				end
-			when 'grupo_5'
-				if password == 'grupo5abcd'
-					return token
-				end
-			when 'grupo_6'
-				if password == 'grupo6abcd'
-					return token
-				end
-			when 'grupo_7'
-				if password == 'grupo7abcd'
-					return token
-				end
+
+	# devuelve un token si las credenciales son correctas
+	def self.get_token(params)
+		# hash que devolveremos
+		response = {}
+
+		if !params[:username] || !params[:password]
+			response = {
+				status: 200,
+				content: {
+					respuesta:"Debe completar todos los campos",
+					request_correct_format: {
+						name: "string",
+						password: "string"
+					}
+				}
+			}
+		else
+			# construimos el email
+			email = params[:username] + "@integra5.com"
+
+			# password entregada desde controlador
+			password = params[:password] 
+			
+			# buscamos el usuario
+			user = User.find_for_authentication(email: email)
+			
+			# vemos si las credenciales son correctas
+			if user && user.valid_password?(password)
+				response = {
+					status: 200, 
+					content: {
+						usuario: email.split('@')[0],
+						token: user.token
+					}
+				}
 			else
-				return false
+				response = {
+					status: 401,
+					content: {
+						respuesta: "Autenticación errónea, credenciales inválidas"
+					}
+				}
+			end
 		end
+
+		return response
+
+	end
+
+	# corroboramos el token recibido
+	def self.check_token(new_token)
+		User.all.each do |u|
+			if u.token == new_token
+				return true
+			end
+		end
+		return false
+	end
+
+	# creacion de nuevo usuario
+	def self.register(params)
+		response = {}
+
+		if !params[:username] || !params[:password]
+			response = {
+				status: 200,
+				content: {
+					respuesta:"Debe completar todos los campos",
+					request_correct_format: {
+						name: "string",
+						password: "string",
+						password_confirmation: "string"
+					}
+				}
+			}
+		else
+			email = params[:username] + "@integra5.com"
+			password = params[:password]
+			
+			user = User.create(email: email, password: password)
+			if user.id
+				response = {
+					status: 200,
+					content:{
+						username: user.f_name,
+						token: token
+					}
+				}
+			else
+				response = {
+					status: 400,
+					content:{
+						error: "No fue posible relizar el registro"
+					}
+				}
+			end
+		end
+
+		return response
 	end
 end

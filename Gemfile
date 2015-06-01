@@ -38,6 +38,8 @@ gem 'net-sftp'
 # scheduled tasks
 gem 'whenever'
 
+gem 'devise'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

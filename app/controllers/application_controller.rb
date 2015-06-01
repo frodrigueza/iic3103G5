@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   def test
-  	sftp = SftpService.new('chiri.ing.puc.cl', 'integra5', 'M8yF.3@Pd')
-  	sftp.read_new_orders
+  	# sftp = SftpService.new('chiri.ing.puc.cl', 'integra5', 'M8yF.3@Pd')
+  	# sftp.read_new_orders
   end
 end

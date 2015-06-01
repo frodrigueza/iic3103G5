@@ -1,5 +1,6 @@
 class B2bController < ApplicationController
-	before_action :set_orders_manager, :set_auth_manager, only: [:new_order, :documentation, :notify_accepted_order, :notify_rejected_order, :cancel_previous_order, :ask_for_token]
+	before_action :check_token, except: [:new_user, :documentation, :ask_for_token]
+
 	require 'net/http'
 	require "uri"
 	require 'httparty'
@@ -84,7 +85,7 @@ class B2bController < ApplicationController
 	    end
 	end
 
-	def order_accepted
+	def notify_order_accepted
 	    order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
@@ -101,7 +102,7 @@ class B2bController < ApplicationController
 	    end
   	end
 
-	def order_rejected
+	def notify_order_rejected
 		order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
@@ -118,7 +119,7 @@ class B2bController < ApplicationController
 	    end
 	end
 
-	def cancel_order
+	def notify_order_canceled
 		order_id = params[:order_id]
 
 	    uri = URI.parse('http://chiri.ing.puc.cl/atenea/obtener/' + order_id.to_s)
@@ -135,25 +136,29 @@ class B2bController < ApplicationController
 	    end
 	end
 
-	def ask_for_token
-		username = params[:username]
-		password = params[:password]
-
+	def new_user
 		respond_to do |format|
-			if @auth_manager.get_token(username, password)
-				format.json { render json:{token: @auth_manager.get_token(username, password)}, status: 200}
-			else
-				format.json {render json: {respuesta: 'Autenticación errónea'}, status: 401}
-			end
+			response = AuthManager.register(params)
+			format.json { render json: response[:content], status: response[:status]}
+		end
+	end
+
+	def ask_for_token
+		respond_to do |format|
+			response = AuthManager.get_token(params)
+			format.json { render json: response[:content], status: response[:status]}
 		end
 	end
 
 	private
-	def set_orders_manager
-		@om = OrdersManager.new
+
+	# checamos el token que viene en el header antes de cualquier accion de este controlador 
+	def check_token
+		if !AuthManager.check_token(response.request.env["HTTP_TOKEN"])
+			respond_to do |format|
+		    	format.json {render json: {respuesta: 'Usuario no autorizado, pruebe llamando al método ask_for_token.'}, status: 401}
+		    end
+		end
 	end
 
-	def set_auth_manager
-		@auth_manager = AuthManager.new
-	end
 end
