@@ -17,6 +17,8 @@ class OrdersController < ApplicationController
 
     order_hash = JSON.parse(response.body)[0]
 
+    #actual_order = order.select(orderid = order_id)
+
     if order_hash["_id"] != nil
       render 'home/index', :locals => { :init => "yes", :id => order_hash["_id"], :fechaCreacion => order_hash["fechaCreacion"], :canal => order_hash["canal"], :proveedor => order_hash["proveedor"], :cliente => order_hash["cliente"], :sku => order_hash["sku"], :cantidad => order_hash["cantidad"], :cantidadDespachada => order_hash["cantidadDespachada"], :precioUnitario => order_hash["precioUnitario"], :fechaEntrega => order_hash["fechaEntrega"], :fechasDespachos => order_hash["fechasDespachos"], :estado => order_hash["estado"], :motivoRechazo => order_hash["motivoRechazo"], :motivoAnulacion => order_hash["motivoAnulacion"], :notas => order_hash["notas"], :idFactura => order_hash["idFactura"]}
     else

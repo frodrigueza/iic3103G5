@@ -39,6 +39,11 @@ gem 'net-sftp'
 gem 'whenever'
 
 gem 'devise'
+#gema para enciptacion (documentacion en http://www.rubydoc.info/gems/ruby-hmac-openssl/0.1.0)
+gem 'ruby-hmac-openssl', '~> 0.1.0'
+
+#gema para tener output en base 64 (documentacion http://www.rubydoc.info/gems/rubysl-base64/2.0.0/Base64)
+gem 'rubysl-base64'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
