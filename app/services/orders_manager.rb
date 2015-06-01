@@ -1,11 +1,11 @@
 class OrdersManager
 
 	def self.manage_order(oc_id)
-		oc = HttpManager.get_order(oc_id)
+		oc = HttpManager.get_oc(oc_id)
 	    answer = evaluate_order(oc)
-	    if answer["status"] == 400
-	      reject_order(oc_id, answer)
-	      return
+	    if answer[:status] == 400
+	      reject_order(oc, answer)
+	      return answer
 	    else
 	      accept_order(oc_id, answer)
 	    end
@@ -15,7 +15,7 @@ class OrdersManager
 	    pedido_listo = PedidoManager.check_ready(pedido)
 
 	    unless pedido_listo
-	      return
+	      return answer
 	    end
 
 	    BodegaManager.mover_a_despacho(pedido)
@@ -28,7 +28,7 @@ class OrdersManager
 
 	    # Si no está rechazada, BodegaManager.despachar(oc)
 
-	    return
+	    return answer
 
   end
 
@@ -194,28 +194,36 @@ class OrdersManager
     # Agregar un verificador de si oc existe o si es error 404
 		answer = {
 			status: 200,
-			mensaje: "La orden de compra " + oc[:_id] + " ha sido recepcionada correctamente"
+            content: {
+                mensaje: "La orden de compra " + oc[:_id] + " ha sido recepcionada correctamente"
+            }
 		}
 
 		# corresponde a nuestr empersa
-		if oc["proveedor"] != "5"
+		if oc["proveedor"] != GroupInfo.grupo
 			answer = {
 				status: 400,
-				mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa 5"
-			}
+                content: {
+				    mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa " + GroupInfo.grupo
+			     }
+            }
 
 		# corresponde a los skus que nosostros trabajamos
 		elsif !GroupInfo.skus.include?(oc[:sku].to_i )
 			answer = {
 				status: 400,
-				mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus [5, 26, 27, 29, 30, 44]"
-			}
+                content: {
+				mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus " + GroupInfo.skus.to_s
+			     }
+            }
 
 		# la orden de compra no es nula
 		elsif oc[:_id] == nil
 			answer = {
 				status: 400,
-				mensaje: "El id de la orden de compra es nulo"
+                content: {
+				mensaje: "El id de la orden de compra no es valido"
+                }
 			}
         end
 
@@ -223,19 +231,19 @@ class OrdersManager
 
 	end
 
-    def reject_order(order_id, answer)
+    def reject_order(order, answer)
       # Setear la oc como rechazada en API curso
-      HttpManager.reject_order(order_id)
+      HttpManager.reject_order(id_oc: order[:_id], motivo: answer[:content][:mensaje])
       # Notificar orden rechazada a grupo cliente
-      HttpManager.notify_rejected_order(answer)
+      GruposManager.order_rejected(group: order[:cliente], order_id: order[:_id])
     end
 
 
-    def accept_order(order_id, answer)
+    def accept_order(order, answer)
         # Setear la oc como aceptada en API curso
-      HttpManager.accept_order(answer)
+      HttpManager.recepcionar_oc(order[:_id])
         # Notificar orden aceptada a grupo cliente
-      HttpManager.notify_accepted_order(answer)
+      GruposManager.order_accepted(order_id: order[:_id])
     end
 
 

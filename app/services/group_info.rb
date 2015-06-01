@@ -10,6 +10,10 @@ class GroupInfo
   	return "556489daefb3d7030091baae"
   end
 
+  def self.grupo 
+    return "5"
+  end
+
   def self.cuenta_banco
   	return "556489daefb3d7030091bab2"
   end
