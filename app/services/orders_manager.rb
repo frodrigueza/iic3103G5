@@ -35,7 +35,7 @@ class OrdersManager
     # Si no está rechazada, BodegaManager.despachar(oc)
     BodegaManager.despachar(oc)
 
-    return answer
+    return
 
   end
 
