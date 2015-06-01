@@ -27,7 +27,7 @@ class FacturaManager
     #Criterio para aceptar o rechazar factura
     # Si acepta factura
       # Setear factura aceptada en API del curso
-      # Pagar factura
+      # Pagar facturaRecibida
       # Llamar a PedidoManager.check_ready
     # Si no
       # Rechazar factura
