@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   get 'home/index'
 
   # get 'sftp/get_new_orders'
@@ -9,10 +10,11 @@ Rails.application.routes.draw do
   namespace :b2b do 
     post 'new_order'
     get 'documentation'
-    post 'order_accepted'
-    post 'order_rejected'
-    post 'cancel_order'
+    post 'notify_order_accepted'
+    post 'notify_order_rejected'
+    post 'notify_order_canceled'
     post 'ask_for_token'
+    post 'new_user'
   end
 
   namespace :orders do
@@ -23,7 +25,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#index'
+  root 'b2b#documentation'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
