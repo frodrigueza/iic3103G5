@@ -2,29 +2,29 @@
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h5>Nueva orden de compra</h5>
+				<h5>Pedir token</h5>
 			</div>
 
 			<div class="panel-body">
 				<p>
 					<b>Descripción</b>
-					Enviar una orden de compra de un producto en específico.
+					Devuelve un token si el usuario y contraseña son correctos
 				</p>
 				<p>
 					<b>Method: </b>POST
 				</p>
 				<p>
-					<b>URL: </b>/b2b/new_order/
+					<b>URL: </b>/b2b/ask_for_token/
 				</p>
 				<p>
-					<b>Params: </b>order_id: (string), cantidad: (int), proveedor: (string) opcional, notas: (string) opcional, precio: (int) opcional
+					<b>Params: </b>username: (string), password: (string)
 				</p>
 
 				<p>
 					<b>Retorno:</b>
 				</p>
 				<p>
-					En caso de éxito: 200 OK
+					En caso de éxito: 200 OK, acompañado del valor del token
 				</p>
 				<p>
 					En caso de error: 400 Bad request error, acompañado de la especificación de los parámetros conflictivos

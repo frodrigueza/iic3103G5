@@ -1,19 +1,13 @@
 class SftpService
-	def initialize(host, user, password)
-		# session = Net::SSH.start('chiri.ing.puc.cl', 'integra5', :password => 'M8yF.3@Pd', :port => 22)
-		session = Net::SSH.start(host, user, :password => password, :port => 22)
-		@sftp = Net::SFTP::Session.new(session).connect!
-	end
-
 	# nuevas ordenes
-	def read_new_orders
-
-		orders_manager = OrdersManager.new()
+	def self.read_new_orders
+		session = Net::SSH.start('chiri.ing.puc.cl', 'integra5', :password => 'M8yF.3@Pd', :port => 22)
+		@sftp = Net::SFTP::Session.new(session).connect!
+		orders = []
 		@sftp.dir.foreach("/Pedidos") do |entry|
-			if entry.name != "." && entry.name != ".."		
+			if entry.name != "." and entry.name != ".."		
 				local_path_aux = "sftp_files/" + entry.name
 				@sftp.download!("/Pedidos/" + entry.name, local_path_aux)
-
 
 				file = File.open(local_path_aux, "rb")
 				contents = file.read
@@ -21,13 +15,16 @@ class SftpService
 				hash = Hash.from_xml(contents)
 				final_hash = hash["xml"]["Pedido"]
 				final_hash["canal"] = 'ftp'
-				final_hash["precio"] = final_hash[:precioUnitario]
-
-				# Hemos parseado completamente el pedido, ahora lo mandamos al orders manager
-
-				# enviamos el pedido al orders manager
-				orders_manager.evaluate_order(final_hash)
+				orders.push final_hash
 			end
 		end
+		orders.each do |order|
+			order = order.symbolize_keys
+			pedidos = Pedido.find_by oc_id: order[:oc]
+			if pedidos == nil
+				PedidoManager.create_order_db(order)
+			end
+		end
+	return orders.length
 	end
 end

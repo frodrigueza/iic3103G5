@@ -15,6 +15,12 @@
       <user-password>dfc3dfc4dfdedfcfdfcddfd8dfcb</user-password>
       <libraries />
     </data-source>
+    <data-source source="LOCAL" name="Rails iic3103G5: test" uuid="fe9b9984-5abd-4c7f-858d-2c160a36ea24">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/test.sqlite3</jdbc-url>
+      <libraries />
+    </data-source>
   </component>
 </project>
 

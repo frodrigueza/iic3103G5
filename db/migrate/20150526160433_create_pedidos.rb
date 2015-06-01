@@ -1,7 +1,9 @@
-class CreateOrders < ActiveRecord::Migration
+class CreatePedidos < ActiveRecord::Migration
   def change
-    create_table :orders do |t|
-      t.string :orderid
+    create_table :pedidos do |t|
+      t.string :oc_id
+      t.string :canal
+      t.string :cliente
       t.string :movimientos_inventario
       t.string :cantidad_producida
       t.string :compras_insumos
