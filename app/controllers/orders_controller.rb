@@ -27,4 +27,10 @@ class OrdersController < ApplicationController
 
   end
 
+  def show_order
+    if params[:order_id]
+      @order = HttpManager.get_order(params[:order_id])
+    end
+  end
+
 end
