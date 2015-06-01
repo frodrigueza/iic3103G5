@@ -6,37 +6,186 @@ class OrdersManager
 		oc = HttpManager.get_order(order_id)
     answer = evaluate_order(oc)
     if answer["status"] == 400
-      reject_order(order_id)
+      reject_order(order_id, answer)
       return
     else
-      accept_order(order_id)
+      accept_order(order_id, answer)
     end
 
 
-    #pedido = create_order_db(oc)
+    pedido = create_order_db(oc)
 
-    #pedido_listo = PedidoManager.check_ready
+    pedido_listo = PedidoManager.check_ready(pedido)
 
-    #if pedido_listo = false
-      #return
+    if pedido_listo==true
+      return
+    end
 
-    # BodegaManager.mover_a_despacho
-    # BodegaManager.emitir_factura
+    BodegaManager.mover_a_despacho(pedido)
+    FacturaManager.emitir_factura(pedido)
 
     # Esperar 8 días?
 
     # Revisar si factura está aceptada en la API.
-      # Si no está rechazada, BodegaManager.despachar(oc)
+    factura = HttpManager.get_factura(order_id)
+    if factura["estadoPago"] == "rechazada" || factura["estadoPago"] == "anulada"
+      return
+    end
+
+    # Si no está rechazada, BodegaManager.despachar(oc)
+    BodegaManager.despachar(oc)
 
     return answer
 
   end
 
-  def create_order_db(oc)
-    # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean)
-    # retornar el objeto Order con los campos ingresados
+  def self.create_order_db(oc)
+    # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
+
+    tipo = define_type_order(oc)
+    if tipo == "insumo"
+      prod_compuesto = false
+      create_insumos(oc["sku"], oc["cantidad"], oc["_id"])
+    else
+      prod_compuesto = true
+      detect_insumos(oc["sku"], oc["cantidad"], oc["_id"])
+    end
+
+    pedido = Order.new(:orderid => oc["_id"],
+                       :fecha_entrega => oc["fechaEntrega"],
+                       :sku => oc["sku"],
+                       :cantidad => oc["cantidad"],
+                       :movimientos_inventario => "",
+                       :cantidad_producida => "",
+                       :compras_insumos => "",
+                       :numero_facturas => "",
+                       :movimientos_bancarios => "",
+                       :producto_compuesto => prod_compuesto)
+
+    return pedido
   end
 
+  def self.detect_insumos(sku, cantidad, orderid)
+    insumos_necesarios = [
+        {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
+        {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '49', 'requerimiento' => 228},
+        {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '6', 'requerimiento' => 228},
+        {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '41', 'requerimiento' => 194},
+        {'sku_final' => '6', 'cant_lote' => 30, 'sku_insumo' => '49', 'requerimiento' => -270},
+        {'sku_final' => '6', 'cant_lote' => 30, 'sku_insumo' => '7', 'requerimiento' => 300},
+        {'sku_final' => '10', 'cant_lote' => 900, 'sku_insumo' => '23', 'requerimiento' => 342},
+        {'sku_final' => '10', 'cant_lote' => 900, 'sku_insumo' => '26', 'requerimiento' => 309},
+        {'sku_final' => '10', 'cant_lote' => 900, 'sku_insumo' => '27', 'requerimiento' => 279},
+        {'sku_final' => '11', 'cant_lote' => 900, 'sku_insumo' => '4', 'requerimiento' => 828},
+        {'sku_final' => '12', 'cant_lote' => 400, 'sku_insumo' => '25', 'requerimiento' => 133.3333333},
+        {'sku_final' => '12', 'cant_lote' => 400, 'sku_insumo' => '20', 'requerimiento' => 146.6666667},
+        {'sku_final' => '12', 'cant_lote' => 400, 'sku_insumo' => '15', 'requerimiento' => 113.3333333},
+        {'sku_final' => '16', 'cant_lote' => 1000, 'sku_insumo' => '23', 'requerimiento' => 330},
+        {'sku_final' => '16', 'cant_lote' => 1000, 'sku_insumo' => '26', 'requerimiento' => 313.3333333},
+        {'sku_final' => '16', 'cant_lote' => 1000, 'sku_insumo' => '2', 'requerimiento' => 383.3333333},
+        {'sku_final' => '17', 'cant_lote' => 1000, 'sku_insumo' => '25', 'requerimiento' => 360},
+        {'sku_final' => '17', 'cant_lote' => 1000, 'sku_insumo' => '20', 'requerimiento' => 350},
+        {'sku_final' => '17', 'cant_lote' => 1000, 'sku_insumo' => '13', 'requerimiento' => 290},
+        {'sku_final' => '18', 'cant_lote' => 200, 'sku_insumo' => '23', 'requerimiento' => 72},
+        {'sku_final' => '18', 'cant_lote' => 200, 'sku_insumo' => '2', 'requerimiento' => 71.33333333},
+        {'sku_final' => '18', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 66.66666667},
+        {'sku_final' => '22', 'cant_lote' => 400, 'sku_insumo' => '6', 'requerimiento' => 380},
+        {'sku_final' => '23', 'cant_lote' => 300, 'sku_insumo' => '8', 'requerimiento' => 309},
+        {'sku_final' => '24', 'cant_lote' => 400, 'sku_insumo' => '33', 'requerimiento' => 444},
+        {'sku_final' => '28', 'cant_lote' => 500, 'sku_insumo' => '37', 'requerimiento' => 440},
+        {'sku_final' => '29', 'cant_lote' => 400, 'sku_insumo' => '31', 'requerimiento' => 368},
+        {'sku_final' => '30', 'cant_lote' => 500, 'sku_insumo' => '21', 'requerimiento' => 460},
+        {'sku_final' => '34', 'cant_lote' => 700, 'sku_insumo' => '14', 'requerimiento' => 332.5},
+        {'sku_final' => '34', 'cant_lote' => 700, 'sku_insumo' => '27', 'requerimiento' => 318.5},
+        {'sku_final' => '35', 'cant_lote' => 500, 'sku_insumo' => '44', 'requerimiento' => 430},
+        {'sku_final' => '36', 'cant_lote' => 100, 'sku_insumo' => '45', 'requerimiento' => 89},
+        {'sku_final' => '40', 'cant_lote' => 900, 'sku_insumo' => '7', 'requerimiento' => 1000},
+        {'sku_final' => '40', 'cant_lote' => 900, 'sku_insumo' => '41', 'requerimiento' => -100},
+        {'sku_final' => '41', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 2000},
+        {'sku_final' => '41', 'cant_lote' => 200, 'sku_insumo' => '40', 'requerimiento' => -1800},
+        {'sku_final' => '42', 'cant_lote' => 200, 'sku_insumo' => '25', 'requerimiento' => 66.66666667},
+        {'sku_final' => '42', 'cant_lote' => 200, 'sku_insumo' => '20', 'requerimiento' => 71.33333333},
+        {'sku_final' => '42', 'cant_lote' => 200, 'sku_insumo' => '3', 'requerimiento' => 68.66666667},
+        {'sku_final' => '46', 'cant_lote' => 800, 'sku_insumo' => '20', 'requerimiento' => 296},
+        {'sku_final' => '46', 'cant_lote' => 800, 'sku_insumo' => '25', 'requerimiento' => 269.3333333},
+        {'sku_final' => '46', 'cant_lote' => 800, 'sku_insumo' => '7', 'requerimiento' => 250.6666667},
+        {'sku_final' => '47', 'cant_lote' => 1000, 'sku_insumo' => '39', 'requerimiento' => 495},
+        {'sku_final' => '47', 'cant_lote' => 1000, 'sku_insumo' => '27', 'requerimiento' => 570},
+        {'sku_final' => '47', 'cant_lote' => 1000, 'sku_insumo' => '25', 'requerimiento' => 1000},
+        {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '19', 'requerimiento' => 160},
+        {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '26', 'requerimiento' => 171.6666667},
+        {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '2', 'requerimiento' => 155},
+        {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 222.2222222},
+        {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '6', 'requerimiento' => -22.22222222}]
+
+    lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == sku }['cant_lote']
+    cantidad_de_lotes = (cantidad.to_f/lote.to_f).ceil
+
+    insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
+      create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes), orderid)
+    end
+
+    return
+  end
+
+  def self.create_insumos(sku, cantidad, orderid)
+    Insumo.create(:sku => sku, :cantidad => cantidad, :orderid => orderid)
+  end
+
+
+  def self.define_type_order(oc)
+    tipos_segun_sku ={
+        '1' => 'insumo',
+        '2' => 'insumo',
+        '3' => 'insumo',
+        '4' => 'compuesto',
+        '5' => 'compuesto',
+        '6' => 'compuesto',
+        '7' => 'insumo',
+        '8' => 'insumo',
+        '9' => 'insumo',
+        '10' => 'compuesto',
+        '11' => 'compuesto',
+        '12' => 'compuesto',
+        '13' => 'insumo',
+        '14' => 'insumo',
+        '15' => 'insumo',
+        '16' => 'compuesto',
+        '17' => 'compuesto',
+        '18' => 'compuesto',
+        '19' => 'insumo',
+        '20' => 'insumo',
+        '21' => 'insumo',
+        '22' => 'compuesto',
+        '23' => 'compuesto',
+        '24' => 'compuesto',
+        '25' => 'insumo',
+        '26' => 'insumo',
+        '27' => 'insumo',
+        '28' => 'compuesto',
+        '29' => 'compuesto',
+        '30' => 'compuesto',
+        '31' => 'insumo',
+        '32' => 'insumo',
+        '33' => 'insumo',
+        '34' => 'compuesto',
+        '35' => 'compuesto',
+        '36' => 'compuesto',
+        '37' => 'insumo',
+        '38' => 'insumo',
+        '39' => 'insumo',
+        '40' => 'compuesto',
+        '41' => 'compuesto',
+        '42' => 'compuesto',
+        '43' => 'insumo',
+        '44' => 'insumo',
+        '45' => 'insumo',
+        '46' => 'compuesto',
+        '47' => 'compuesto',
+        '48' => 'compuesto',
+        '49' => 'compuesto'}
+    return tipos_segun_sku[oc["sku"]]
+  end
 	# vemos si es posible generar una orden de compra para un pedido determinado
 	# hash contiene los valores de los parametros pedidos
 	def self.evaluate_order(oc)
@@ -87,15 +236,17 @@ class OrdersManager
 
 	end
 
-	def reject_order(order_id)
+	def reject_order(order_id, answer)
     # Setear la oc como rechazada en API curso
 		# Notificar orden rechazada a grupo cliente
 	end
 
-  def accept_order(order_id)
+  def accept_order(order_id, answer)
     # Setear la oc como aceptada en API curso
     # Notificar orden aceptada a grupo cliente
   end
+
+
 
 	
 
