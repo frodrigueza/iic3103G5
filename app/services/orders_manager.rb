@@ -1,41 +1,39 @@
 class OrdersManager
 
 	def self.manage_order(oc_id)
+		oc = HttpManager.get_order(oc_id)
+	    answer = evaluate_order(oc)
+	    if answer["status"] == 400
+	      reject_order(oc_id, answer)
+	      return
+	    else
+	      accept_order(oc_id, answer)
+	    end
 
 
-	oc = HttpManager.get_order(oc_id)
-    answer = evaluate_order(oc)
-    if answer["status"] == 400
-      reject_order(oc_id, answer)
-      return
-    else
-      accept_order(oc_id, answer)
-    end
+	    pedido = create_order_db(oc)
 
+	    pedido_listo = PedidoManager.check_ready(pedido)
 
-    pedido = create_order_db(oc)
+	    if not pedido_listo
+	      return
+	    end
 
-    pedido_listo = PedidoManager.check_ready(pedido)
+	    BodegaManager.mover_a_despacho(pedido)
+	    FacturaManager.emitir_factura(pedido)
 
-    if not pedido_listo
-      return
-    end
+	    # Esperar 8 días?
 
-    BodegaManager.mover_a_despacho(pedido)
-    FacturaManager.emitir_factura(pedido)
+	    # Revisar si factura está aceptada en la API.
+	    factura = HttpManager.get_factura(order_id)
+	    if factura["estadoPago"] == "rechazada" || factura["estadoPago"] == "anulada"
+	      return
+	    end
 
-    # Esperar 8 días?
+	    # Si no está rechazada, BodegaManager.despachar(oc)
+	    BodegaManager.despachar(oc)
 
-    # Revisar si factura está aceptada en la API.
-    factura = HttpManager.get_factura(order_id)
-    if factura["estadoPago"] == "rechazada" || factura["estadoPago"] == "anulada"
-      return
-    end
-
-    # Si no está rechazada, BodegaManager.despachar(oc)
-    BodegaManager.despachar(oc)
-
-    return
+	    return
 
   end
 
@@ -193,6 +191,8 @@ class OrdersManager
         '49' => 'compuesto'}
     return tipos_segun_sku[oc[:sku]]
   end
+
+  
 	# vemos si es posible generar una orden de compra para un pedido determinado
 	# hash contiene los valores de los parametros pedidos
 	def self.evaluate_order(oc)
