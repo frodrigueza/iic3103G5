@@ -19,4 +19,21 @@ class FacturaManager
     #return algo
 
   end
+
+  def self.revisar_estados_facturas
+
+    Pedido.find_each do |pedido|
+      oc = HttpManager.get_order(pedido[:oc_id])
+      id_factura = oc[:idFactura]
+      if id_factura != nil
+        factura = HttpManager.get_factura(id_factura)
+        # Revisar si factura está aceptada en la API.
+        if factura[:estadoPago] == "aceptada"
+          # Si está aceptada, BodegaManager.despachar(oc)
+          BodegaManager.despachar(oc)
+        end
+      end
+    end
+  end
+
 end

@@ -10,28 +10,23 @@ class OrdersManager
 	      accept_order(oc_id, answer)
 	    end
 
-
 	    pedido = create_order_db(oc)
 
 	    pedido_listo = PedidoManager.check_ready(pedido)
 
-	    if not pedido_listo
+	    unless pedido_listo
 	      return
 	    end
 
 	    BodegaManager.mover_a_despacho(pedido)
 	    FacturaManager.emitir_factura(pedido)
 
-	    # Esperar 8 días?
+
+	    # Esperar 8 días? -> metodo FacturaManager.revisar_estados_facturas
 
 	    # Revisar si factura está aceptada en la API.
-	    factura = HttpManager.get_factura(order_id)
-	    if factura["estadoPago"] == "rechazada" || factura["estadoPago"] == "anulada"
-	      return
-	    end
 
 	    # Si no está rechazada, BodegaManager.despachar(oc)
-	    BodegaManager.despachar(oc)
 
 	    return
 
@@ -51,17 +46,17 @@ class OrdersManager
     end
 
     pedido = Pedido.create(:oc_id => oc[:_id],
-                        :cliente => oc[:cliente]
-                        :canal => oc[:canal]
-                       :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
-                       :sku => oc[:sku],
-                       :cantidad => oc[:cantidad],
-                       :movimientos_inventario => "",
-                       :cantidad_producida => "",
-                       :compras_insumos => "",
-                       :numero_facturas => "",
-                       :movimientos_bancarios => "",
-                       :producto_compuesto => prod_compuesto)
+                          :cliente => oc[:cliente],
+                          :canal => oc[:canal],
+                         :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
+                         :sku => oc[:sku],
+                         :cantidad => oc[:cantidad],
+                         :movimientos_inventario => "",
+                         :cantidad_producida => "",
+                         :compras_insumos => "",
+                         :numero_facturas => "",
+                         :movimientos_bancarios => "",
+                         :producto_compuesto => prod_compuesto)
 
     pedido.insumos = insumos
 
@@ -229,14 +224,18 @@ class OrdersManager
 	end
 
     def reject_order(order_id, answer)
-    # Setear la oc como rechazada en API curso
-    	# Notificar orden rechazada a grupo cliente
+      # Setear la oc como rechazada en API curso
+      HttpManager.reject_order(order_id)
+      # Notificar orden rechazada a grupo cliente
+      HttpManager.notify_rejected_order(answer)
     end
 
 
     def accept_order(order_id, answer)
         # Setear la oc como aceptada en API curso
+      HttpManager.accept_order(answer)
         # Notificar orden aceptada a grupo cliente
+      HttpManager.notify_accepted_order(answer)
     end
 
 
