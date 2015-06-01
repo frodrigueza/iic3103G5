@@ -5,7 +5,7 @@ class BodegaHash
 		digest  = OpenSSL::Digest.new('sha1')
 		aux = OpenSSL::HMAC.digest(digest, "0c0ifZEBkDKnsb", str)
 		enc   = Base64.encode64(aux)
-
+		enc = enc[0..enc.length-2]
 		return enc
 	end
 
