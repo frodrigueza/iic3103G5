@@ -59,6 +59,26 @@ class HttpManager
 
 	end
 
+    # boolean para ver si una orden existe
+    def self.exist_order(id_oc)
+		response = get_oc(id_oc)
+		if response[:_id]
+			true
+		else
+			false
+		end
+    end
+
+    # boolean para ver si una orden existe
+    def self.exist_invoice(invoice_id)
+		response = obtener_factura(invoice_id)
+		if response[:_id]
+			true
+		else
+			false
+		end
+    end
+
 
 	def self.despachar(id_oc)
 

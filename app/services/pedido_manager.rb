@@ -2,67 +2,68 @@ class PedidoManager
 
   def self.check_ready(pedido)
 
-    orden_lista = true
+    insumos_listos = true
 
     # Revisar si producto terminado (sea compuesto o materia prima) está en bodega
-    cantiadad_disponible = BodegaManager.buscar_en_bodega(pedido.sku)
+    cantidad_disponible = BodegaManager.buscar_en_bodega(pedido.sku)
     #Si no está:
-    if(cantiadad_disponible < pedido.cantidad)
+    if cantidad_disponible < pedido.cantidad
       # Hacer foreach que revise cada insumo
       pedido.insumos.each do |insumo|
         # Revisar si esta la cantidad necesaria en bodega. (BodegaManager.buscar_en_bodega)
-        cantiadad_disponible = BodegaManager.buscar_en_bodega(insumo.sku)
-        # Si no está, guardar cantidad que falta y cambiar orden_lista a false
-        if(cantiadad_disponible == 0)
-          orden_lista = false
-          cantidad_faltante = insumo.cantidad - cantiadad_disponible
+        cantidad_disponible = BodegaManager.buscar_en_bodega(insumo.sku)
+        # Si no está, guardar cantidad que falta
+        if cantidad_disponible < insumo.cantidad and not pedido.solicitado
+            insumos_listos = false
+            cantidad_faltante = insumo.cantidad - cantidad_disponible
             # Revisar si insumo es nuestro
-            if(not GroupInfo.skus.include? insumo.sku)
+            if not GroupInfo.skus.include? insumo.sku
               # Si no, generar OC con sku y cantidad faltante, revisar fecha de entrega,
                 # notificar nueva OC a otro grupo, etc.
               proveedor = get_dato(insumo.sku)[:proveedor] 
               precio_unitario = get_dato(insumo.sku)[:costo] 
-              id_oc = HttpManager.create_order(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precio_unitario: precio_unitario,
-               cantiadad: cantidad_faltante, cliente: GroupInfo.id, fecha_entrega: pedido.fecha_entrega)
-              HttpManager.notificar_new_order(grupo: proveedor, id_oc: id_oc)
+              id_oc = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precio_unitario: precio_unitario,
+               cantidad: cantidad_faltante, cliente: GroupInfo.id, fecha_entrega: Helpers.time_to_unix pedido.fecha_entrega)
+              GroupManager.new_order(grupo: proveedor, order_id: id_oc)
             else
               # Si es nuestro, "extraer" cantidad faltante
               # COMO SE EXTRAEN LAS MATERIAS PRIMAS??
-              costo = get_dato(insumo.sku)[:costo] 
+              costo = get_datos(insumo.sku)[:costo] 
               trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
+########################FALTA
               HttpManager.fabricar(sku: insumo.sku, trxId: trx[:_id])
             end
         end
+      pedido[:solicitado] = true
       # end foreach
       end
 
 
       #If Producto_compuesto = true & orden_lista = true
-      if pedido.producto_compuesto and orden_lista
+      if pedido.producto_compuesto and insumos_listos
         # Dejar insumos en almacen de despacho
         pedido.insumos.each do |insumo|
-          BodegaManager.mover_a_despacho(insumo.sku)
+          BodegaManager.mover_a_despacho(insumo.sku, insumo.cantidad)
         end
         # producirStock
         costo = get_dato(pedido.sku)[:costo] 
         trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
         HttpManager.fabricar(sku: pedido.sku, trxId: trx[:_id])
-
-######### pausa que espere a que el producto este listo
-
-        BodegaManager.mover_a_despacho(pedido.sku)
-        BodegaManager.despachar(pedido.oc)
       end
+    else
+      BodegaManager.mover_a_despacho(pedido.sku, pedido.cantidad)
+      FacturaManager.emitir_factura(pedido)
+      #BodegaManager.despachar() #necesitamos id del otro grupo
     end
-    #return orden_lista
-    return orden_lista
   end
 
 #se llama cada cierto tiempo. ver pedidos con fecha > hoy , priorizar por fecha.
 # para cada uno check ready
-def self.check_pedidos()
-  pedidos.find_each do |pedido|
-    
+def self.check_pedidos
+  pedidos = Pedido.activos
+  pedidos.each do |pedido|
+    check_ready pedido
+  end
 end
 
 
@@ -120,7 +121,7 @@ end
 49 => { proveedor: 1, costo: 717 }
 }
 
-return datos_base[sku] 
+return datos_base[sku]
 end
 
 

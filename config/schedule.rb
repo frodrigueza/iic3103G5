@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, :at => '4:00 am' do
-  runner "FacturaManager.revisar_estados_facturas"
+every 5.minutes do
+  runner "PedidoManager.check_pedidos"
 end

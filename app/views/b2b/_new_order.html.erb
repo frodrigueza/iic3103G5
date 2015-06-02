@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h5>Nueva orden de compra</h5>
+			</div>
+
+			<div class="panel-body">
+				<p>
+					<b>Descripción</b>
+					Enviar una orden de compra de un producto en específico.
+				</p>
+				<p>
+					<b>Method: </b>POST
+				</p>
+				<p>
+					<b>URL: </b>/b2b/new_order/
+				</p>
+				<p>
+					<b>Params: </b>order_id: (string), cantidad: (int), proveedor: (string) opcional, notas: (string) opcional, precio: (int) opcional
+				</p>
+
+				<p>
+					<b>Retorno:</b>
+				</p>
+				<p>
+					En caso de éxito: 200 OK
+				</p>
+				<p>
+					En caso de error: 400 Bad request error, acompañado de la especificación de los parámetros conflictivos
+				</p>
+			</div>
+		</div>	
+	</div>
+</div>

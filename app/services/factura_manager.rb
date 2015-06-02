@@ -1,11 +1,9 @@
 class FacturaManager
 
-  def self.emitir_factura(oc)
+  def self.emitir_factura(pedido)
     #crear factura
-    factura = HttpManager.emitirFactura(oc)
-
-    return factura
-    #notificar factura a grupo
+    factura = HttpManager.emitir_factura(pedido[:oc_id])
+    GrupoManager.invoice_created(invoice_id: factura[:_id])
   end
 
   def self.recibir_factura(id_factura)
@@ -20,15 +18,11 @@ class FacturaManager
 
       pagado = HttpManager.pagarFactura(id_factura)   
 
-      PedidoManager.check_ready
-
       return pagado
 
     #Criterio para aceptar o rechazar factura
     # Si acepta factura
       # Setear factura aceptada en API del curso
-      # Pagar facturaRecibida
-      # Llamar a PedidoManager.check_ready
     # Si no
       # Rechazar factura
       # Notificar factura rechazada
@@ -37,20 +31,6 @@ class FacturaManager
 
   end
 
-  def self.revisar_estados_facturas
 
-    Pedido.find_each do |pedido|
-      oc = HttpManager.get_order(pedido[:oc_id])
-      id_factura = oc[:idFactura]
-      if id_factura != nil
-        factura = HttpManager.get_factura(id_factura)
-        # Revisar si factura está aceptada en la API.
-        if factura[:estadoPago] == "aceptada"
-          # Si está aceptada, BodegaManager.despachar(oc)
-          BodegaManager.despachar(oc)
-        end
-      end
-    end
-  end
 
 end
