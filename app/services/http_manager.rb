@@ -2,6 +2,9 @@ class HttpManager
 
 	@@uri = 'http://chiri.ing.puc.cl:8080/grupo5/webresources/'
 
+	@@auth_header = 'INTEGRACION grupo5:' 
+
+	@@url_bodega = 'http://integracion-2015-dev.herokuapp.com/bodega/'
 
 	def self.crear_oc(body)
 
@@ -11,7 +14,7 @@ class HttpManager
 			:body => body.to_json,
     		:headers => { 'Content-Type' => 'application/json'})
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys #funciona
 	
 	end
 
@@ -19,7 +22,7 @@ class HttpManager
 
 		url = @@uri + 'atenea/recepcionar/' + id_oc.to_s
 
-		response = HTTParty.post(url , :body => {:id=>id_oc }.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url, :body => {}.to_json, :headers =>{ 'Content-Type' => 'application/json'})
 
 		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
@@ -81,7 +84,7 @@ class HttpManager
 
 		url = @@uri + 'atenea/despachar/' + id_oc.to_s
 
-		response = HTTParty.post(url , :body => {}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url, :headers =>{ 'Content-Type' => 'application/json'})
 
 		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
@@ -139,18 +142,17 @@ class HttpManager
 
 	end
 
-	# def self.transferir(body)
+	def self.transferir(body)
 
-	# 	url = @@uri + 'apolo/trx/'
+		url = @@uri + 'apolo/trx/'
 
-	# 	response = HTTParty.put(url , 
-	# 		:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]}.to_json ,
-	# 		:body  => {}.to_json,
-	# 		:headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.put(url , 
+			:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]},
+			:headers =>{ 'Content-Type' => 'application/json'})
 
-	# 	order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
-	# end
+	end
 
 	def self.obtener_transaccion(id_t)
 
@@ -158,22 +160,21 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
-	# def self.obtener_cartola(body)
+	def self.obtener_cartola(body)
 
-	# 	url = @@uri + 'apolo/cartola/'
+		url = @@uri + 'apolo/cartola/'
 
-	# 	response = HTTParty.post(url , 
-	# 		:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]}.to_json ,
-	# 		:body  => {}.to_json,
-	# 		:headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , 
+			:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]},
+			:headers =>{ 'Content-Type' => 'application/json'})
 
-	# 	order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
-	# end
+	end
 
 	def self.obtener_cartola(id_cb)
 
@@ -181,14 +182,175 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
+		order_hash = JSON.parse(response.body).symbolize_keys
+
+	end
+
+	def self.get_almacenes
+
+		url = @@url_bodega + 'almacenes'
+
+		hash = BodegaHash.crear_hash('GET')
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url , :headers => {'Authorization' => header})
+
+		response_json = JSON.parse(response.body)
+		aux = []
+		response_json.each do |bodega|
+			aux.push bodega.symbolize_keys
+		end
+
+		order_hash = aux
+
+	end
+
+	def self.get_skus_with_stock(id_a)
+
+		url = @@url_bodega + 'skusWithStock'
+
+		hash = BodegaHash.crear_hash('GET' + id_a.to_s)
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url , :query => {:almacenId => id_a.to_s}, :headers => {'Authorization' => header})
+
+
+		response_json = JSON.parse(response.body)
+		aux = []
+		response_json.each do |sku|
+			aux.push sku.symbolize_keys
+		end
+
+		order_hash = aux
+
+	end
+
+	def self.get_stock(body)
+
+		url = @@url_bodega + 'stock'
+
+		hash = BodegaHash.crear_hash('GET' + body[:id_a].to_s + body[:sku].to_s)
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url, :query => {:almacenId => body[:id_a].to_s, :sku => body[:sku], :limit => body[:limit] }, :headers => {'Authorization' => header})
+
+		response_json = JSON.parse(response.body)
+
+		aux = []
+		response_json.each do |sku|
+			aux.push sku.symbolize_keys
+		end
+
+		order_hash = aux
+
+	end
+
+	def self.mover_stock(body) #funciona
+
+		url = @@url_bodega + 'moveStock'
+
+		hash = BodegaHash.crear_hash('POST' + body[:id_p].to_s  + body[:id_a].to_s )
+
+		header = @@auth_header + hash
+
+		response = HTTParty.post(url, 
+			:body => {:productoId => body[:id_p].to_s, :almacenId => body[:id_a].to_s}.to_json, 
+			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
+
+		order_hash = JSON.parse(response.body).symbolize_keys
+
+	end
+
+	def self.mover_stock_bodega(body)
+
+		url = @@url_bodega + 'moveStockBodega'
+
+		hash = BodegaHash.crear_hash('POST' + body[:id_p].to_s  + body[:id_a].to_s )
+
+		header = @@auth_header + hash
+
+		response = HTTParty.post(url, 
+			:body => {:productoId => body[:id_p].to_s, :almacenId => body[:id_a].to_s}.to_json, 
+			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
+
+		order_hash = JSON.parse(response.body).symbolize_keys
+
+	end
+
+	def self.despachar_stock(body)
+
+		url = @@url_bodega + 'stock'
+
+		hash = BodegaHash.crear_hash('DELETE' + body[:id_p].to_s  + body[:direccion].to_s + body[:precio] + body[:orden_de_compra_id])
+
+		header = @@auth_header + hash
+
+		response = HTTParty.delete(url, 
+			:query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :ordenDeCompraId => body[:orden_de_compra_id]}, 
+			:body => {}.to_json,
+			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
+
+
+		# response_json = JSON.parse(response.body)
+
+		# aux = []
+		# response_json.each do |sku|
+		# 	aux.push sku.symbolize_keys
+		# end
+
 		order_hash = JSON.parse(response.body)[0].symbolize_keys
+
+	end
+
+	def self.producir_stock(body)
+
+		url = @@url_bodega + 'fabrica/fabricar'
+
+		hash = BodegaHash.crear_hash('PUT' + body[:sku].to_s + body[:cantidad] + body[:trx_id].to_s )
+
+		header = @@auth_header + hash
+
+		response = HTTParty.delete(url, 
+			:query => {:sku => body[:sku].to_s, :cantidad => body[:cantidad], :trxId => body[:trx_id].to_s}, 
+			:body => {}.to_json,
+			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
+
+
+		# response_json = JSON.parse(response.body)
+
+		# aux = []
+		# response_json.each do |sku|
+		# 	aux.push sku.symbolize_keys
+		# end
+
+		order_hash = JSON.parse(response.body)[0].symbolize_keys
+
+	end
+
+	def self.get_cuenta_fabrica #listo
+
+		url = @@url_bodega + 'fabrica/getCuenta'
+
+		hash = BodegaHash.crear_hash('GET')
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url , :headers => {'Authorization' => header})
+
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
 	def self.test
 		puts "hola"
-		hash = get_oc('5563933be0949e0300344fda')
-		puts hash
+		body = { :id_p => '556489e7efb3d7030091beca',
+				 :id_a => '556489e7efb3d7030091bdce',
+				}
+
+		hash = mover_stock(body)
 	end
 
 end
