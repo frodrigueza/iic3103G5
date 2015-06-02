@@ -12,15 +12,7 @@ class OrdersManager
 
 	    pedido = create_order_db(oc)
 
-	    pedido_listo = PedidoManager.check_ready(pedido)
-
-	    unless pedido_listo
-	      return answer
-	    end
-
-	    BodegaManager.mover_a_despacho(pedido)
-	    FacturaManager.emitir_factura(pedido)
-
+        PedidoManager.check_pedidos
 
 	    # Esperar 8 días? -> metodo FacturaManager.revisar_estados_facturas
 
@@ -39,15 +31,15 @@ class OrdersManager
     insumos = []
     if tipo == "insumo"
       prod_compuesto = false
-      insumos.push create_insumos(oc[:sku], oc[:cantidad], oc[:_id])
+      insumos.push create_insumos(oc[:sku], oc[:cantidad])
     else
       prod_compuesto = true
-      insumos = detect_insumos(oc[:sku], oc[:cantidad], oc[:_id])
+      insumos = detect_insumos(oc[:sku], oc[:cantidad])
     end
 
     pedido = Pedido.create(:oc_id => oc[:_id],
-                          :cliente => oc[:cliente],
                           :canal => oc[:canal],
+                          :cliente => oc[:cliente],
                          :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
                          :sku => oc[:sku],
                          :cantidad => oc[:cantidad],
@@ -63,7 +55,7 @@ class OrdersManager
     return pedido
   end
 
-  def self.detect_insumos(sku, cantidad, oc_id)
+  def self.detect_insumos(sku, cantidad)
     insumos_necesarios = [
         {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
         {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '49', 'requerimiento' => 228},
@@ -121,14 +113,14 @@ class OrdersManager
 
     insumos = []
     insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
-      insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes), oc_id)
+      insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes))
     end
 
     return insumos
   end
 
-  def self.create_insumos(sku, cantidad, oc_id)
-    insumo = Insumo.create(:sku => sku, :cantidad => cantidad, :pedido_id => pedido_id)
+  def self.create_insumos(sku, cantidad)
+    insumo = Insumo.create(:sku => sku, :cantidad => cantidad)
     return insumo
   end
 

@@ -18,7 +18,7 @@ class B2bController < ApplicationController
 		respond_to do |format|
 			format.json {render json: answer[:content], status: answer[:status]}
 		end
-
+		
 	end
 
 	def order_accepted

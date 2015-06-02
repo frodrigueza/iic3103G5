@@ -4,7 +4,6 @@ class CreateInsumos < ActiveRecord::Migration
     	t.references :pedido
       	t.string :sku
       	t.integer :cantidad
-
       	t.timestamps null: false
     end
   end

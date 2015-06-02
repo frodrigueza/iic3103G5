@@ -13,7 +13,7 @@ class CreatePedidos < ActiveRecord::Migration
       t.datetime :fecha_entrega
       t.string :sku
       t.integer :cantidad
-
+      t.boolean :solicitado, default: false
       t.timestamps null: false
     end
   end
