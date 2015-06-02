@@ -13,7 +13,9 @@ class HttpManager
 		response = HTTParty.put(url, 
 			:body => body.to_json,
     		:headers => { 'Content-Type' => 'application/json'})
-
+		p body[:fecha_entrega]
+		p Pedido.find_by oc_id: body[:a]
+		p JSON.parse(response.body)
 		order_hash = JSON.parse(response.body).symbolize_keys #funciona
 	
 	end

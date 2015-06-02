@@ -21,10 +21,10 @@ class PedidoManager
               # Si no, generar OC con sku y cantidad faltante, revisar fecha de entrega,
                 # notificar nueva OC a otro grupo, etc.
               proveedor = get_dato(insumo.sku)[:proveedor] 
-              precio_unitario = get_dato(insumo.sku)[:costo] 
-              id_oc = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precio_unitario: precio_unitario,
-               cantidad: cantidad_faltante, cliente: GroupInfo.id, fecha_entrega: Helpers.time_to_unix(pedido.fecha_entrega))
-              GroupManager.new_order(grupo: proveedor, order_id: id_oc)
+              precio_unitario = get_dato(insumo.sku)[:costo].to_i
+              order = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precioUnitario: precio_unitario,
+               cantidad: cantidad_faltante, cliente: GroupInfo.id, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega))
+              GruposManager.new_order(grupo: proveedor, order_id: order[:_id])
             else
               # Si es nuestro, "extraer" cantidad faltante
               # COMO SE EXTRAEN LAS MATERIAS PRIMAS??
@@ -47,12 +47,12 @@ class PedidoManager
         # producirStock
         costo = get_dato(pedido.sku)[:costo] 
         trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
-        HttpManager.fabricar(sku: pedido.sku, trxId: trx[:_id])
+        HttpManager.producir_stock(sku: pedido.sku, cantidad: PedidoManager.cantidad_de_lotes(pedido), trxId: trx[:_id])
       end
     else
       BodegaManager.mover_a_despacho(pedido.sku, pedido.cantidad)
       FacturaManager.emitir_factura(pedido)
-      #BodegaManager.despachar() #necesitamos id del otro grupo
+#######BodegaManager.despachar() #necesitamos id del otro grupo
     end
   end
 

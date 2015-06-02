@@ -1,6 +1,6 @@
 class GruposManager
   # params = { group: , order_id: }
-  def new_order(params)
+  def self.new_order(params)
     group = params[:group]
     order_id = params[:order_id]
 
@@ -16,7 +16,7 @@ class GruposManager
     end
   end
   # params = { group: 3, order_id: "123j234oiu" }
-  def order_accepted(params)
+  def self.order_accepted(params)
     group = params[:group]
     order_id = params[:order_id]
 
@@ -32,7 +32,7 @@ class GruposManager
     end
   end
 
-  def get_token(params)
+  def self.get_token(params)
     group = params[:group]
 
     case group
@@ -51,7 +51,7 @@ class GruposManager
 
 
   # params = { group: 3, order_id: "123j234oiu" }
-  def order_canceled(params)
+  def self.order_canceled(params)
     group = params[:group]
     order_id = params[:order_id]
 
@@ -68,7 +68,7 @@ class GruposManager
   end
 
   # params = { group: 3, order_id: "123j234oiu" }
-  def order_rejected(params)
+  def self.order_rejected(params)
     group = params[:group]
     order_id = params[:order_id]
 
@@ -85,7 +85,7 @@ class GruposManager
   end
 
   # params = { group: 3, invoice_id: "123j234oiu" }
-  def invoice_created(params)
+  def self.invoice_created(params)
     group = params[:group]
     invoice_id = params[:invoice_id]
 
@@ -102,7 +102,7 @@ class GruposManager
   end
 
   # params = { group: 3, invoice_id: "123j234oiu" }
-  def invoice_paid(params)
+  def self.invoice_paid(params)
     group = params[:group]
     invoice_id = params[:invoice_id]
 
@@ -119,7 +119,7 @@ class GruposManager
   end
 
   # params = { group: 3, invoice_id: "123j234oiu" }
-  def invoice_rejected(params)
+  def self.invoice_rejected(params)
     group = params[:group]
     invoice_id = params[:invoice_id]
 

@@ -3,7 +3,7 @@ class FacturaManager
   def self.emitir_factura(pedido)
     #crear factura
     factura = HttpManager.emitir_factura(pedido[:oc_id])
-    GrupoManager.invoice_created(invoice_id: factura[:_id])
+    GruposManager.invoice_created(grupo: pedido[:cliente], invoice_id: factura[:_id])
   end
 
   def self.recibir_factura(id_factura)
@@ -18,10 +18,10 @@ class FacturaManager
       ## Notificar rechazada
 
       return 'Proveedor'
-
     end
 
-  return 'Esta siendo procesada'
+    return 'Esta siendo procesada'
+  end
 
   def self.revisar_pagar_factura(id_factura)
 

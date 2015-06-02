@@ -17,36 +17,32 @@ class OrdersManager
 
   def self.create_order_db(oc)
     # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
-
-    tipo = define_type_order(oc)
-    insumos = []
-    if tipo == "insumo"
-      prod_compuesto = false
-      insumos.push create_insumos(oc[:sku], oc[:cantidad])
-    else
-      prod_compuesto = true
-      insumos = detect_insumos(oc[:sku], oc[:cantidad])
-    end
-
     pedido = Pedido.create(:oc_id => oc[:_id],
                           :canal => oc[:canal],
                           :cliente => oc[:cliente],
-                         :fecha_entrega => DateTime.parse(oc[:fechaEntrega]).utc,
+                         :fecha_entrega => DateTime.parse(oc[:fechaEntrega].to_s).utc,
                          :sku => oc[:sku],
                          :cantidad => oc[:cantidad],
                          :movimientos_inventario => "",
                          :cantidad_producida => "",
                          :compras_insumos => "",
                          :numero_facturas => "",
-                         :movimientos_bancarios => "",
-                         :producto_compuesto => prod_compuesto)
-
+                         :movimientos_bancarios => ""
+                         )
+    insumos = []
+    tipo = define_type_order(oc)
+    if tipo == "insumo"
+      pedido[:prod_compuesto] = false
+      insumos.push create_insumos(pedido)
+    else
+      pedido[:prod_compuesto]  = true
+      insumos = detect_insumos(pedido)
+    end 
     pedido.insumos = insumos
-
     return pedido
   end
 
-  def self.detect_insumos(sku, cantidad)
+  def self.insumos_necesarios
     insumos_necesarios = [
         {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
         {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '49', 'requerimiento' => 228},
@@ -98,22 +94,26 @@ class OrdersManager
         {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '2', 'requerimiento' => 155},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 222.2222222},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '6', 'requerimiento' => -22.22222222}]
+  end
 
-    lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == sku }['cant_lote']
-    cantidad_de_lotes = (cantidad.to_f/lote.to_f).ceil
+  def self.cantidad_de_lotes(pedido)
+    lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == pedido[:sku] }['cant_lote']
+    cantidad_de_lotes = (pedido[:cantidad].to_f/lote.to_f).ceil
+  end
 
+  def self.detect_insumos(pedido)
+    cantidad_de_lotes = cantidad_de_lotes(pedido)
     insumos = []
-    insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
+    insumos_necesarios.select {|encontrados| encontrados['sku_final'] == pedido[:sku] }.each do |ins|
         if ins['requerimiento'] > 0
             insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes).ceil)
         end
     end
-
     return insumos
   end
 
-  def self.create_insumos(sku, cantidad)
-    insumo = Insumo.create(:sku => sku, :cantidad => cantidad)
+  def self.create_insumos(pedido)
+    insumo = Insumo.create(:sku => pedido[:sku], :cantidad => pedido[:cantidad])
     return insumo
   end
 
