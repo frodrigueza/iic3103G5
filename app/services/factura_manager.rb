@@ -18,15 +18,11 @@ class FacturaManager
 
       pagado = HttpManager.pagarFactura(id_factura)   
 
-      PedidoManager.check_ready
-
       return pagado
 
     #Criterio para aceptar o rechazar factura
     # Si acepta factura
       # Setear factura aceptada en API del curso
-      # Pagar facturaRecibida
-      # Llamar a PedidoManager.check_ready
     # Si no
       # Rechazar factura
       # Notificar factura rechazada
