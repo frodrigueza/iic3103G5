@@ -120,7 +120,7 @@ end
 49 => { proveedor: 1, costo: 717 }
 }
 
-return datos_base[sku]
+return datos_base[sku.to_i]
 end
 
 
