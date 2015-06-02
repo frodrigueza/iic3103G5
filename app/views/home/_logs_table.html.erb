@@ -1,0 +1,26 @@
+<!-- logs  -->
+<div class="col-md-6">
+
+  <table class="table table_1">
+    <thead>
+      <tr>
+        <th colspan="2">Logs</th>
+      </tr>
+    </thead>
+    <% if @movements.count > 0 %>
+      <% @movements.each do |m| %>
+        <tr>
+          <td><%= f_value(m.created_at) %></td>
+          <td><%= m.content %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">
+          No hay movimientos registrados para esta orden de compra
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>

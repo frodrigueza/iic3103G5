@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601144056) do
+ActiveRecord::Schema.define(version: 20150602021833) do
 
   create_table "insumos", force: :cascade do |t|
     t.integer  "pedido_id"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20150601144056) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "movements", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "pedido_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "movements", ["pedido_id"], name: "index_movements_on_pedido_id"
 
   create_table "pedidos", force: :cascade do |t|
     t.string   "oc_id"

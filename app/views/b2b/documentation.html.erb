@@ -6,12 +6,16 @@
 		</h1>
 	</div>
 </div>
+
 <%= render 'observaciones' %>
 <%= render 'new_user' %>
-<%= render 'ask_for_token' %>
-<%= render 'comprar_producto' %>
-<%= render 'notificar_orden_aceptada' %>
-<%= render 'notificar_orden_rechazada' %>
-<%= render 'anular_orden_de_compra' %>
-<%= render 'notificar_factura_pagada' %>
-<%= render 'nueva_factura' %>
+<%= render 'get_token' %>
+
+<%= render 'new_order' %>
+<%= render 'order_accepted' %>
+<%= render 'order_canceled' %>
+<%= render 'order_rejected' %>
+
+<%= render 'invoice_created' %>
+<%= render 'invoice_paid' %>
+<%= render 'invoice_rejected' %>

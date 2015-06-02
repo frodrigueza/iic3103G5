@@ -1,4 +1,36 @@
 class GruposManager
+  # params = { group: , order_id: }
+  def new_order(params)
+    group = params[:group]
+    order_id = params[:order_id]
+
+    case group
+      when 3
+        url = uri(3) + 'new_order'
+        request_params = {
+          order_id: order_id
+        }
+        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
+      when 4
+        # ...
+    end
+  end
+  # params = { group: 3, order_id: "123j234oiu" }
+  def order_accepted(params)
+    group = params[:group]
+    order_id = params[:order_id]
+
+    case group
+      when 3
+        url = uri(3) + 'order_accepted'
+        request_params = {
+          order_id: order_id
+        }
+        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
+      when 4
+        # ...
+    end
+  end
 
   def get_token(params)
     group = params[:group]
@@ -16,39 +48,7 @@ class GruposManager
     end
   end
 
-  # params = { group: , order_id: }
-  def new_order(params)
-    group = params[:group]
-    order_id = params[:order_id]
 
-    case group
-      when 3
-        url = uri(3) + 'new_order'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-      when 4
-        # ...
-    end
-  end
-
-  # params = { group: 3, order_id: "123j234oiu" }
-  def order_accepted(params)
-    group = params[:group]
-    order_id = params[:order_id]
-
-    case group
-      when 3
-        url = uri(3) + 'order_accepted'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-      when 4
-        # ...
-    end
-  end
 
   # params = { group: 3, order_id: "123j234oiu" }
   def order_canceled(params)
