@@ -2,6 +2,9 @@ class HttpManager
 
 	@@uri = 'http://chiri.ing.puc.cl:8080/grupo5/webresources/'
 
+	@@auth_header = 'INTEGRACION grupo5:' 
+
+	@@url_bodega = 'http://integracion-2015-dev.herokuapp.com/bodega/'
 
 	def self.crear_oc(body)
 
@@ -11,7 +14,7 @@ class HttpManager
 			:body => body.to_json,
     		:headers => { 'Content-Type' => 'application/json'})
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 	
 	end
 
@@ -19,7 +22,7 @@ class HttpManager
 
 		url = @@uri + 'atenea/recepcionar/' + id_oc.to_s
 
-		response = HTTParty.post(url , :body => {:id=>id_oc }.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url, :body => {}.to_json, :headers =>{ 'Content-Type' => 'application/json'})
 
 		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
@@ -61,7 +64,7 @@ class HttpManager
 
 		url = @@uri + 'atenea/despachar/' + id_oc.to_s
 
-		response = HTTParty.post(url , :body => {}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url, :headers =>{ 'Content-Type' => 'application/json'})
 
 		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
@@ -119,18 +122,17 @@ class HttpManager
 
 	end
 
-	# def self.transferir(body)
+	def self.transferir(body)
 
-	# 	url = @@uri + 'apolo/trx/'
+		url = @@uri + 'apolo/trx/'
 
-	# 	response = HTTParty.put(url , 
-	# 		:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]}.to_json ,
-	# 		:body  => {}.to_json,
-	# 		:headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.put(url , 
+			:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]},
+			:headers =>{ 'Content-Type' => 'application/json'})
 
-	# 	order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
-	# end
+	end
 
 	def self.obtener_transaccion(id_t)
 
@@ -138,22 +140,21 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
-	# def self.obtener_cartola(body)
+	def self.obtener_cartola(body)
 
-	# 	url = @@uri + 'apolo/cartola/'
+		url = @@uri + 'apolo/cartola/'
 
-	# 	response = HTTParty.post(url , 
-	# 		:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]}.to_json ,
-	# 		:body  => {}.to_json,
-	# 		:headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , 
+			:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]},
+			:headers =>{ 'Content-Type' => 'application/json'})
 
-	# 	order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body)[0].symbolize_keys
 
-	# end
+	end
 
 	def self.obtener_cartola(id_cb)
 
@@ -161,14 +162,65 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
+	def self.get_almacenes
+
+		url = @@url_bodega + 'almacenes'
+
+		hash = BodegaHash.crear_hash('GET')
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url , :headers => {'Authorization' => header})
+
+		response_json = JSON.parse(response.body)
+		aux = []
+		response_json.each do |bodega|
+			aux.push bodega.symbolize_keys
+		end
+
+		order_hash = aux
+
+	end
+
+	def self.get_skus_with_stock(id_a)
+
+		url = @@url_bodega + 'skusWithStock'
+
+		hash = BodegaHash.crear_hash('GET' + id_a.to_s)
+
+		header = @@auth_header + hash
+
+		response = HTTParty.get(url , :query => {:almacenId => id_a.to_s}, :headers => {'Authorization' => header})
+
+
+		response_json = JSON.parse(response.body)
+		aux = []
+		response_json.each do |sku|
+			aux.push sku.symbolize_keys
+		end
+
+		order_hash = aux
+
+	end
+
+
+
 	def self.test
 		puts "hola"
-		hash = get_oc('5563933be0949e0300344fda')
-		puts hash
+		body = {"canal" => "b2b",
+				 "sku" => 5,
+				 "cliente" => "5",
+				 "proveedor" => "4",
+				 "fechaEntrega" =>1433299997000,
+				 "cantidad" => 45,
+				 "precioUnitario"=> 200
+				}
+
+		hash = get_skus_with_stock('556489e7efb3d7030091bdce')
 	end
 
 end
