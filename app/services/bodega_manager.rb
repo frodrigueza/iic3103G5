@@ -103,6 +103,21 @@ class BodegaManager
 
       end
     end
+
+
+    parametros=HttpManager.get_skus_with_stock(GroupInfo.almacen_despacho)
+
+    if(parametros!=nil)
+
+      parametros.each do |producto| 
+
+        if producto[:_id].to_s == sku.to_s
+          numero += producto[:total]
+        end 
+
+      end
+    end
+    
     return numero
     # Retorna la cantidad disponible. 
   end
