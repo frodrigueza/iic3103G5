@@ -12,14 +12,6 @@ class OrdersManager
 
 	    pedido = create_order_db(oc)
 
-        PedidoManager.check_pedidos
-
-	    # Esperar 8 días? -> metodo FacturaManager.revisar_estados_facturas
-
-	    # Revisar si factura está aceptada en la API.
-
-	    # Si no está rechazada, BodegaManager.despachar(oc)
-
 	    return answer
 	end
 
@@ -39,7 +31,7 @@ class OrdersManager
     pedido = Pedido.create(:oc_id => oc[:_id],
                           :canal => oc[:canal],
                           :cliente => oc[:cliente],
-                         :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
+                         :fecha_entrega => DateTime.parse(oc[:fechaEntrega]).utc,
                          :sku => oc[:sku],
                          :cantidad => oc[:cantidad],
                          :movimientos_inventario => "",
@@ -112,7 +104,9 @@ class OrdersManager
 
     insumos = []
     insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
-      insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes))
+        if ins['requerimiento'] > 0
+            insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes).ceil)
+        end
     end
 
     return insumos

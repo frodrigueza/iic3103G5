@@ -23,15 +23,14 @@ class PedidoManager
               proveedor = get_dato(insumo.sku)[:proveedor] 
               precio_unitario = get_dato(insumo.sku)[:costo] 
               id_oc = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precio_unitario: precio_unitario,
-               cantidad: cantidad_faltante, cliente: GroupInfo.id, fecha_entrega: Helpers.time_to_unix pedido.fecha_entrega)
+               cantidad: cantidad_faltante, cliente: GroupInfo.id, fecha_entrega: Helpers.time_to_unix(pedido.fecha_entrega))
               GroupManager.new_order(grupo: proveedor, order_id: id_oc)
             else
               # Si es nuestro, "extraer" cantidad faltante
               # COMO SE EXTRAEN LAS MATERIAS PRIMAS??
               costo = get_datos(insumo.sku)[:costo] 
               trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
-########################FALTA
-              HttpManager.fabricar(sku: insumo.sku, trxId: trx[:_id])
+              HttpManager.producir_stock(sku: insumo.sku,cantidad: insumo.cantidad, trxId: trx[:_id])
             end
         end
       pedido[:solicitado] = true
