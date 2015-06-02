@@ -8,24 +8,31 @@ Rails.application.routes.draw do
   # get 'b2b/documentation'
 
   namespace :b2b do 
-    post 'new_order'
     get 'documentation'
-    post 'order_accepted'
-    post 'order_rejected'
-    post 'order_canceled'
-    post 'ask_for_token'
+
     post 'new_user'
+    post 'get_token'
+
+    post 'new_order'
+    post 'order_accepted'
+    post 'order_canceled'
+    post 'order_rejected'
+
+    post 'invoice_created'
+    post 'invoice_paid'
+    post 'invoice_rejected' 
   end
 
   namespace :orders do
     get 'obtain_order'
+    get 'show_order'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'b2b#documentation'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

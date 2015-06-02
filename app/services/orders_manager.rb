@@ -21,8 +21,7 @@ class OrdersManager
 	    # Si no está rechazada, BodegaManager.despachar(oc)
 
 	    return answer
-
-  end
+	end
 
   def self.create_order_db(oc)
     # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
