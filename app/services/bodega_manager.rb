@@ -1,33 +1,21 @@
 class BodegaManager
 
-
-
   def self.mover_a_despacho(sku,cantidad)
 
     #BUscamos en almacen de despacho primero
     parametros=HttpManager.get_skus_with_stock(GroupInfo.almacen_despacho)
     numeroEnDespacho =0
-
     if(parametros!=nil)
-
       parametros.each do |producto| 
-
         if producto[:_id].to_s == sku.to_s
           numeroEnDespacho = producto[:total]
         end 
-
       end
     end
-   
 
     parametros = HttpManager.get_skus_with_stock(GroupInfo.almacen_libre)
     
-
-
     if(parametros!=nil)
-
-
-
       parametros.each do |producto|   
 
         if producto[:_id].to_s == sku.to_s
@@ -35,19 +23,13 @@ class BodegaManager
 
           if cantidad <= numero
             cantidad = cantidad - numeroEnDespacho
-
           
           else
             cantidad=numero
             cantidad = cantidad - numeroEnDespacho
           end
-          
           break
-
         end 
-
-
-
       end
 
       #puts numeroEnDespacho
@@ -73,16 +55,7 @@ class BodegaManager
 
     end
 
-
-
-
-
-
-
-
-
     #Revisar en bodega o en almacen pulmon
-
     
      #Revisar todos los almacenes con sku que se pide con getSTock
      #Si es que hay en agun almacen (despacho, libre, pulmon), tomo id y uso MoverStock la cantiadad requerida
@@ -130,13 +103,13 @@ class BodegaManager
 
       end
     end
-
-
     return numero
     # Retorna la cantidad disponible. 
   end
 
+
   def self.despachar(oc)
 
   end
+
 end
