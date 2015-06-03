@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20150602021833) do
     t.string   "sku"
     t.integer  "cantidad"
     t.boolean  "solicitado",             default: false
+    t.boolean  "despachado"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
   end

@@ -22,7 +22,7 @@ class OrdersManager
     if  pedido == nil
         pedido = Pedido.create(:oc_id => oc[:_id],
                               :canal => oc[:canal],
-                              :cliente => oc[:cliente],
+                              :cliente => oc[:cliente].to_i,
                              :fecha_entrega => DateTime.parse(oc[:fechaEntrega].to_s).utc,
                              :sku => oc[:sku],
                              :cantidad => oc[:cantidad],
@@ -197,11 +197,11 @@ class OrdersManager
 				    mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa " + GroupInfo.grupo
 			     }
             }
-        elsif ![1,2,3,4,6,7,8].include? oc[:cliente]
+        elsif !["1","2","3","4","6","7","8"].include? oc[:cliente]
             answer = {
                 status: 400,
                 content: {
-                mensaje: "Cliente inválido"
+                mensaje: "Cliente inválido debe ser uno de los siguientes [1,2,3,4,6,7,8]"
                  }
             }
 		# corresponde a los skus que nosostros trabajamos

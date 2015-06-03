@@ -96,7 +96,7 @@ class HttpManager
 
 		response = HTTParty.put(url , :body => {:oc => id_oc}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
