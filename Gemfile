@@ -39,11 +39,11 @@ gem 'net-sftp'
 gem 'whenever'
 
 # highlighting code para documentacion
-gem 'highlight', :require => 'simplabs/highlight'
+# gem 'highlight', :require => 'simplabs/highlight'
 
 gem 'devise'
 #gema para enciptacion (documentacion en http://www.rubydoc.info/gems/ruby-hmac-openssl/0.1.0)
-gem 'ruby-hmac-openssl', '~> 0.1.0'
+gem 'ruby-hmac-openssl'
 
 #gema para tener output en base 64 (documentacion http://www.rubydoc.info/gems/rubysl-base64/2.0.0/Base64)
 gem 'rubysl-base64'
