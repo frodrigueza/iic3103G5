@@ -21,14 +21,14 @@ ActiveRecord::Schema.define(version: 20150602021833) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "movements", force: :cascade do |t|
+  create_table "logs", force: :cascade do |t|
     t.text     "content"
     t.integer  "pedido_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "movements", ["pedido_id"], name: "index_movements_on_pedido_id"
+  add_index "logs", ["pedido_id"], name: "index_logs_on_pedido_id"
 
   create_table "pedidos", force: :cascade do |t|
     t.string   "oc_id"
@@ -43,8 +43,9 @@ ActiveRecord::Schema.define(version: 20150602021833) do
     t.datetime "fecha_entrega"
     t.string   "sku"
     t.integer  "cantidad"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.boolean  "solicitado",             default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "users", force: :cascade do |t|
