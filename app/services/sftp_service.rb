@@ -20,12 +20,11 @@ class SftpService
 		end
 		orders.each do |order|
 			order = order.symbolize_keys
-			pedidos = Pedido.find_by oc_id: order[:oc]
-			if pedidos == nil
-				order[:fechaEntrega] = DateTime.strptime(order[:fechaEntrega], '%m.%d.%Y')
-				OrdersManager.create_order_db(order)
-			end
+			order[:fechaEntrega] = DateTime.strptime(order[:fechaEntrega], '%m.%d.%Y')
+			order[:_id] = order[:oc]
+			OrdersManager.create_order_db(order)
 		end
+	PedidoManager.check_pedidos
 	return orders.length
 	end
 end

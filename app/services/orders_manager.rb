@@ -11,35 +11,40 @@ class OrdersManager
 	    end
 
 	    pedido = create_order_db(oc)
+        PedidoManager.check_pedidos
 
 	    return answer
 	end
 
   def self.create_order_db(oc)
     # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
-    pedido = Pedido.create(:oc_id => oc[:_id],
-                          :canal => oc[:canal],
-                          :cliente => oc[:cliente],
-                         :fecha_entrega => DateTime.parse(oc[:fechaEntrega].to_s).utc,
-                         :sku => oc[:sku],
-                         :cantidad => oc[:cantidad],
-                         :movimientos_inventario => "",
-                         :cantidad_producida => "",
-                         :compras_insumos => "",
-                         :numero_facturas => "",
-                         :movimientos_bancarios => ""
-                         )
-    insumos = []
-    tipo = define_type_order(oc)
-    if tipo == "insumo"
-      pedido[:prod_compuesto] = false
-      insumos.push create_insumos(pedido)
-    else
-      pedido[:prod_compuesto]  = true
-      insumos = detect_insumos(pedido)
-    end 
-    pedido.insumos = insumos
-    return pedido
+    pedido = Pedido.find_by oc_id: oc[:_id]
+    if  pedido == nil
+        pedido = Pedido.create(:oc_id => oc[:_id],
+                              :canal => oc[:canal],
+                              :cliente => oc[:cliente],
+                             :fecha_entrega => DateTime.parse(oc[:fechaEntrega].to_s).utc,
+                             :sku => oc[:sku],
+                             :cantidad => oc[:cantidad],
+                             :movimientos_inventario => "",
+                             :cantidad_producida => "",
+                             :compras_insumos => "",
+                             :numero_facturas => "",
+                             :movimientos_bancarios => ""
+                             )
+        insumos = []
+        tipo = define_type_order(oc)
+        if tipo == "insumo"
+          pedido[:producto_compuesto] = false
+          insumos.push create_insumos(pedido[:sku], pedido[:cantidad])
+        else
+          pedido[:producto_compuesto]  = true
+          insumos = detect_insumos(pedido)
+        end 
+        pedido.insumos = insumos
+        return pedido
+    end
+    return nil
   end
 
   def self.insumos_necesarios
@@ -112,8 +117,8 @@ class OrdersManager
     return insumos
   end
 
-  def self.create_insumos(pedido)
-    insumo = Insumo.create(:sku => pedido[:sku], :cantidad => pedido[:cantidad])
+  def self.create_insumos(sku, cantidad)
+    insumo = Insumo.create(:sku => sku, :cantidad => cantidad)
     return insumo
   end
 
@@ -185,14 +190,20 @@ class OrdersManager
 		}
 
 		# corresponde a nuestr empersa
-		if oc["proveedor"] != GroupInfo.grupo
+		if oc[:proveedor] != GroupInfo.grupo
 			answer = {
 				status: 400,
                 content: {
 				    mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa " + GroupInfo.grupo
 			     }
             }
-
+        elsif ![1,2,3,4,6,7,8].include? oc[:cliente]
+            answer = {
+                status: 400,
+                content: {
+                mensaje: "Cliente inválido"
+                 }
+            }
 		# corresponde a los skus que nosostros trabajamos
 		elsif !GroupInfo.skus.include?(oc[:sku].to_i )
 			answer = {
