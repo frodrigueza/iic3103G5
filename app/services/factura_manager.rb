@@ -3,35 +3,36 @@ class FacturaManager
   def self.emitir_factura(pedido)
     #crear factura
     factura = HttpManager.emitir_factura(pedido[:oc_id])
-    GrupoManager.invoice_created(invoice_id: factura[:_id])
+    GruposManager.invoice_created(grupo: pedido[:cliente], invoice_id: factura[:_id])
   end
 
   def self.recibir_factura(id_factura)
 
-    facturaRecibida = HttpManager.obtenerFactura(id_factura)
+    factura_recibida = HttpManager.obtener_factura(id_factura)
 
-    if facturaRecibida.cliente!='5'
-      error = HttpManager.rechazarFactura(id_factura, 'no somos nosotros')
-      return error 
-    #Rechazar en el futuro si nos falta $$$
-    else
+    if factura_recibida[:proveedor] != '5' || factura_recibida[:proveedor] != 'grupo5'
 
-      pagado = HttpManager.pagarFactura(id_factura)   
+      body = {:id_f => factura_recibida[:_id], :motivo  => 'Proveedor Erroneo'}
+      factura_rechazada = HttpManager.rechazar_factura(body)
 
-      PedidoManager.check_ready
+      ## Notificar rechazada
 
-      return pagado
+      return 'Proveedor'
+    end
 
-    #Criterio para aceptar o rechazar factura
-    # Si acepta factura
-      # Setear factura aceptada en API del curso
-      # Pagar facturaRecibida
-      # Llamar a PedidoManager.check_ready
-    # Si no
-      # Rechazar factura
-      # Notificar factura rechazada
+    return 'Esta siendo procesada'
+  end
 
-    #return algo
+  def self.revisar_pagar_factura(id_factura)
+
+    factura_pagada = HttpManager.pagar_factura(id_factura)
+
+
+  end
+
+  def self.factura_fue_rechazada(id_factura)
+
+    #acciones correspondientes a una factura rechazada
 
   end
 

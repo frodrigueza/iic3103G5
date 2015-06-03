@@ -11,50 +11,43 @@ class OrdersManager
 	    end
 
 	    pedido = create_order_db(oc)
-
         PedidoManager.check_pedidos
-
-	    # Esperar 8 días? -> metodo FacturaManager.revisar_estados_facturas
-
-	    # Revisar si factura está aceptada en la API.
-
-	    # Si no está rechazada, BodegaManager.despachar(oc)
 
 	    return answer
 	end
 
   def self.create_order_db(oc)
     # Revisar si es un producto o no, y en ese caso setear los insumos y sus cantidades (y el boolean). Finalmente, retornar el pedido.
-
-    tipo = define_type_order(oc)
-    insumos = []
-    if tipo == "insumo"
-      prod_compuesto = false
-      insumos.push create_insumos(oc[:sku], oc[:cantidad])
-    else
-      prod_compuesto = true
-      insumos = detect_insumos(oc[:sku], oc[:cantidad])
+    pedido = Pedido.find_by oc_id: oc[:_id]
+    if  pedido == nil
+        pedido = Pedido.create(:oc_id => oc[:_id],
+                              :canal => oc[:canal],
+                              :cliente => oc[:cliente].to_i,
+                             :fecha_entrega => DateTime.parse(oc[:fechaEntrega].to_s).utc,
+                             :sku => oc[:sku],
+                             :cantidad => oc[:cantidad],
+                             :movimientos_inventario => "",
+                             :cantidad_producida => "",
+                             :compras_insumos => "",
+                             :numero_facturas => "",
+                             :movimientos_bancarios => ""
+                             )
+        insumos = []
+        tipo = define_type_order(oc)
+        if tipo == "insumo"
+          pedido[:producto_compuesto] = false
+          insumos.push create_insumos(pedido[:sku], pedido[:cantidad])
+        else
+          pedido[:producto_compuesto]  = true
+          insumos = detect_insumos(pedido)
+        end 
+        pedido.insumos = insumos
+        return pedido
     end
-
-    pedido = Pedido.create(:oc_id => oc[:_id],
-                          :canal => oc[:canal],
-                          :cliente => oc[:cliente],
-                         :fecha_entrega => DateTime.parse.oc[:fechaEntrega].utc,
-                         :sku => oc[:sku],
-                         :cantidad => oc[:cantidad],
-                         :movimientos_inventario => "",
-                         :cantidad_producida => "",
-                         :compras_insumos => "",
-                         :numero_facturas => "",
-                         :movimientos_bancarios => "",
-                         :producto_compuesto => prod_compuesto)
-
-    pedido.insumos = insumos
-
-    return pedido
+    return nil
   end
 
-  def self.detect_insumos(sku, cantidad)
+  def self.insumos_necesarios
     insumos_necesarios = [
         {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
         {'sku_final' => '5', 'cant_lote' => 600, 'sku_insumo' => '49', 'requerimiento' => 228},
@@ -106,15 +99,21 @@ class OrdersManager
         {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '2', 'requerimiento' => 155},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 222.2222222},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '6', 'requerimiento' => -22.22222222}]
+  end
 
-    lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == sku }['cant_lote']
-    cantidad_de_lotes = (cantidad.to_f/lote.to_f).ceil
+  def self.cantidad_de_lotes(pedido)
+    lote = insumos_necesarios.find{|encontrados| encontrados['sku_final'] == pedido[:sku] }['cant_lote']
+    cantidad_de_lotes = (pedido[:cantidad].to_f/lote.to_f).ceil
+  end
 
+  def self.detect_insumos(pedido)
+    cantidad_de_lotes = cantidad_de_lotes(pedido)
     insumos = []
-    insumos_necesarios.select {|encontrados| encontrados['sku_final'] == sku }.each do |ins|
-      insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes))
+    insumos_necesarios.select {|encontrados| encontrados['sku_final'] == pedido[:sku] }.each do |ins|
+        if ins['requerimiento'] > 0
+            insumos.push create_insumos(ins['sku_insumo'], (ins['requerimiento'] * cantidad_de_lotes).ceil)
+        end
     end
-
     return insumos
   end
 
@@ -191,14 +190,20 @@ class OrdersManager
 		}
 
 		# corresponde a nuestr empersa
-		if oc["proveedor"] != GroupInfo.grupo
+		if oc[:proveedor] != GroupInfo.grupo
 			answer = {
 				status: 400,
                 content: {
 				    mensaje: "El proveedor numero " + oc[:proveedor] + " no corresponde a nuestra empresa, nosotros somos la empresa " + GroupInfo.grupo
 			     }
             }
-
+        elsif !["1","2","3","4","6","7","8"].include? oc[:cliente]
+            answer = {
+                status: 400,
+                content: {
+                mensaje: "Cliente inválido debe ser uno de los siguientes [1,2,3,4,6,7,8]"
+                 }
+            }
 		# corresponde a los skus que nosostros trabajamos
 		elsif !GroupInfo.skus.include?(oc[:sku].to_i )
 			answer = {

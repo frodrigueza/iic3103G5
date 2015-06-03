@@ -7,7 +7,7 @@ class HomeController < ApplicationController
   				@oc = OpenStruct.new(@oc).to_h
   				@pedido = Pedido.find_by(oc_id: oc_id)
 
-  				@movements = @pedido ? @pedido.movements : []
+  				@logs = @pedido ? @pedido.logs : []
   			else
   				@oc = nil
   			end

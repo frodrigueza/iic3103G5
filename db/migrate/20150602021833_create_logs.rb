@@ -1,6 +1,6 @@
-class CreateMovements < ActiveRecord::Migration
+class CreateLogs < ActiveRecord::Migration
   def change
-    create_table :movements do |t|
+    create_table :logs do |t|
       t.text :content
       t.belongs_to :pedido, index: true, foreign_key: true
 
