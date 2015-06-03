@@ -54,7 +54,7 @@ class ApiManager
 	                orden_rechazada: HttpManager.get_oc(params[:order_id])
 	            }
 	        }
-	    else
+	    
 	    	response = {
 	    		status: 400,
 	    		content: {
