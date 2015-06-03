@@ -83,9 +83,9 @@ class B2bController < ApplicationController
 
 	# checamos el token que viene en el header antes de cualquier accion de este controlador 
 	def check_token
-		if !AuthManager.check_token(response.request.env["HTTP_TOKEN"])
+		if !AuthManager.check_token(response.request.env["HTTP_AUTHORIZATION"])
 			respond_to do |format|
-		    	format.json {render json: {respuesta: 'Usuario no autorizado, pruebe llamando al método get_token.'}, status: 401}
+		    	format.json {render json: {respuesta: 'Usuario no autenticado, pruebe llamando al método get_token.'}, status: 401}
 		    end
 		end
 	end

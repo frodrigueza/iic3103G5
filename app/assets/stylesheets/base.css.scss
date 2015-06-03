@@ -1,6 +1,21 @@
+ @import "colours";
+
+
 .row{
 	margin: 0px !important;
 }
 .content{
 	margin-top: 50px !important;
+	min-height: 500px;
+}
+
+.footer{
+	background: $black_gradient;
+	color: gray;
+	text-align: center;
+	padding: 30px 0px;
+}
+
+h1,h2,h3,h4,h5{
+	color: #444 !important;
 }

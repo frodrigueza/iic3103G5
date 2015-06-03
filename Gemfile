@@ -38,6 +38,9 @@ gem 'net-sftp'
 # scheduled tasks
 gem 'whenever'
 
+# highlighting code para documentacion
+gem 'highlight', :require => 'simplabs/highlight'
+
 gem 'devise'
 #gema para enciptacion (documentacion en http://www.rubydoc.info/gems/ruby-hmac-openssl/0.1.0)
 gem 'ruby-hmac-openssl', '~> 0.1.0'
