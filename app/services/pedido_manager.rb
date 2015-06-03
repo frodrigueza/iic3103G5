@@ -52,7 +52,7 @@ class PedidoManager
     else
       BodegaManager.mover_a_despacho(pedido.sku, pedido.cantidad)
       FacturaManager.emitir_factura(pedido)
-      BodegaManager.despachar() #necesitamos id del otro grupo
+      BodegaManager.despachar(pedido)
     end
   end
 
