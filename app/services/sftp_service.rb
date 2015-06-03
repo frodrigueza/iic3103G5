@@ -1,7 +1,7 @@
 class SftpService
 	# nuevas ordenes
 	def self.read_new_orders
-		session = Net::SSH.start('chiri.ing.puc.cl', 'integra5', :password => 'M8yF.3@Pd', :port => 22)
+		session = Net::SSH.start('moyas.ing.puc.cl', 'integra5', :password => 'M8yF.3@Pd', :port => 22)
 		@sftp = Net::SFTP::Session.new(session).connect!
 		orders = []
 		@sftp.dir.foreach("/Pedidos") do |entry|

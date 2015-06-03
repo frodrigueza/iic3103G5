@@ -71,7 +71,6 @@ GEM
     execjs (2.5.2)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
-    highlight (2.0.0)
     httparty (0.13.5)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -192,7 +191,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   daemons
   devise
-  highlight
   httparty
   jbuilder (~> 2.0)
   jquery-rails
@@ -200,7 +198,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 4.2.1)
-  ruby-hmac-openssl (~> 0.1.0)
+  ruby-hmac-openssl
   rubysl-base64
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
