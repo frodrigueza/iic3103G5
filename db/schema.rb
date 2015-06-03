@@ -28,8 +28,6 @@ ActiveRecord::Schema.define(version: 20150602021833) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "logs", ["pedido_id"], name: "index_logs_on_pedido_id"
-
   create_table "pedidos", force: :cascade do |t|
     t.string   "oc_id"
     t.string   "canal"

@@ -25,12 +25,14 @@ class PedidoManager
               order = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precioUnitario: precio_unitario,
                cantidad: cantidad_faltante, cliente: GroupInfo.id, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega))
               GruposManager.new_order(grupo: proveedor, order_id: order[:_id])
+              LogManager.new_log(pedido , "Insumo de sku " + insumo.sku.to_s + " enviado a comprar. Orden de compra : " + order[:_id])
             else
               # Si es nuestro, "extraer" cantidad faltante
               # COMO SE EXTRAEN LAS MATERIAS PRIMAS??
               costo = get_datos(insumo.sku)[:costo] 
               trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
               HttpManager.producir_stock(sku: insumo.sku,cantidad: insumo.cantidad, trxId: trx[:_id])
+              LogManager.new_log(pedido, "Fue extraido insumo de sku: " + insumo.sku.to_s + " cantidad: " + insumo.cantidad.to_s)
             end
         end
       pedido[:solicitado] = true
@@ -43,16 +45,22 @@ class PedidoManager
         # Dejar insumos en almacen de despacho
         pedido.insumos.each do |insumo|
           BodegaManager.mover_a_despacho(insumo.sku, insumo.cantidad)
+          LogManager.new_log(pedido, "Insumo de sku: " + insumo.sku.to_s + " enivado al almacen de despacho.")
         end
         # producirStock
         costo = get_dato(pedido.sku)[:costo] 
         trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
+        LogManager.new_log(pedido , "Trasferencia realizada del banco a la fábrica. Monto: " + costo)
         HttpManager.producir_stock(sku: pedido.sku, cantidad: PedidoManager.cantidad_de_lotes(pedido), trxId: trx[:_id])
+        LogManager.new_log(pedido, "Producto de sku: " + pedido.sku.to_s + " producido. Cantidad: " + PedidoManager.cantidad_de_lotes(pedido))
       end
     else
       BodegaManager.mover_a_despacho(pedido.sku, pedido.cantidad)
-      FacturaManager.emitir_factura(pedido)
+      LogManager.new_log(pedido, "Product de sku: " + pedido.sku.to_s + " movido a bodega de despacho. Cantidad: " + pedido.cantidad.to_s)
+      factura = FacturaManager.emitir_factura(pedido)
+      LogManager.new_log(pedido , "Factura emitida: " + factura[:_id])
       BodegaManager.despachar(pedido)
+      LogManager.new_log(pedido , "Product de sku: " +  pedido.sku.to_s + " despachado a grupo " + pedido.cliente + ". Cantidad: " + pedido.cantidad.to_s)
     end
   end
 
