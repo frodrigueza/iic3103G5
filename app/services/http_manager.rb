@@ -55,7 +55,8 @@ class HttpManager
 
 	end
 
-	def self.get_oc(id_oc)
+	def self.get_oc(body)
+		id_oc = body[:order_id]
 
 		if id_oc == "" or not id_oc
 			id_oc = "EMPTY"
@@ -326,9 +327,8 @@ class HttpManager
 
 		header = @@auth_header + hash
 
-		response = HTTParty.delete(url, 
-			:query => {:sku => body[:sku].to_s, :cantidad => body[:cantidad], :trxId => body[:trx_id].to_s}, 
-			:body => {}.to_json,
+		response = HTTParty.put(url, 
+			:body => {:sku => body[:sku].to_s, :cantidad => body[:cantidad], :trxId => body[:trx_id].to_s}.to_s, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
 

@@ -51,17 +51,21 @@ class AuthManager
 
 	# corroboramos el token recibido
 	def self.check_token(new_token)
-		new_token = new_token.split(' ')[1]
 		if new_token
-			User.all.each do |u|
-				if u.token == new_token
-					return true
+			new_token = new_token.split(' ')[1]
+			if new_token
+				User.all.each do |u|
+					if u.token == new_token
+						return true
+					end
 				end
+			else
+				false
 			end
+			return false
 		else
-			false
+			return false
 		end
-		return false
 	end
 
 	# creacion de nuevo usuario
@@ -75,8 +79,7 @@ class AuthManager
 					respuesta:"Debe completar todos los campos",
 					request_correct_format: {
 						name: "string",
-						password: "string",
-						password_confirmation: "string"
+						password: "string"
 					}
 				}
 			}
