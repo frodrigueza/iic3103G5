@@ -174,6 +174,29 @@ class BodegaManager
 
   end
 
+  def self.get_recepcion_id(grupo)
+
+    case grupo
+
+      when "1"
+        return "556489e6efb3d7030091bac2"
+      when "2"
+        return "556489e7efb3d7030091bb7d"
+      when "3"
+        return "556489e7efb3d7030091bc67"
+      when "4"
+        return "556489e7efb3d7030091bd07"
+      when "6"
+        return "556489e7efb3d7030091bf2b"
+      when "7"
+        return "556489e7efb3d7030091bf6f"
+      when "8"
+        return "556489e7efb3d7030091bf89"
+      
+    end
+    #TODO: Cambiar con paso a produccion
+    
+  end
 
   def self.despachar(pedido)
     
@@ -184,17 +207,39 @@ class BodegaManager
 
 
     if pedido[:canal] == 'b2b'
-      puts 'Es b2b'
 
-      
-      
-      
+      cantidad = pedido[:cantidad].to_i
+      idDespachoDestino = get_recepcion_id(cliente)
 
 
 
 
+      body = {:id_a => GroupInfo.almacen_despacho, :sku => sku_pedido}
+      productosEnDespacho = HttpManager.get_stock(body)
+
+      if productosEnDespacho != nil
+
+        i=0
+        productosEnDespacho.each do |producto|
+
+          id_producto = producto[:_id].to_s
+
+          body2 = {:id_p => id_producto, :id_a => idDespachoDestino}
+
+          despacharAOtroGrupo = HttpManager.mover_stock_bodega(body2)
 
 
+          i= i + 1
+
+          if i>=cantidad
+            puts "Despachado"
+            pedido[:despachado]=true
+            return
+          end
+
+        end
+        
+      end
 
 
       
@@ -202,7 +247,6 @@ class BodegaManager
     elsif pedido[:canal] == 'ftp'
 
       cantidad = pedido[:cantidad].to_i
-
 
       body = {:id_a => GroupInfo.almacen_despacho, :sku => sku_pedido}
       productosEnDespacho = HttpManager.get_stock(body)
@@ -218,12 +262,12 @@ class BodegaManager
           precio = 1
 
 
-          puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
+          #puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
 
           body = {:id_p => id_producto, :direccion => direccion, :precio => precio, :orden_de_compra_id => id_ordenCompra.to_s}
           
           prodDespachado = HttpManager.despachar_stock(body)
-          puts prodDespachado
+          #puts prodDespachado
 
           if prodDespachado[:despachado] == true
             #puts "PRODUCTO DESPACHADO"
@@ -233,12 +277,13 @@ class BodegaManager
 
           i+=1
 
-          if i == cantidad
+          if i >= cantidad
             if(nDespachados==cantidad)
-              #pedido[:despachado]=true
+              pedido[:despachado]=true
               puts "Se despacharon todos"
               
             else
+              pedido[:despachado]=false
               puts "No se despacharon todos"
 
             end

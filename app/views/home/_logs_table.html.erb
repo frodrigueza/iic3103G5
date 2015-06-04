@@ -7,8 +7,8 @@
         <th colspan="2">Logs</th>
       </tr>
     </thead>
-    <% if @logs.count > 0 %>
-      <% @logs.each do |m| %>
+    <% if @log.count > 0 %>
+      <% @log.each do |m| %>
         <tr>
           <td><%= f_value(m.created_at) %></td>
           <td><%= m.content %></td>
