@@ -23,7 +23,7 @@ class PedidoManager
               proveedor = get_dato(insumo.sku)[:proveedor] 
               precio_unitario = get_dato(insumo.sku)[:costo].to_i
               order = HttpManager.crear_oc(sku: insumo.sku, proveedor: proveedor, canal: "b2b", precioUnitario: precio_unitario,
-               cantidad: cantidad_faltante, cliente: GroupInfo.id, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega))
+               cantidad: cantidad_faltante, cliente: GroupInfo.grupo, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega))
               GruposManager.new_order(grupo: proveedor, order_id: order[:_id])
               LogManager.new_log(pedido , "Insumo de sku " + insumo.sku.to_s + " enviado a comprar. Orden de compra : " + order[:_id])
             else
