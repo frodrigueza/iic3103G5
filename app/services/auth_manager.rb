@@ -12,7 +12,7 @@ class AuthManager
 					respuesta:"Debe completar todos los campos",
 					request_correct_format: {
 						username: "string",
-						password: "string"
+						password: "string (min 8)"
 					}
 				}
 			}
