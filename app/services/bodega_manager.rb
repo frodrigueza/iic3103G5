@@ -203,6 +203,7 @@ class BodegaManager
 
       cantidad = pedido[:cantidad].to_i
 
+      cantidad=cantidad-36
 
       body = {:id_a => GroupInfo.almacen_despacho, :sku => sku_pedido}
       productosEnDespacho = HttpManager.get_stock(body)
@@ -218,12 +219,12 @@ class BodegaManager
           precio = 1
 
 
-          puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
+          #puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
 
           body = {:id_p => id_producto, :direccion => direccion, :precio => precio, :orden_de_compra_id => id_ordenCompra.to_s}
           
           prodDespachado = HttpManager.despachar_stock(body)
-          puts prodDespachado
+          #puts prodDespachado
 
           if prodDespachado[:despachado] == true
             #puts "PRODUCTO DESPACHADO"
@@ -235,10 +236,11 @@ class BodegaManager
 
           if i == cantidad
             if(nDespachados==cantidad)
-              #pedido[:despachado]=true
+              pedido[:despachado]=true
               puts "Se despacharon todos"
               
             else
+              pedido[:despachado]=false
               puts "No se despacharon todos"
 
             end
