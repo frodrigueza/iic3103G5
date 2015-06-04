@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
@@ -198,7 +198,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 4.2.1)
-  ruby-hmac-openssl (~> 0.1.0)
+  ruby-hmac-openssl
   rubysl-base64
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

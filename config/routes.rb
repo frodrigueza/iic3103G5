@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   namespace :b2b do 
     get 'documentation'
 
-    post 'new_user'
+    put 'new_user'
     post 'get_token'
 
     post 'new_order'

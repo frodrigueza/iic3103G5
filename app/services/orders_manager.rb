@@ -42,6 +42,7 @@ class OrdersManager
           insumos = detect_insumos(pedido)
         end 
         pedido.insumos = insumos
+        pedido.save
         return pedido
     end
     return nil

@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
-  	if oc_id = params[:order_id]
+  	if params[:order_id] && params[:order_id] != ""
+  		oc_id = params[:order_id]
   		if @oc = HttpManager.get_oc(oc_id)
   			if @oc[:_id]
   				@oc = OpenStruct.new(@oc).to_h
