@@ -75,8 +75,7 @@ class AuthManager
 					respuesta:"Debe completar todos los campos",
 					request_correct_format: {
 						name: "string",
-						password: "string",
-						password_confirmation: "string"
+						password: "string"
 					}
 				}
 			}

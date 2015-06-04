@@ -1,6 +1,6 @@
 class GroupInfo
 
-  @@produccion = false
+  @@produccion = true
 
   # skus que trabaja la empresa
   def self.skus
