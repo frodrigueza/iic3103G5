@@ -1,10 +1,10 @@
 class HttpManager
 
-	@@uri = 'http://chiri.ing.puc.cl:8080/grupo5/webresources/'
+	@@uri = GroupInfo.url_api_curso
 
 	@@auth_header = 'INTEGRACION grupo5:' 
 
-	@@url_bodega = 'http://integracion-2015-dev.herokuapp.com/bodega/'
+	@@url_bodega = GroupInfo.url_api_bodega
 
 	def self.crear_oc(body)
 
