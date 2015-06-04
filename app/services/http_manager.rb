@@ -121,7 +121,7 @@ class HttpManager
 
 	end
 
-	def self.rechazar_factura(body)
+	def self.rechabzar_factura(body)
 
 		url = @@uri + 'zeuz/reject/'
 
@@ -175,9 +175,11 @@ class HttpManager
 
 	end
 
-	def self.obtener_cartola(id_cb)
+	def self.obtener_cuenta(id_cb)
 
 		url = @@uri + 'apolo/banco/cuenta/' + id_cb.to_s
+
+		puts url
 
 		response = HTTParty.get(url)
 
@@ -351,7 +353,7 @@ class HttpManager
 				 :id_a => '556489e7efb3d7030091bdce',
 				}
 
-		hash = mover_stock(body)
+		hash = obtener_cuenta("55648ad3f89fed0300524ffd")
 	end
 
 end

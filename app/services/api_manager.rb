@@ -105,8 +105,8 @@ class ApiManager
     end
 
     def self.invoice_paid(params)
-
-    	factura_pagada = FacturaManager.revisar_factura_pagada(params[:invoice_id])
+    	
+    	factura_pagada = HttpManager.obtener_factura(params[:invoice_id])
 
     	if HttpManager.exist_invoice(params[:invoice_id]) && factura_pagada[:estado] == 'pagada'
 	        response = {
