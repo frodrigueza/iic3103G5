@@ -123,7 +123,7 @@ class HttpManager
 
 	end
 
-	def self.rechazar_factura(body)
+	def self.rechabzar_factura(body)
 
 		url = @@uri + 'zeuz/reject/'
 
@@ -143,7 +143,7 @@ class HttpManager
 
 	end
 
-	def self.transferir(body)
+	def self.transferir(body)#probado
 
 		url = @@uri + 'apolo/trx/'
 
@@ -151,7 +151,7 @@ class HttpManager
 			:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]},
 			:headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
@@ -177,9 +177,11 @@ class HttpManager
 
 	end
 
-	def self.obtener_cartola(id_cb)
+	def self.obtener_cuenta(id_cb)
 
 		url = @@uri + 'apolo/banco/cuenta/' + id_cb.to_s
+
+		puts url
 
 		response = HTTParty.get(url)
 
@@ -349,11 +351,12 @@ class HttpManager
 
 	def self.test
 		puts "hola"
-		body = { :id_p => '556489e7efb3d7030091beca',
-				 :id_a => '556489e7efb3d7030091bdce',
+		body = { :monto => '2',
+				 :origen => '55648ad3f89fed0300524ffd',
+				 :destino => '55648ad3f89fed0300524ffd'
 				}
 
-		hash = mover_stock(body)
+		hash = transferir(body)
 	end
 
 end
