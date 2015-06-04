@@ -48,7 +48,8 @@ class HttpManager
 
 	end
 
-	def self.get_oc(id_oc)
+	def self.get_oc(body)
+		id_oc = body[:order_id]
 
 		url = @@uri + 'atenea/obtener/' + id_oc.to_s
 
