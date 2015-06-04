@@ -136,8 +136,6 @@ GEM
       json (~> 1.4)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    ruby-hmac-openssl (0.1.0)
-      openssl
     rubysl-base64 (2.0.0)
     sass (3.4.14)
     sass-rails (5.0.3)
@@ -195,10 +193,10 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   net-sftp
+  openssl
   pg
   puma
   rails (= 4.2.1)
-  ruby-hmac-openssl
   rubysl-base64
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
