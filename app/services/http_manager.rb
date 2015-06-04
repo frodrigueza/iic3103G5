@@ -48,8 +48,7 @@ class HttpManager
 
 	end
 
-	def self.get_oc(body)
-		id_oc = body[:id_oc]
+	def self.get_oc(id_oc)
 
 		url = @@uri + 'atenea/obtener/' + id_oc.to_s
 
@@ -61,7 +60,7 @@ class HttpManager
 
     # boolean para ver si una orden existe
     def self.exist_order(id_oc)
-		response = get_oc(id_oc: id_oc)
+		response = get_oc(id_oc)
 		if response[:_id]
 			true
 		else
@@ -70,8 +69,8 @@ class HttpManager
     end
 
     # boolean para ver si una orden existe
-    def self.exist_invoice(params)
-		response = obtener_factura(params)
+    def self.exist_invoice(invoice_id)
+		response = obtener_factura(invoice_id)
 		if response[:_id]
 			true
 		else
@@ -102,9 +101,7 @@ class HttpManager
 	end
 
 
-	def self.obtener_factura(body)
-
-		id_f = body[:invoice_id]
+	def self.obtener_factura(id_f)
 
 		url = @@uri + 'zeuz/' + id_f.to_s
 
