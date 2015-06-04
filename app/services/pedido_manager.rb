@@ -69,7 +69,7 @@ class PedidoManager
 def self.check_pedidos
   pedidos = Pedido.activos
   pedidos.each do |pedido|
-    check_ready pedido
+    check_ready(pedido) if HttpManager.exist_order(pedido[:oc_id])
   end
 end
 

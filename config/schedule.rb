@@ -19,10 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 5.minutes do
+every 10.minutes do
   runner "PedidoManager.check_pedidos"
 end
 
-every 3.minutes do
+every 20.minutes do
   runner "SftpService.read_new_orders"
 end
