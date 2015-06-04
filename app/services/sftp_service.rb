@@ -24,7 +24,6 @@ class SftpService
 			order[:_id] = order[:oc]
 			OrdersManager.create_order_db(order)
 		end
-	PedidoManager.check_pedidos
 	return orders.length
 	end
 end

@@ -4,14 +4,13 @@ class OrdersManager
 		oc = HttpManager.get_oc(oc_id)
 	    answer = evaluate_order(oc)
 	    if answer[:status] == 400
-	      reject_order(oc, answer)
+	      reject_order(oc, answer) if oc[:_id]
 	      return answer
 	    else
 	      accept_order(oc_id, answer)
 	    end
 
 	    pedido = create_order_db(oc)
-        PedidoManager.check_pedidos
 
 	    return answer
 	end
@@ -183,15 +182,17 @@ class OrdersManager
 	# hash contiene los valores de los parametros pedidos
 	def self.evaluate_order(oc)
     # Agregar un verificador de si oc existe o si es error 404
-		answer = {
-			status: 200,
-            content: {
-                mensaje: "La orden de compra " + oc[:_id] + " ha sido recepcionada correctamente"
+		
+        # oc es nula
+        if not oc[:_id]
+            answer = {
+                status: 400,
+                content: {
+                mensaje: "La orden de compra no es valida"
+                }
             }
-		}
-
 		# corresponde a nuestr empersa
-		if oc[:proveedor] != GroupInfo.grupo
+		elsif oc[:proveedor] != GroupInfo.grupo
 			answer = {
 				status: 400,
                 content: {
@@ -213,30 +214,28 @@ class OrdersManager
 				mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus " + GroupInfo.skus.to_s
 			     }
             }
-
-		# la orden de compra no es nula
-		elsif oc[:_id] == nil
-			answer = {
-				status: 400,
+        else         
+            answer = {
+                status: 200,
                 content: {
-				mensaje: "El id de la orden de compra no es valido"
+                    mensaje: "La orden de compra " + oc[:_id] + " ha sido recepcionada correctamente"
                 }
-			}
+            }
         end
 
 		return answer
 
 	end
 
-    def reject_order(order, answer)
+    def self.reject_order(order, answer)
       # Setear la oc como rechazada en API curso
-      HttpManager.reject_order(id_oc: order[:_id], motivo: answer[:content][:mensaje])
+      HttpManager.rechazar_oc(id_oc: order[:_id], motivo: answer[:content][:mensaje])
       # Notificar orden rechazada a grupo cliente
       GruposManager.order_rejected(group: order[:cliente], order_id: order[:_id])
     end
 
 
-    def accept_order(order, answer)
+    def self.accept_order(order, answer)
         # Setear la oc como aceptada en API curso
       HttpManager.recepcionar_oc(order[:_id])
         # Notificar orden aceptada a grupo cliente

@@ -27,7 +27,7 @@ class B2bController < ApplicationController
 	
 	# ORDERS
 	def new_order
-		answer = OrdersManager.manage_order(params)
+		answer = OrdersManager.manage_order(params[:order_id])
 		respond_to do |format|
 			format.json {render json: answer[:content], status: answer[:status]}
 		end

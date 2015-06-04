@@ -122,8 +122,6 @@ class BodegaManager
     # Retorna la cantidad disponible. 
   end
 
-  
-
 
   def self.despachar(pedido)
     
