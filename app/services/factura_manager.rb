@@ -20,18 +20,19 @@ class FacturaManager
 
       GruposManager.invoice_rejected(factura_rechazada[:cliente] , factura_rechazada[:_id])
 
-      return 'Proveedorya yo Erroneo'
+      return 'Proveedor Erroneo'
     end
 
     cuenta = HttpManager.obtener_cuenta(GroupInfo.cuenta_banco)
     saldo = cuenta[:saldo]
 
     if saldo > factura_recibida[:total]
-      factura_pagada = HttpManager.pagar_factura(factura_recibida[:_id])
-      trx = {:monto => factura_pagada[:total] , :origen}
-      GruposManager.invoice_pagada(factura_recibida[:cliente] , factura_pagada[:_id])
       pedido = Pedido.find_by oc_id: factura_recibida[:oc]
-      LogManager.new_log(pedido, "Factura " + factura_pagada[:_id] + " de la orden de compra " + factura_recibida[:oc] + " ha sido pagada.")
+      factura_pagada = HttpManager.pagar_factura(factura_recibida[:_id])
+      trx = {:monto => factura_pagada[:total] , :origen => GroupInfo.cuenta_banco, :destino => GruposInfo.get_cuenta_id(factura_pagada[:proveedor])}
+      transferencia  = HttpManager.transferir(trx)
+      GruposManager.invoice_pagada(factura_recibida[:cliente] , factura_pagada[:_id])
+      LogManager.new_log(pedido, "Factura " + factura_pagada[:_id] + " de la orden de compra " + factura_recibida[:oc] + " ha sido pagada. Transferencia: " + transferencia[:_id])
       return "Factura pagada. Recibirán notificación vía API"
 
     return 'Esta siendo procesada'

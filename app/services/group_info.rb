@@ -4,6 +4,8 @@ class GroupInfo
 
   def self.en_produccion
     return @@produccion
+  end
+
 
   # skus que trabaja la empresa
   def self.skus

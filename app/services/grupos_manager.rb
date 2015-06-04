@@ -1,32 +1,161 @@
 class GruposManager
   # params = { group: , order_id: }
   def self.new_order(params)
-    group = params[:group]
-    order_id = params[:order_id]
-
-    case group
-      when 3,8
-        url = uri(group) + 'new_order/'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
+    case params[:group]
+    when 1
+      Grupo1Manager.new_order(params)
+    when 2
+      Grupo2Manager.new_order(params)
+    when 3
+      Grupo3Manager.new_order(params)
+    when 4
+      Grupo4Manager.new_order(params)
+    when 5
+      Grupo5Manager.new_order(params)
+    when 6
+      Grupo6Manager.new_order(params)
+    when 7
+      Grupo7Manager.new_order(params)
+    when 8
+      Grupo8Manager.new_order(params)
+    end
+  end
+  # params = { group: , order_id: }
+  def self.order_accepted(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.order_accepted(params)
+    when 2
+      Grupo2Manager.order_accepted(params)
+    when 3
+      Grupo3Manager.order_accepted(params)
+    when 4
+      Grupo4Manager.order_accepted(params)
+    when 5
+      Grupo5Manager.order_accepted(params)
+    when 6
+      Grupo6Manager.order_accepted(params)
+    when 7
+      Grupo7Manager.order_accepted(params)
+    when 8
+      Grupo8Manager.order_accepted(params)
     end
   end
 
 
-  # params = { group: 3, order_id: "123j234oiu" }
-  def self.order_accepted(params)
-    group = params[:group]
-    order_id = params[:order_id]
+  # params = { group: , order_id: }
+  def self.order_canceled(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.order_canceled(params)
+    when 2
+      Grupo2Manager.order_canceled(params)
+    when 3
+      Grupo3Manager.order_canceled(params)
+    when 4
+      Grupo4Manager.order_canceled(params)
+    when 5
+      Grupo5Manager.order_canceled(params)
+    when 6
+      Grupo6Manager.order_canceled(params)
+    when 7
+      Grupo7Manager.order_canceled(params)
+    when 8
+      Grupo8Manager.order_canceled(params)
+    end
+  end
 
-    case group
-      when 3,8
-        url = uri(group) + 'order_accepted/'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
+
+
+  # params = { group: , order_id: }
+  def self.order_rejected(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.order_rejected(params)
+    when 2
+      Grupo2Manager.order_rejected(params)
+    when 3
+      Grupo3Manager.order_rejected(params)
+    when 4
+      Grupo4Manager.order_rejected(params)
+    when 5
+      Grupo5Manager.order_rejected(params)
+    when 6
+      Grupo6Manager.order_rejected(params)
+    when 7
+      Grupo7Manager.order_rejected(params)
+    when 8
+      Grupo8Manager.order_rejected(params)
+    end
+  end
+
+
+
+  # params = { group: , order_id: }
+  def self.invoice_created(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.invoice_created(params)
+    when 2
+      Grupo2Manager.invoice_created(params)
+    when 3
+      Grupo3Manager.invoice_created(params)
+    when 4
+      Grupo4Manager.invoice_created(params)
+    when 5
+      Grupo5Manager.invoice_created(params)
+    when 6
+      Grupo6Manager.invoice_created(params)
+    when 7
+      Grupo7Manager.invoice_created(params)
+    when 8
+      Grupo8Manager.invoice_created(params)
+    end
+  end
+
+
+  # params = { group: , order_id: }
+  def self.invoice_paid(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.invoice_paid(params)
+    when 2
+      Grupo2Manager.invoice_paid(params)
+    when 3
+      Grupo3Manager.invoice_paid(params)
+    when 4
+      Grupo4Manager.invoice_paid(params)
+    when 5
+      Grupo5Manager.invoice_paid(params)
+    when 6
+      Grupo6Manager.invoice_paid(params)
+    when 7
+      Grupo7Manager.invoice_paid(params)
+    when 8
+      Grupo8Manager.invoice_paid(params)
+    end
+  end
+
+
+  # params = { group: , order_id: }
+  def self.invoice_rejected(params)
+    case params[:group]
+    when 1
+      Grupo1Manager.invoice_rejected(params)
+    when 2
+      Grupo2Manager.invoice_rejected(params)
+    when 3
+      Grupo3Manager.invoice_rejected(params)
+    when 4
+      Grupo4Manager.invoice_rejected(params)
+    when 5
+      Grupo5Manager.invoice_rejected(params)
+    when 6
+      Grupo6Manager.invoice_rejected(params)
+    when 7
+      Grupo7Manager.invoice_rejected(params)
+    when 8
+      Grupo8Manager.invoice_rejected(params)
     end
   end
 
@@ -34,134 +163,26 @@ class GruposManager
     group = params[:group]
 
     case group
-      when 3,8
-        url = uri(group) + 'get_token/'
-        request_params = {
-          username: username(group),
-          password: password(group)
-        }
-        response = HTTParty.post(url, :body => request_params.to_json , :headers =>{ 'Content-Type' => 'application/json', 'Accept' => 'application/json'})
-        return response.parsed_response["token"]
-      else
-        nil
+      when 1
+        return 'Z3J1cG81Z3J1cG81Z3J1cG81'
+      when 2
+        return '$2a$10$Igddu9rHAEAXbXsPPP785ucuoOaJx58UT64jdc9ZnxIq/c0wNFtCy'
+      when 3
+        return 'c552387c256127ea5c25d94a6204ad61d3c504a5'
+      when 4
+        return '2b783b907e446daa64bbc852cd902648'
+      when 5
+        return ''
+      when 6
+        return '0da70c1afdc0c212cd81f3d5ba613605'
+      when 7
+        return 'f67ecf9cdebc86512cc93a6149eadbc3'
+      when 8
+        return '3d327b3d17b94b18945e2b60ab66eb39'
     end
   end
-
-
-
-  # params = { group: 3, order_id: "123j234oiu" }
-  def self.order_canceled(params)
-    group = params[:group]
-    order_id = params[:order_id]
-
-    case group
-      when 3,8
-        url = uri(group) + 'order_canceled/'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-    end
-  end
-
-  # params = { group: 3, order_id: "123j234oiu" }
-  def self.order_rejected(params)
-    group = params[:group]
-    order_id = params[:order_id]
-
-    case group
-      when 3,8
-        url = uri(group) + 'order_rejected/'
-        request_params = {
-          order_id: order_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-    end
-  end
-
-  # params = { group: 3, invoice_id: "123j234oiu" }
-  def self.invoice_created(params)
-    group = params[:group]
-    invoice_id = params[:invoice_id]
-
-    case group
-      when 3,8
-        url = uri(group) + 'invoice_created/'
-        request_params = {
-          invoice_id: invoice_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-    end
-  end
-
-  # params = { group: 3, invoice_id: "123j234oiu" }
-  def self.invoice_paid(params)
-    group = params[:group]
-    invoice_id = params[:invoice_id]
-
-    case group
-      when 3,8
-        url = uri(group) + 'invoice_paid/'
-        request_params = {
-          invoice_id: invoice_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-    end
-  end
-
-  # params = { group: 3, invoice_id: "123j234oiu" }
-  def self.invoice_rejected(params)
-    group = params[:group]
-    invoice_id = params[:invoice_id]
-
-    case group
-      when 1,2,3,4,5,6,7,8
-        url = uri(group) + 'invoice_rejected/'
-        request_params = {
-          invoice_id: invoice_id
-        }
-        return response = HTTParty.post(url, :body => request_params.to_json , headers: headers(group))
-    end
-  end
-
 
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-
-  def self.uri(group)
-    case group
-      when 3,8
-        'http://integra' + group.to_s + '.ing.puc.cl/b2b/'
-      when 7
-        'http://integra' + group.to_s + '.ing.puc.cl/api/'
-      end
-  end
-
-  def self.headers(group)
-    case group
-    when 1,2,3,4,5,6,7,8
-      response = { 
-        'Content-Type' => 'application/json', 
-        'Accept' => 'application/json',
-        'Authorization' => 'Token ' + get_token(group: group).to_s
-      }
-    end
-
-    return response
-  end
-
-  def self.username(group)
-    case group
-      when 3,8
-        'grupo5'
-    end
-  end
-
-  def self.password(group)
-    case group
-      when 3,8
-        'grupo5grupo5'
-    end
-  end
 
 end

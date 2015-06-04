@@ -62,6 +62,57 @@ class GruposInfo
     
   end
 
+  def self.get_direccion(cliente)
+
+    case cliente
+
+      when "1"
+        return "Mohrenstraße 82, 10117 Berlin, Germany"
+      when "2"
+        return "Denezhnyy per., 9 стр. 1, Moscow, Russia"
+      when "3"
+        return "Rigillis 15, 10674 Atenas"
+      when "4"
+        return "Nº2 Saleh Ayoub Suite 41, Zamalek, Cairo"
+      when "5"
+        return "2290 Yan An West Road. Shanghai"
+      when "6"
+        return "Calle de Lagasca, 89, 29010 Madrid, Spain"
+      when "7"
+        return "10 Culgoa CircuitO'Malley, australia"
+      when "8"
+        return "169 Garsfontein Road,  Delmondo Office Park, Sudafrica"
+      when "9"
+        return "Balvanera Buenos Aires, Argentina"      
+      when "10"
+        return "Alvarez Condarco 740 Las Heras, Mendoza, Argentina"
+      when "11"
+        return "Avda Cristobal Colon 3707 Santiago" 
+      when "12"
+        return "Republica de Chile 504 Jesús María, Peru"
+      when "13"
+        return "Arenal Grande 2193 Montevideo, Uruguay"
+      when "14"
+        return "Anahí, Santa Cruz de la Sierra, Bolivia"
+      when "15"
+        return "Tte. Fariña Nº 166 esq. Yegros"
+      when "16"
+        return "45 CC Monterrey Locales 326 y 327 Carrera 50 # 10, Medellín, Antioquia, Colombia"
+      when "17"
+        return "Av. Sanatorio del Ávila, Edif. Yacambú, Piso 3, Boleita Norte, Caracas, Venezuela."
+      when "18"
+        return "Rua Deputado Lacerda Franco, 553 - Pinheiros São Paulo - SP, Brazil"
+      when "19"
+        return "Laguna de Mayrán 300 Anáhuac, Miguel Hidalgo, Ciudad de México, D.F., Mexico"
+      when "20"
+        return "5641 Dewey St Hollywood, FL, United States"
+      when "21"
+        return "448 S Hill St #712 Los Angeles, CA, United States"
+
+    end
+
+  end
+
 end
 
 

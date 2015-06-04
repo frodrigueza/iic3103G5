@@ -4,12 +4,12 @@ class ApiManager
 
 
 	# ODERS # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    def self.order_cancelled(params)
+    def self.order_canceled(params)
     	if HttpManager.exist_order(params[:order_id])
 	        response = {
 	            status: 200,
 	            content:{
-	                orden_cancelada: HttpManager.get_oc(params[:order_id])
+	                orden_cancelada: HttpManager.get_oc(id_oc: params[:order_id])
 	            }
 	        }
 	    else
@@ -30,7 +30,7 @@ class ApiManager
 	            status: 200,
 	            content:{
 	            	respuesta: "Muchas gracias",
-	                orden_aceptada: HttpManager.get_oc(params[:order_id])
+	                orden_aceptada: HttpManager.get_oc(id_oc: params[:order_id])
 	            }
 	        }
 	    else
@@ -51,7 +51,7 @@ class ApiManager
 	            status: 200,
 	            content:{
 	            	respuesta: "Muchas gracias",
-	                orden_rechazada: HttpManager.get_oc(params[:order_id])
+	                orden_rechazada: HttpManager.get_oc(id_oc: params[:order_id])
 	            }
 	        }
 	    

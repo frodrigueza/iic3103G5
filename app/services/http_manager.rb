@@ -48,7 +48,8 @@ class HttpManager
 
 	end
 
-	def self.get_oc(id_oc)
+	def self.get_oc(body)
+		id_oc = body[:id_oc]
 
 		url = @@uri + 'atenea/obtener/' + id_oc.to_s
 
@@ -60,7 +61,7 @@ class HttpManager
 
     # boolean para ver si una orden existe
     def self.exist_order(id_oc)
-		response = get_oc(id_oc)
+		response = get_oc(id_oc: id_oc)
 		if response[:_id]
 			true
 		else
@@ -141,7 +142,7 @@ class HttpManager
 
 	end
 
-	def self.transferir(body)
+	def self.transferir(body)#probado
 
 		url = @@uri + 'apolo/trx/'
 
@@ -149,7 +150,7 @@ class HttpManager
 			:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]},
 			:headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
@@ -349,11 +350,12 @@ class HttpManager
 
 	def self.test
 		puts "hola"
-		body = { :id_p => '556489e7efb3d7030091beca',
-				 :id_a => '556489e7efb3d7030091bdce',
+		body = { :monto => '2',
+				 :origen => '55648ad3f89fed0300524ffd',
+				 :destino => '55648ad3f89fed0300524ffd'
 				}
 
-		hash = obtener_cuenta("55648ad3f89fed0300524ffd")
+		hash = transferir(body)
 	end
 
 end
