@@ -23,6 +23,6 @@ every 5.minutes do
   runner "PedidoManager.check_pedidos"
 end
 
-every 1.minutes do
+every 3.minutes do
   runner "SftpService.read_new_orders"
 end

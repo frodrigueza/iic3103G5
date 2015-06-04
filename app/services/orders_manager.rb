@@ -11,7 +11,6 @@ class OrdersManager
 	    end
 
 	    pedido = create_order_db(oc)
-        PedidoManager.check_pedidos
 
 	    return answer
 	end
