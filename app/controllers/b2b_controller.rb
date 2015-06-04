@@ -1,5 +1,5 @@
 class B2bController < ApplicationController
-	before_action :check_token, except: [:new_user, :documentation, :ask_for_token]
+	before_action :check_token, except: [:new_user, :documentation, :get_token]
 	before_action :check_order_id, only:[:order_accepted, :order_canceled, :order_rejected, :new_order]
 	before_action :check_invoice_id, only:[:invoice_created, :invoice_paid, :invoice_rejected]
 
