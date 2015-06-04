@@ -5,7 +5,7 @@ class GruposManager
     order_id = params[:order_id]
 
     case group
-      when 1,2,3,4,5,6,7,8,9
+      when 3,8
         url = uri(group) + 'new_order/'
         request_params = {
           order_id: order_id
@@ -21,7 +21,7 @@ class GruposManager
     order_id = params[:order_id]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'order_accepted/'
         request_params = {
           order_id: order_id
@@ -34,7 +34,7 @@ class GruposManager
     group = params[:group]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'get_token/'
         request_params = {
           username: username(group),
@@ -55,7 +55,7 @@ class GruposManager
     order_id = params[:order_id]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'order_canceled/'
         request_params = {
           order_id: order_id
@@ -70,7 +70,7 @@ class GruposManager
     order_id = params[:order_id]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'order_rejected/'
         request_params = {
           order_id: order_id
@@ -85,7 +85,7 @@ class GruposManager
     invoice_id = params[:invoice_id]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'invoice_created/'
         request_params = {
           invoice_id: invoice_id
@@ -100,7 +100,7 @@ class GruposManager
     invoice_id = params[:invoice_id]
 
     case group
-      when 1,2,3,4,5,6,7,8
+      when 3,8
         url = uri(group) + 'invoice_paid/'
         request_params = {
           invoice_id: invoice_id
@@ -130,7 +130,7 @@ class GruposManager
 
   def self.uri(group)
     case group
-      when 3, 8
+      when 3,8
         'http://integra' + group.to_s + '.ing.puc.cl/b2b/'
       when 7
         'http://integra' + group.to_s + '.ing.puc.cl/api/'
@@ -152,15 +152,15 @@ class GruposManager
 
   def self.username(group)
     case group
-      when 3
-        'grupo3'
+      when 3,8
+        'grupo5'
     end
   end
 
   def self.password(group)
     case group
-      when 3
-        'grupo3grupo3'
+      when 3,8
+        'grupo5grupo5'
     end
   end
 
