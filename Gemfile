@@ -43,7 +43,7 @@ gem 'whenever'
 
 gem 'devise'
 #gema para enciptacion (documentacion en http://ruby-doc.org/stdlib-2.0/libdoc/openssl/rdoc/OpenSSL.html)
-gem 'openssl'
+#gem 'openssl'
 
 #gema para tener output en base 64 (documentacion http://www.rubydoc.info/gems/rubysl-base64/2.0.0/Base64)
 gem 'rubysl-base64'
