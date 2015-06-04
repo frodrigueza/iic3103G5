@@ -56,7 +56,7 @@ class HttpManager
 	end
 
 	def self.get_oc(body)
-		id_oc = body[:order_id]
+		id_oc = body[:id_oc]
 
 		if id_oc == "" or not id_oc
 			id_oc = "EMPTY"
@@ -72,7 +72,7 @@ class HttpManager
 
     # boolean para ver si una orden existe
     def self.exist_order(id_oc)
-		response = get_oc(id_oc)
+		response = get_oc(id_oc: id_oc)
 		if response[:_id]
 			true
 		else
