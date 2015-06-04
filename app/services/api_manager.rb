@@ -9,7 +9,8 @@ class ApiManager
 	        response = {
 	            status: 200,
 	            content:{
-	                orden_cancelada: HttpManager.get_oc(id_oc: params[:order_id])
+	            	respuesta: 'Muchas gracias',
+	                orden_cancelada: HttpManager.get_oc(params[:order_id])
 	            }
 	        }
 	    else
@@ -30,7 +31,7 @@ class ApiManager
 	            status: 200,
 	            content:{
 	            	respuesta: "Muchas gracias",
-	                orden_aceptada: HttpManager.get_oc(id_oc: params[:order_id])
+	                orden_aceptada: HttpManager.get_oc(params[:order_id])
 	            }
 	        }
 	    else
@@ -51,10 +52,10 @@ class ApiManager
 	            status: 200,
 	            content:{
 	            	respuesta: "Muchas gracias",
-	                orden_rechazada: HttpManager.get_oc(id_oc: params[:order_id])
+	                orden_rechazada: HttpManager.get_oc(params[:order_id])
 	            }
 	        }
-	    
+	    else
 	    	response = {
 	    		status: 400,
 	    		content: {
@@ -70,7 +71,7 @@ class ApiManager
     def self.invoice_created(params)
     	if HttpManager.exist_invoice(params[:invoice_id])
 
-    		bool_factura_recibida = HttpManager.recibir_factura(params[:invoice_id])
+    		bool_factura_recibida = FacturaManager.recibir_factura(params[:invoice_id])
 
     		if bool_factura_recibida != 'Esta siendo procesada'
     			response = {
@@ -105,7 +106,7 @@ class ApiManager
     end
 
     def self.invoice_paid(params)
-    	
+   	
     	factura_pagada = HttpManager.obtener_factura(params[:invoice_id])
 
     	if HttpManager.exist_invoice(params[:invoice_id]) && factura_pagada[:estado] == 'pagada'
@@ -116,7 +117,7 @@ class ApiManager
 	                factura_pagada: HttpManager.obtener_factura(params[:invoice_id])
 	            }
 	        }
-	    elsif HttpManager.exist_invoice(params[:invoice_id]) && factura_pagada[:estado] != 'pagada'
+	    elsif HttpManager.exist_invoice(params[:invoice_id]) 
 	    	response = {
 	    		status: 200,
 	    		content: {

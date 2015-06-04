@@ -124,7 +124,38 @@ class BodegaManager
 
   
 
+<<<<<<< HEAD
   
+=======
+    end
+
+
+  end
+
+  def self.get_recepcion_id(grupo)
+
+    case grupo
+
+      when "1"
+        return "55648ae6f89fed030052500d"
+      when "2"
+        return "55648ae6f89fed0300525061"
+      when "3"
+        return "55648ae7f89fed030052512f"
+      when "4"
+        return "55648ae6f89fed03005251d0"
+      when "6"
+        return "55648ae7f89fed0300525293"
+      when "7"
+        return "55648ae7f89fed0300525369"
+      when "8"
+        return "55648ae7f89fed0300525420"
+      
+    end
+    #TODO: Cambiar con paso a produccion
+    
+  end
+>>>>>>> 4126d37ad0b182effd7903fa81f7ea36036527e5
 
   def self.despachar(pedido)
     
