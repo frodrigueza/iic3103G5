@@ -1,6 +1,8 @@
 class HttpManager
 
-	@@uri = 'http://chiri.ing.puc.cl'
+	#@@uri = 'http://chiri.ing.puc.cl:8080/grupo5/webresources/'
+	@@uri = 'http://chiri.ing.puc.cl/'
+
 
 	@@auth_header = 'INTEGRACION grupo5:' 
 
