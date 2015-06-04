@@ -143,13 +143,13 @@ class BodegaManager
       when "8"
         return "169 Garsfontein Road,  Delmondo Office Park, Sudafrica"
       when "9"
-        return "Balvanera\nBuenos Aires, Argentina"      
+        return "Balvanera Buenos Aires, Argentina"      
       when "10"
-        return "Alvarez Condarco 740\nLas Heras, Mendoza, Argentina"
+        return "Alvarez Condarco 740 Las Heras, Mendoza, Argentina"
       when "11"
-        return "Avda Cristobal Colon 3707\nSantiago" 
+        return "Avda Cristobal Colon 3707 Santiago" 
       when "12"
-
+        return 
       when "13"
       when "14"
       when "15"
@@ -204,17 +204,17 @@ class BodegaManager
         productosEnDespacho.each do |producto|
 
           id_producto = producto[:_id].to_s
-          precio = producto[:precio].to_s
-
+          precio = 1
 
 
           #puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
 
           body = {:id_p => id_producto, :direccion => direccion, :precio => precio, :orden_de_compra_id => id_ordenCompra.to_s}
           
-          prodMovido = HttpManager.despachar_stock(body)
+          prodDespachado = HttpManager.despachar_stock(body)
+          puts prodDespachado
 
-          puts prodMovido.to_s
+
 
 
           i+=1
