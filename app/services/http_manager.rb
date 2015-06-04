@@ -1,6 +1,6 @@
 class HttpManager
 
-	@@uri = 'http://chiri.ing.puc.cl:8080/grupo5/webresources/'
+	@@uri = 'http://chiri.ing.puc.cl'
 
 	@@auth_header = 'INTEGRACION grupo5:' 
 
@@ -288,7 +288,7 @@ class HttpManager
 		header = @@auth_header + hash
 
 		response = HTTParty.delete(url, 
-			:query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :ordenDeCompraId => body[:orden_de_compra_id]}, 
+			:query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}, 
 			:body => {}.to_json,
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
@@ -300,7 +300,7 @@ class HttpManager
 		# 	aux.push sku.symbolize_keys
 		# end
 
-		order_hash = JSON.parse(response.body)[0].symbolize_keys
+		order_hash = JSON.parse(response.body).symbolize_keys
 
 	end
 
