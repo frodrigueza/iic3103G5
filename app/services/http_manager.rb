@@ -283,14 +283,17 @@ class HttpManager
 
 		url = @@url_bodega + 'stock'
 
-		hash = BodegaHash.crear_hash('DELETE' + body[:id_p].to_s  + body[:direccion].to_s + body[:precio] + body[:orden_de_compra_id])
+		hash = BodegaHash.crear_hash('DELETE' + body[:id_p].to_s  + body[:direccion].to_s + body[:precio].to_s + body[:orden_de_compra_id].to_s)
 
 		header = @@auth_header + hash
 
-		response = HTTParty.delete(url, 
-			:query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}, 
-			:body => {}.to_json,
-			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
+		response = HTTParty.delete(url,
+			:body => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}.to_json, 
+			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' }) 
+
+			# :query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}, 
+			# :body => {}.to_json,
+			# :headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
 
 		# response_json = JSON.parse(response.body)

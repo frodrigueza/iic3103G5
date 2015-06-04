@@ -149,16 +149,25 @@ class BodegaManager
       when "11"
         return "Avda Cristobal Colon 3707 Santiago" 
       when "12"
-        return 
+        return "Republica de Chile 504 Jesús María, Peru"
       when "13"
+        return "Arenal Grande 2193 Montevideo, Uruguay"
       when "14"
+        return "Anahí, Santa Cruz de la Sierra, Bolivia"
       when "15"
+        return "Tte. Fariña Nº 166 esq. Yegros"
       when "16"
+        return "45 CC Monterrey Locales 326 y 327 Carrera 50 # 10, Medellín, Antioquia, Colombia"
       when "17"
+        return "Av. Sanatorio del Ávila, Edif. Yacambú, Piso 3, Boleita Norte, Caracas, Venezuela."
       when "18"
+        return "Rua Deputado Lacerda Franco, 553 - Pinheiros São Paulo - SP, Brazil"
       when "19"
+        return "Laguna de Mayrán 300 Anáhuac, Miguel Hidalgo, Ciudad de México, D.F., Mexico"
       when "20"
+        return "5641 Dewey St Hollywood, FL, United States"
       when "21"
+        return "448 S Hill St #712 Los Angeles, CA, United States"
 
     end
 
@@ -192,7 +201,8 @@ class BodegaManager
 
     elsif pedido[:canal] == 'ftp'
 
-      cantidad = pedido[:cantidad]
+      cantidad = pedido[:cantidad].to_i
+
 
       body = {:id_a => GroupInfo.almacen_despacho, :sku => sku_pedido}
       productosEnDespacho = HttpManager.get_stock(body)
@@ -200,6 +210,7 @@ class BodegaManager
       if productosEnDespacho != nil
 
         i=0
+        nDespachados=0
 
         productosEnDespacho.each do |producto|
 
@@ -207,21 +218,33 @@ class BodegaManager
           precio = 1
 
 
-          #puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
+          puts "Despachando: " + id_producto + "\nPrecio=" + precio.to_s + "\nDireccion: " + direccion + "\nId de OC: " + id_ordenCompra
 
           body = {:id_p => id_producto, :direccion => direccion, :precio => precio, :orden_de_compra_id => id_ordenCompra.to_s}
           
           prodDespachado = HttpManager.despachar_stock(body)
           puts prodDespachado
 
-
+          if prodDespachado[:despachado] == true
+            puts "PRODUCTO DESPACHADO!!!!11111111111111111eee"
+            nDespachados+=1
+          end
 
 
           i+=1
 
-          if i==cantidad
+          if i == cantidad
+            if(nDespachados==cantidad)
+              #pedido[:despachado]=true
+              puts "Se despacharon todos"
+              
+            else
+              puts "No se despacharon todos"
+
+            end
+
             
-            break
+            return;
           end
         end
 
