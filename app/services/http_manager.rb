@@ -57,6 +57,10 @@ class HttpManager
 
 	def self.get_oc(id_oc)
 
+		if id_oc == "" or not id_oc
+			id_oc = "EMPTY"
+		end
+
 		url = @@uri + 'atenea/obtener/' + id_oc.to_s
 
 	    response = HTTParty.get(url)
