@@ -1,6 +1,5 @@
 class GruposInfo
-
-	produccion = 
+ 
 
 	def self.get_cuenta_id(group_id)
 		case group_id
