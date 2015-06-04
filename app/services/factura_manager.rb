@@ -4,6 +4,7 @@ class FacturaManager
     #crear factura
     factura = HttpManager.emitir_factura(pedido[:oc_id])
     GruposManager.invoice_created(grupo: pedido[:cliente], invoice_id: factura[:_id])
+    return factura
   end
 
   def self.recibir_factura(id_factura)
