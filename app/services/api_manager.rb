@@ -68,16 +68,16 @@ class ApiManager
 
     # INVOICES # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     def self.invoice_created(params)
-    	if HttpManager.exist_invoice(params[:invoice_id])
+    	if HttpManager.exist_invoice(params)
 
-    		bool_factura_recibida = HttpManager.recibir_factura(params[:invoice_id])
+    		bool_factura_recibida = HttpManager.recibir_factura(invoice_id: params[:invoice_id])
 
     		if bool_factura_recibida != 'Esta siendo procesada'
     			response = {
 		            status: 200,
 		            content:{
 		            	respuesta: bool_factura_recibida,
-		                factura_creada: HttpManager.obtener_factura(params[:invoice_id])
+		                factura_creada: HttpManager.obtener_factura(invoice_id: params[:invoice_id])
 		            }
 	        	}
 	        elsif 
@@ -85,7 +85,7 @@ class ApiManager
 		            status: 200,
 		            content:{
 		            	respuesta: "Muchas gracias su factura esta pendiente por pagar ",
-		                factura_creada: HttpManager.obtener_factura(params[:invoice_id])
+		                factura_creada: HttpManager.obtener_factura(invoice_id: params[:invoice_id])
 		            }
 	        	}
 

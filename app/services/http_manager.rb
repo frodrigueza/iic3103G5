@@ -70,8 +70,8 @@ class HttpManager
     end
 
     # boolean para ver si una orden existe
-    def self.exist_invoice(invoice_id)
-		response = obtener_factura(invoice_id)
+    def self.exist_invoice(params)
+		response = obtener_factura(params)
 		if response[:_id]
 			true
 		else
@@ -102,7 +102,9 @@ class HttpManager
 	end
 
 
-	def self.obtener_factura(id_f)
+	def self.obtener_factura(body)
+
+		id_f = body[:invoice_id]
 
 		url = @@uri + 'zeuz/' + id_f.to_s
 
@@ -112,7 +114,9 @@ class HttpManager
 
 	end
 
-	def self.pagar_factura(id_f)
+	def self.pagar_factura(body)
+
+		id_f = body[:invoice_id]
 
 		url = @@uri + 'zeuz/pay/'
 
