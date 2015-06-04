@@ -203,7 +203,7 @@ class BodegaManager
 
       cantidad = pedido[:cantidad].to_i
 
-      cantidad=cantidad-36
+      cantidad=cantidad
 
       body = {:id_a => GroupInfo.almacen_despacho, :sku => sku_pedido}
       productosEnDespacho = HttpManager.get_stock(body)
