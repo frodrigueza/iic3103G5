@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   namespace :orders do
     get 'obtain_order'
     get 'show_order'
+    get 'check_pedidos'
+    get 'check_ftp'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
