@@ -226,7 +226,7 @@ class BodegaManager
           puts prodDespachado
 
           if prodDespachado[:despachado] == true
-            puts "PRODUCTO DESPACHADO!!!!11111111111111111eee"
+            #puts "PRODUCTO DESPACHADO"
             nDespachados+=1
           end
 
