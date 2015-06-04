@@ -10,10 +10,19 @@
 					<b>Seguridad</b>
 				</p>
 				<p>
-					Todos las llamadas a la API deben llevar un header llamado <code>Authentication Token #token</code>, donde #token = token_de_tu_grupo
+					Todos las llamadas a la API deben llevar el siguiente header:
+					<br>
+					<code>Authentication Token #token</code> (excepto en <code>new_user, get_token</code>)
+					<br>
+					<code>Content-Type: application/json</code>
+					<br>
+					<code>Accept: application/json</code>
 				</p>
 				<p>
 					Este token se puede obtener llamando al método <code>get_token</code> explicado más abajo.
+				</p>
+				<p>
+
 				</p>
 			</div>
 		</div>	
