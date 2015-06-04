@@ -10,6 +10,8 @@ sudo nano /etc/nginx/sites-available/integra.conf
 sudo ln -sf /etc/nginx/sites-available/integra.conf /etc/nginx/sites-enabled/integra.conf
 
 M8yF.3@Pd
+ruby-build 2.1.2-p95 ~/.rbenv/versions/1.9.2-p290 --with-openssl-dir=/usr/local
+
 
 
 
