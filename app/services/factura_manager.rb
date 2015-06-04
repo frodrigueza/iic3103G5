@@ -34,6 +34,7 @@ class FacturaManager
       GruposManager.invoice_pagada(factura_recibida[:cliente] , factura_pagada[:_id])
       LogManager.new_log(pedido, "Factura " + factura_pagada[:_id] + " de la orden de compra " + factura_recibida[:oc] + " ha sido pagada. Transferencia: " + transferencia[:_id])
       return "Factura pagada. Recibirán notificación vía API"
+    end
 
     return 'Esta siendo procesada'
   end
