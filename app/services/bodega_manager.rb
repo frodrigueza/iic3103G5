@@ -179,19 +179,19 @@ class BodegaManager
     case grupo
 
       when "1"
-        return "556489e6efb3d7030091bac2"
+        return "55648ae6f89fed030052500d"
       when "2"
-        return "556489e7efb3d7030091bb7d"
+        return "55648ae6f89fed0300525061"
       when "3"
-        return "556489e7efb3d7030091bc67"
+        return "55648ae7f89fed030052512f"
       when "4"
-        return "556489e7efb3d7030091bd07"
+        return "55648ae6f89fed03005251d0"
       when "6"
-        return "556489e7efb3d7030091bf2b"
+        return "55648ae7f89fed0300525293"
       when "7"
-        return "556489e7efb3d7030091bf6f"
+        return "55648ae7f89fed0300525369"
       when "8"
-        return "556489e7efb3d7030091bf89"
+        return "55648ae7f89fed0300525420"
       
     end
     #TODO: Cambiar con paso a produccion
