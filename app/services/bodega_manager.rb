@@ -159,6 +159,7 @@ class BodegaManager
           if i>=cantidad
             puts "Despachado"
             pedido[:despachado]=true
+            pedido.save
             return
           end
 

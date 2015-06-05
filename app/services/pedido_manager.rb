@@ -36,6 +36,7 @@ class PedidoManager
             end
         end
       pedido[:solicitado] = true
+      pedido.save
       # end foreach
       end
 
