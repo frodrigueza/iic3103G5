@@ -3,42 +3,42 @@ class GruposManager
   def self.new_order(params)
     case params[:group]
     when 1
-      Grupo1Manager.new_order(params)
+      GrupoUnoManager.new_order(params)
     when 2
-      Grupo2Manager.new_order(params)
+      GrupoDosManager.new_order(params)
     when 3
-      Grupo3Manager.new_order(params)
+      GrupoTresManager.new_order(params)
     when 4
-      Grupo4Manager.new_order(params)
+      GrupoCuatroManager.new_order(params)
     when 5
       Grupo5Manager.new_order(params)
     when 6
-      Grupo6Manager.new_order(params)
+      GrupoSeisManager.new_order(params)
     when 7
-      Grupo7Manager.new_order(params)
+      GrupoSieteManager.new_order(params)
     when 8
-      Grupo8Manager.new_order(params)
+      GrupoOchoManager.new_order(params)
     end
   end
   # params = { group: , order_id: }
   def self.order_accepted(params)
     case params[:group]
     when 1
-      Grupo1Manager.order_accepted(params)
+      GrupoUnoManager.order_accepted(params)
     when 2
-      Grupo2Manager.order_accepted(params)
+      GrupoDosManager.order_accepted(params)
     when 3
-      Grupo3Manager.order_accepted(params)
+      GrupoTresManager.order_accepted(params)
     when 4
-      Grupo4Manager.order_accepted(params)
+      GrupoCuatroManager.order_accepted(params)
     when 5
       Grupo5Manager.order_accepted(params)
     when 6
-      Grupo6Manager.order_accepted(params)
+      GrupoSeisManager.order_accepted(params)
     when 7
-      Grupo7Manager.order_accepted(params)
+      GrupoSieteManager.order_accepted(params)
     when 8
-      Grupo8Manager.order_accepted(params)
+      GrupoOchoManager.order_accepted(params)
     end
   end
 
@@ -47,21 +47,21 @@ class GruposManager
   def self.order_canceled(params)
     case params[:group]
     when 1
-      Grupo1Manager.order_canceled(params)
+      GrupoUnoManager.order_canceled(params)
     when 2
-      Grupo2Manager.order_canceled(params)
+      GrupoDosManager.order_canceled(params)
     when 3
-      Grupo3Manager.order_canceled(params)
+      GrupoTresManager.order_canceled(params)
     when 4
-      Grupo4Manager.order_canceled(params)
+      GrupoCuatroManager.order_canceled(params)
     when 5
       Grupo5Manager.order_canceled(params)
     when 6
-      Grupo6Manager.order_canceled(params)
+      GrupoSeisManager.order_canceled(params)
     when 7
-      Grupo7Manager.order_canceled(params)
+      GrupoSieteManager.order_canceled(params)
     when 8
-      Grupo8Manager.order_canceled(params)
+      GrupoOchoManager.order_canceled(params)
     end
   end
 
@@ -71,21 +71,21 @@ class GruposManager
   def self.order_rejected(params)
     case params[:group]
     when 1
-      Grupo1Manager.order_rejected(params)
+      GrupoUnoManager.order_rejected(params)
     when 2
-      Grupo2Manager.order_rejected(params)
+      GrupoDosManager.order_rejected(params)
     when 3
-      Grupo3Manager.order_rejected(params)
+      GrupoTresManager.order_rejected(params)
     when 4
-      Grupo4Manager.order_rejected(params)
+      GrupoCuatroManager.order_rejected(params)
     when 5
       Grupo5Manager.order_rejected(params)
     when 6
-      Grupo6Manager.order_rejected(params)
+      GrupoSeisManager.order_rejected(params)
     when 7
-      Grupo7Manager.order_rejected(params)
+      GrupoSieteManager.order_rejected(params)
     when 8
-      Grupo8Manager.order_rejected(params)
+      GrupoOchoManager.order_rejected(params)
     end
   end
 
@@ -95,21 +95,21 @@ class GruposManager
   def self.invoice_created(params)
     case params[:group]
     when 1
-      Grupo1Manager.invoice_created(params)
+      GrupoUnoManager.invoice_created(params)
     when 2
-      Grupo2Manager.invoice_created(params)
+      GrupoDosManager.invoice_created(params)
     when 3
-      Grupo3Manager.invoice_created(params)
+      GrupoTresManager.invoice_created(params)
     when 4
-      Grupo4Manager.invoice_created(params)
+      GrupoCuatroManager.invoice_created(params)
     when 5
       Grupo5Manager.invoice_created(params)
     when 6
-      Grupo6Manager.invoice_created(params)
+      GrupoSeisManager.invoice_created(params)
     when 7
-      Grupo7Manager.invoice_created(params)
+      GrupoSieteManager.invoice_created(params)
     when 8
-      Grupo8Manager.invoice_created(params)
+      GrupoOchoManager.invoice_created(params)
     end
   end
 
@@ -118,21 +118,21 @@ class GruposManager
   def self.invoice_paid(params)
     case params[:group]
     when 1
-      Grupo1Manager.invoice_paid(params)
+      GrupoUnoManager.invoice_paid(params)
     when 2
-      Grupo2Manager.invoice_paid(params)
+      GrupoDosManager.invoice_paid(params)
     when 3
-      Grupo3Manager.invoice_paid(params)
+      GrupoTresManager.invoice_paid(params)
     when 4
-      Grupo4Manager.invoice_paid(params)
+      GrupoCuatroManager.invoice_paid(params)
     when 5
       Grupo5Manager.invoice_paid(params)
     when 6
-      Grupo6Manager.invoice_paid(params)
+      GrupoSeisManager.invoice_paid(params)
     when 7
-      Grupo7Manager.invoice_paid(params)
+      GrupoSieteManager.invoice_paid(params)
     when 8
-      Grupo8Manager.invoice_paid(params)
+      GrupoOchoManager.invoice_paid(params)
     end
   end
 
@@ -141,21 +141,21 @@ class GruposManager
   def self.invoice_rejected(params)
     case params[:group]
     when 1
-      Grupo1Manager.invoice_rejected(params)
+      GrupoUnoManager.invoice_rejected(params)
     when 2
-      Grupo2Manager.invoice_rejected(params)
+      GrupoDosManager.invoice_rejected(params)
     when 3
-      Grupo3Manager.invoice_rejected(params)
+      GrupoTresManager.invoice_rejected(params)
     when 4
-      Grupo4Manager.invoice_rejected(params)
+      GrupoCuatroManager.invoice_rejected(params)
     when 5
       Grupo5Manager.invoice_rejected(params)
     when 6
-      Grupo6Manager.invoice_rejected(params)
+      GrupoSeisManager.invoice_rejected(params)
     when 7
-      Grupo7Manager.invoice_rejected(params)
+      GrupoSieteManager.invoice_rejected(params)
     when 8
-      Grupo8Manager.invoice_rejected(params)
+      GrupoOchoManager.invoice_rejected(params)
     end
   end
 
@@ -178,7 +178,7 @@ class GruposManager
       when 7
         return 'f67ecf9cdebc86512cc93a6149eadbc3'
       when 8
-        return '3d327b3d17b94b18945e2b60ab66eb39'
+        return GrupoOchoManager.token
     end
   end
 
