@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     get 'show_order'
     get 'check_pedidos'
     get 'check_ftp'
+    get 'clear_pedidos'
+    get 'clear_logs'
+    get 'clear_insumos'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

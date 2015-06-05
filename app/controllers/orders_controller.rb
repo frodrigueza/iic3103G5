@@ -37,4 +37,19 @@ class OrdersController < ApplicationController
     render 'home/index'
   end
 
+  def clear_pedidos
+    Pedido.delete_all
+    render 'home/index'
+  end
+
+  def clear_insumos
+    Insumo.delete_all
+    render 'home/index'
+  end
+
+  def clear_logs
+    Log.delete_all
+    render 'home/index'
+  end
+
 end
