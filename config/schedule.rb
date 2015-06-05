@@ -19,10 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 5.minutes do
-  runner "PedidoManager.check_pedidos"
+every 10.minutes do
+  runner "PedidoManager.check_pedidos", :output => 'tmp/check_pedidos.log'
 end
 
-every 3.minutes do
-  runner "SftpService.read_new_orders"
+every 20.minutes do
+  runner "SftpService.read_new_orders", :output => 'tmp/read_new_orders.log'
 end

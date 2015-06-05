@@ -11,6 +11,7 @@ class OrdersManager
 	    end
 
 	    pedido = create_order_db(oc)
+        LogManager.new_log(pedido , "Orden de Compra recepcionada correctamente") if pedido
 
 	    return answer
 	end

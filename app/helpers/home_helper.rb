@@ -15,6 +15,7 @@ module HomeHelper
 	end
 
 	def f_value(val)
+		val = val.to_s
 		if val.include?('T') && val.include?('Z')
 			val = val.to_time.strftime("%v - %R")
 		elsif val == ("[]")

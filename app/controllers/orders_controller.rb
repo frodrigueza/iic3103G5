@@ -27,4 +27,14 @@ class OrdersController < ApplicationController
 
   end
 
+  def check_pedidos
+    PedidoManager.check_pedidos
+    render 'home/index'
+  end
+
+  def check_ftp
+    SftpService.read_new_orders
+    render 'home/index'
+  end
+
 end

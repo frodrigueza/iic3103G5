@@ -8,8 +8,12 @@ class HttpManager
 
 	def self.parse_body(response)
 		order_hash = JSON.parse(response.body)
-		order_hash = order_hash[0] ? order_hash[0] : order_hash
-		order_hash = order_hash.symbolize_keys
+		if order_hash.any?
+			order_hash = order_hash[0] ? order_hash[0] : order_hash
+			order_hash = order_hash.symbolize_keys
+			return order_hash
+		end
+		return {}
 	end
 
 	def self.crear_oc(body)
