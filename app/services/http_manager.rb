@@ -43,7 +43,7 @@ class HttpManager
 
 		url = @@uri + 'atenea/rechazar/' + body[:id_oc].to_s
 
-		response = HTTParty.post(url , :body => {:motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , :body => {:rechazo => body[:rechazo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
 		order_hash = parse_body(response)
 
@@ -330,12 +330,12 @@ class HttpManager
 
 		url = @@url_bodega + 'fabrica/fabricar'
 
-		hash = BodegaHash.crear_hash('PUT' + body[:sku].to_s + body[:cantidad] + body[:trx_id].to_s )
+		hash = BodegaHash.crear_hash('PUT' + body[:sku].to_s + body[:cantidad].to_s + body[:trx_id].to_s )
 
 		header = @@auth_header + hash
 
 		response = HTTParty.put(url, 
-			:body => {:sku => body[:sku].to_s, :cantidad => body[:cantidad], :trxId => body[:trx_id].to_s}.to_s, 
+			:body => {:sku => body[:sku].to_s, :cantidad => body[:cantidad].to_s, :trxId => body[:trx_id].to_s}.to_json, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
 

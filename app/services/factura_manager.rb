@@ -3,7 +3,7 @@ class FacturaManager
   def self.emitir_factura(pedido)
     #crear factura
     factura = HttpManager.emitir_factura(pedido[:oc_id])
-    GruposManager.invoice_created(grupo: pedido[:cliente], invoice_id: factura[:_id])
+    GruposManager.invoice_created(group: pedido[:cliente], invoice_id: factura[:_id])
     return factura
   end
 
@@ -18,7 +18,7 @@ class FacturaManager
 
       ## Notificar rechazada
 
-      GruposManager.invoice_rejected(factura_rechazada[:cliente] , factura_rechazada[:_id])
+      GruposManager.invoice_rejected(group: factura_rechazada[:cliente] , invoice_id: factura_rechazada[:_id])
 
       return 'Proveedor Erroneo'
     end
@@ -31,7 +31,7 @@ class FacturaManager
       factura_pagada = HttpManager.pagar_factura(factura_recibida[:_id])
       trx = {:monto => factura_pagada[:total] , :origen => GroupInfo.cuenta_banco, :destino => GruposInfo.get_cuenta_id(factura_pagada[:proveedor])}
       transferencia  = HttpManager.transferir(trx)
-      GruposManager.invoice_pagada(factura_recibida[:cliente] , factura_pagada[:_id])
+      GruposManager.invoice_paid(group: factura_recibida[:cliente] , invoice_id: factura_pagada[:_id])
       LogManager.new_log(pedido, "Factura " + factura_pagada[:_id] + " de la orden de compra " + factura_recibida[:oc] + " ha sido pagada. Transferencia: " + transferencia[:_id])
       return "Factura pagada. Recibirán notificación vía API"
     end

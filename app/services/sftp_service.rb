@@ -20,10 +20,7 @@ class SftpService
 		end
 		orders.each do |order|
 			order = order.symbolize_keys
-			order[:fechaEntrega] = DateTime.strptime(order[:fechaEntrega], '%m.%d.%Y')
-			order[:_id] = order[:oc]
-			pedido = OrdersManager.create_order_db(order)
-			LogManager.new_log(pedido , "Orden de Compra recepcionada correctamente") if pedido
+			OrdersManager.manage_order(order[:oc])
 		end
 	return orders.length
 	end

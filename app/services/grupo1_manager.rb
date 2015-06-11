@@ -1,4 +1,4 @@
-class GrupoUnoManager
+class Grupo1Manager
   # params = { group: , order_id: }
   def self.new_order(params)
     order_id = params[:order_id]
@@ -48,7 +48,7 @@ class GrupoUnoManager
   end
 
 
-  # params = { group: 3, order_id: "123j234oiu" }
+  # params = { group: 3, invoice_id: "123j234oiu" }
   def self.invoice_created(params)
     invoice_id = params[:invoice_id]
     url = uri + 'new_invoice/'
@@ -60,7 +60,7 @@ class GrupoUnoManager
   end
 
 
-  # params = { group: 3, order_id: "123j234oiu" }
+  # params = { group: 3, invoice_id: "123j234oiu" }
   def self.invoice_rejected(params)
     invoice_id = params[:invoice_id]
     url = uri + 'invoice_rejected/'
@@ -72,7 +72,7 @@ class GrupoUnoManager
   end
 
 
-  # params = { group: 3, order_id: "123j234oiu" }
+  # params = { group: 3, invoice_id: "123j234oiu" }
   def self.invoice_paid(params)
     invoice_id = params[:invoice_id]
     url = uri + 'invoice_paid/'
@@ -85,7 +85,7 @@ class GrupoUnoManager
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-  def uri
+  def self.uri
     'http://integra1.ing.puc.cl/api/'
   end
 

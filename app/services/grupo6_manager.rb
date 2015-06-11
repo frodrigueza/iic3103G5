@@ -1,4 +1,4 @@
-class GrupoTresManager
+class Grupo6Manager
   # params = { group: , order_id: }
   def self.new_order(params)
     order_id = params[:order_id]
@@ -77,22 +77,22 @@ class GrupoTresManager
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-  def uri
-    'http://integra3.ing.puc.cl/b2b/'
+  def self.uri
+    'http://integra6.ing.puc.cl/b2b/'
   end
 
   def self.headers
 	  response = { 
 	    'Content-Type' => 'application/json', 
 	    'Accept' => 'application/json',
-	    'Authorization' => 'Token ' + token
+	    'Authorization' => 'Token token=' + token
 	  }
 
     return response
   end
 
   def self.token
-  	GruposManager.get_token(3)
+  	GruposManager.get_token(6)
   end
 
 end

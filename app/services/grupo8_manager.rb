@@ -1,4 +1,4 @@
-class GrupoOchoManager
+class Grupo8Manager
   # params = { group: , order_id: }
   def self.new_order(params)
     order_id = params[:order_id]

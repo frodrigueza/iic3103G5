@@ -1,4 +1,4 @@
-class GrupoCuatroManager
+class Grupo4Manager
   # params = { group: , order_id: }
   def self.new_order(params)
     order_id = params[:order_id]
@@ -83,7 +83,7 @@ class GrupoCuatroManager
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-  def uri
+  def self.uri
     'http://integra4.ing.puc.cl/b2b/'
   end
 

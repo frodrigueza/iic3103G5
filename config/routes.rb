@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   get 'home/index'
+  get 'home/test'
 
   # get 'sftp/get_new_orders'
 
