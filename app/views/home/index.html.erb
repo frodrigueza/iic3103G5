@@ -1,17 +1,3 @@
-<div class="row">
-  <div class="col-md-12">
-
-    <div id="search_tab">
-        <%= form_tag("/home/index", method: "get") do %>
-            <%= label_tag(:order_id, "Buscar orden de compra:") %>
-            <%= text_field_tag(:order_id) %>
-            <%= submit_tag("Buscar", class: "btn btn-default") %>
-        <% end %>
-    </div>
-  </div>
-</div>
-
-
 <% if @oc %>
   <div class="row logs">
     <%= render 'info_table' %>

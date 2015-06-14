@@ -1,20 +1,26 @@
 
 <!-- info  -->
 <div class="col-md-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      Informacion
+    </div>
 
-  <table class="table table_1">
-    <thead>
-      <tr>
-        <th>Atributo</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-    <% @oc.each do |a| %>
-      <tr>
-        <td class="key"><%= f_key(a[0].to_s) %></td>
-        <td class="value"><%= f_value(a[1].to_s) %></td>
-      </tr>
-    <% end %>
-  </table>
 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Atributo</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <% @oc.each do |a| %>
+        <tr>
+          <td class="key"><%= f_key(a[0].to_s) %></td>
+          <td class="value"><%= f_value(a[1].to_s) %></td>
+        </tr>
+      <% end %>
+    </table>
+
+  </div>
 </div>

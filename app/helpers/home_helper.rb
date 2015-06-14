@@ -24,4 +24,8 @@ module HomeHelper
 		
 		return val
 	end
+
+	def f_date(date)
+		date.to_time.strftime("%v - %R")
+	end
 end

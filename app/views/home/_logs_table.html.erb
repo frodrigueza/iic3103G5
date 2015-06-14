@@ -1,26 +1,30 @@
 <!-- logs  -->
 <div class="col-md-6">
-
-  <table class="table table_1">
-    <thead>
-      <tr>
-        <th colspan="2">Logs</th>
-      </tr>
-    </thead>
-    <% if @logs.count > 0 %>
-      <% @logs.each do |m| %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      Informacion
+    </div>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= f_value(m.created_at) %></td>
-          <td><%= m.content %></td>
+          <th colspan="2">Logs</th>
+        </tr>
+      </thead>
+      <% if @logs.count > 0 %>
+        <% @logs.each do |m| %>
+          <tr>
+            <td><%= f_value(m.created_at) %></td>
+            <td><%= m.content %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="2">
+            No hay movimientos registrados para esta orden de compra
+          </td>
         </tr>
       <% end %>
-    <% else %>
-      <tr>
-        <td colspan="2">
-          No hay movimientos registrados para esta orden de compra
-        </td>
-      </tr>
-    <% end %>
-  </table>
+    </table>
 
+  </div>
 </div>
