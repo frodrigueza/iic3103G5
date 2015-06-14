@@ -1,116 +1,5 @@
 class ProductoManager
 
-  def self.get_dato(sku)
-    datos_base = {
-        1 => { proveedor: 1, costo: 1270 },
-        2 => { proveedor: 7, costo: 1289 },
-        3 => { proveedor: 7, costo: 1370 },
-        4 => { proveedor: 1, costo: 1732 },
-        5 => { proveedor: 5, costo: 600 },
-        6 => { proveedor: 1, costo: 6453 },
-        7 => { proveedor: 6, costo: 1696 },
-        8 => { proveedor: 2, costo: 3891 },
-        9 => { proveedor: 2, costo: 2640 },
-        10 => { proveedor: 2, costo: 2523 },
-        11 => { proveedor: 7, costo: 2003 },
-        12 => { proveedor: 2, costo: 1829 },
-        13 => { proveedor: 4, costo: 2780 },
-        14 => { proveedor: 3, costo: 3673 },
-        15 => { proveedor: 3, costo: 3660 },
-        16 => { proveedor: 3, costo: 1251 },
-        17 => { proveedor: 3, costo: 2602 },
-        18 => { proveedor: 3, costo: 3518 },
-        19 => { proveedor: 4, costo: 1917 },
-        20 => { proveedor: 3, costo: 3953 },
-        21 => { proveedor: 4, costo: 2203 },
-        22 => { proveedor: 4, costo: 2629 },
-        23 => { proveedor: 4, costo: 2747 },
-        24 => { proveedor: 4, costo: 1988 },
-        25 => { proveedor: 8, costo: 1588 },
-        26 => { proveedor: 5, costo: 1946 },
-        27 => { proveedor: 5, costo: 631 },
-        28 => { proveedor: 5, costo: 1069 },
-        29 => { proveedor: 5, costo: 3988 },
-        30 => { proveedor: 5, costo: 1390 },
-        31 => { proveedor: 1, costo: 979 },
-        32 => { proveedor: 1, costo: 1252 },
-        33 => { proveedor: 6, costo: 3332 },
-        34 => { proveedor: 6, costo: 891 },
-        35 => { proveedor: 6, costo: 3375 },
-        36 => { proveedor: 6, costo: 2052 },
-        37 => { proveedor: 2, costo: 2363 },
-        38 => { proveedor: 2, costo: 2041 },
-        39 => { proveedor: 2, costo: 3111 },
-        40 => { proveedor: 7, costo: 3299 },
-        41 => { proveedor: 7, costo: 29691 },
-        42 => { proveedor: 2, costo: 3446 },
-        43 => { proveedor: 8, costo: 1297 },
-        44 => { proveedor: 5, costo: 3043 },
-        45 => { proveedor: 8, costo: 2646 },
-        46 => { proveedor: 8, costo: 1031 },
-        47 => { proveedor: 1, costo: 1496 },
-        48 => { proveedor: 8, costo: 3256 },
-        49 => { proveedor: 1, costo: 717 }
-    }
-
-    return datos_base[sku.to_i]
-  end
-
-
-  def self.define_type_order(oc)
-    tipos_segun_sku ={
-        '1' => 'insumo',
-        '2' => 'insumo',
-        '3' => 'insumo',
-        '4' => 'compuesto',
-        '5' => 'compuesto',
-        '6' => 'compuesto',
-        '7' => 'insumo',
-        '8' => 'insumo',
-        '9' => 'insumo',
-        '10' => 'compuesto',
-        '11' => 'compuesto',
-        '12' => 'compuesto',
-        '13' => 'insumo',
-        '14' => 'insumo',
-        '15' => 'insumo',
-        '16' => 'compuesto',
-        '17' => 'compuesto',
-        '18' => 'compuesto',
-        '19' => 'insumo',
-        '20' => 'insumo',
-        '21' => 'insumo',
-        '22' => 'compuesto',
-        '23' => 'compuesto',
-        '24' => 'compuesto',
-        '25' => 'insumo',
-        '26' => 'insumo',
-        '27' => 'insumo',
-        '28' => 'compuesto',
-        '29' => 'compuesto',
-        '30' => 'compuesto',
-        '31' => 'insumo',
-        '32' => 'insumo',
-        '33' => 'insumo',
-        '34' => 'compuesto',
-        '35' => 'compuesto',
-        '36' => 'compuesto',
-        '37' => 'insumo',
-        '38' => 'insumo',
-        '39' => 'insumo',
-        '40' => 'compuesto',
-        '41' => 'compuesto',
-        '42' => 'compuesto',
-        '43' => 'insumo',
-        '44' => 'insumo',
-        '45' => 'insumo',
-        '46' => 'compuesto',
-        '47' => 'compuesto',
-        '48' => 'compuesto',
-        '49' => 'compuesto'}
-    return tipos_segun_sku[oc[:sku]]
-  end
-
   def self.insumos_necesarios
     insumos_necesarios = [
         {'sku_final' => '4', 'cant_lote' => 200, 'sku_insumo' => '38', 'requerimiento' => 190},
@@ -163,5 +52,79 @@ class ProductoManager
         {'sku_final' => '48', 'cant_lote' => 500, 'sku_insumo' => '2', 'requerimiento' => 155},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '7', 'requerimiento' => 222.2222222},
         {'sku_final' => '49', 'cant_lote' => 200, 'sku_insumo' => '6', 'requerimiento' => -22.22222222}]
+  end
+
+
+  def self.get_nombre(sku)
+    return ProductoManager.get_datos_producto.find{|alm| alm[:sku] == sku}[:nombre]
+  end
+
+  def self.get_categoria(sku)
+    return ProductoManager.get_datos_producto.find{|alm| alm[:sku] == sku}[:categoria]
+  end
+
+  def self.get_datos_producto()
+    datos_base = [
+        {:sku => '1', :proveedor => 1, :costo => 1270, :tipo => 'insumo', :nombre => 'Pollo', :categoria => 'CARNES Y HUEVOS'},
+        {:sku => '2', :proveedor => 7, :costo => 1289, :tipo => 'insumo', :nombre => 'Huevo', :categoria => 'CARNES Y HUEVOS'},
+        {:sku => '3', :proveedor => 7, :costo => 1370, :tipo => 'insumo', :nombre => 'Maíz', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '4', :proveedor => 1, :costo => 1732, :tipo => 'compuesto', :nombre => 'Aceite de Maravilla', :categoria => 'ACEITES Y GRASAS'},
+        {:sku => '5', :proveedor => 5, :costo => 600, :tipo => 'compuesto', :nombre => 'Yogur', :categoria => 'LECHES Y DERIVADOS'},
+        {:sku => '6', :proveedor => 1, :costo => 6453, :tipo => 'compuesto', :nombre => 'Crema', :categoria => 'LECHES Y DERIVADOS'},
+        {:sku => '7', :proveedor => 6, :costo => 1696, :tipo => 'insumo', :nombre => 'Leche', :categoria => 'LECHES Y DERIVADOS'},
+        {:sku => '8', :proveedor => 2, :costo => 3891, :tipo => 'insumo', :nombre => 'Trigo', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '9', :proveedor => 2, :costo => 2640, :tipo => 'insumo', :nombre => 'Carne', :categoria => 'CARNES Y HUEVOS'},
+        {:sku => '10', :proveedor => 2, :costo => 2523, :tipo => 'compuesto', :nombre => 'Pan', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '11', :proveedor => 7, :costo => 2003, :tipo => 'compuesto', :nombre => 'Margarina ', :categoria => 'ACEITES Y GRASAS'},
+        {:sku => '12', :proveedor => 2, :costo => 1829, :tipo => 'compuesto', :nombre => 'Cereal Arroz ', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '13', :proveedor => 4, :costo => 2780, :tipo => 'insumo', :nombre => 'Arroz', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '14', :proveedor => 3, :costo => 3673, :tipo => 'insumo', :nombre => 'Cebada', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '15', :proveedor => 3, :costo => 3660, :tipo => 'insumo', :nombre => 'Avena', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '16', :proveedor => 3, :costo => 1251, :tipo => 'compuesto', :nombre => 'Pasta de Trigo', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '17', :proveedor => 3, :costo => 2602, :tipo => 'compuesto', :nombre => 'Cereal Arroz', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '18', :proveedor => 3, :costo => 3518, :tipo => 'compuesto', :nombre => 'Pastel', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '19', :proveedor => 4, :costo => 1917, :tipo => 'insumo', :nombre => 'Sémola', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '20', :proveedor => 3, :costo => 3953, :tipo => 'insumo', :nombre => 'Cacao', :categoria => 'DULCE'},
+        {:sku => '21', :proveedor => 4, :costo => 2203, :tipo => 'insumo', :nombre => 'Algodón', :categoria => 'TELAS'},
+        {:sku => '22', :proveedor => 4, :costo => 2629, :tipo => 'compuesto', :nombre => 'Mantequilla', :categoria => 'ACEITES Y GRASAS'},
+        {:sku => '23', :proveedor => 4, :costo => 2747, :tipo => 'compuesto', :nombre => 'Harina', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '24', :proveedor => 4, :costo => 1988, :tipo => 'compuesto', :nombre => 'Tela de Seda', :categoria => 'TELAS'},
+        {:sku => '25', :proveedor => 8, :costo => 1588, :tipo => 'insumo', :nombre => 'Azúcar', :categoria => 'OTRO'},
+        {:sku => '26', :proveedor => 5, :costo => 1946, :tipo => 'insumo', :nombre => 'Sal', :categoria => 'MINERAL'},
+        {:sku => '27', :proveedor => 5, :costo => 631, :tipo => 'insumo', :nombre => 'Levadura', :categoria => 'OTRO'},
+        {:sku => '28', :proveedor => 5, :costo => 1069, :tipo => 'compuesto', :nombre => 'Tela de Lino', :categoria => 'TELAS'},
+        {:sku => '29', :proveedor => 5, :costo => 3988, :tipo => 'compuesto', :nombre => 'Tela de Lana', :categoria => 'TELAS'},
+        {:sku => '30', :proveedor => 5, :costo => 1390, :tipo => 'compuesto', :nombre => 'Tela de Algodón', :categoria => 'TELAS'},
+        {:sku => '31', :proveedor => 1, :costo => 979, :tipo => 'insumo', :nombre => 'Lana', :categoria => 'TELAS'},
+        {:sku => '32', :proveedor => 1, :costo => 1252, :tipo => 'insumo', :nombre => 'Cuero', :categoria => 'TELAS'},
+        {:sku => '33', :proveedor => 6, :costo => 3332, :tipo => 'insumo', :nombre => 'Seda', :categoria => 'TELAS'},
+        {:sku => '34', :proveedor => 6, :costo => 891, :tipo => 'compuesto', :nombre => 'Cerveza', :categoria => 'ALCOHOL'},
+        {:sku => '35', :proveedor => 6, :costo => 3375, :tipo => 'compuesto', :nombre => 'Tequila', :categoria => 'ALCOHOL'},
+        {:sku => '36', :proveedor => 6, :costo => 2052, :tipo => 'compuesto', :nombre => 'Papel', :categoria => 'OTRO'},
+        {:sku => '37', :proveedor => 2, :costo => 2363, :tipo => 'insumo', :nombre => 'Lino', :categoria => 'TELAS'},
+        {:sku => '38', :proveedor => 2, :costo => 2041, :tipo => 'insumo', :nombre => 'Semillas Maravilla', :categoria => 'SEMILLAS'},
+        {:sku => '39', :proveedor => 2, :costo => 3111, :tipo => 'insumo', :nombre => 'Uva', :categoria => 'FRUTA'},
+        {:sku => '40', :proveedor => 7, :costo => 3299, :tipo => 'compuesto', :nombre => 'Queso', :categoria => 'LECHES Y DERIVADOS'},
+        {:sku => '41', :proveedor => 7, :costo => 29691, :tipo => 'compuesto', :nombre => 'Suero de Leche', :categoria => 'LECHES Y DERIVADOS'},
+        {:sku => '42', :proveedor => 2, :costo => 3446, :tipo => 'compuesto', :nombre => 'Cereal Maíz', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '43', :proveedor => 8, :costo => 1297, :tipo => 'insumo', :nombre => 'Madera', :categoria => 'OTRO'},
+        {:sku => '44', :proveedor => 5, :costo => 3043, :tipo => 'insumo', :nombre => 'Agave', :categoria => 'OTRO'},
+        {:sku => '45', :proveedor => 8, :costo => 2646, :tipo => 'insumo', :nombre => 'Celulosa', :categoria => 'OTRO'},
+        {:sku => '46', :proveedor => 8, :costo => 1031, :tipo => 'compuesto', :nombre => 'Chocolate', :categoria => 'OTRO'},
+        {:sku => '47', :proveedor => 1, :costo => 1496, :tipo => 'compuesto', :nombre => 'Vino', :categoria => 'ALCOHOL'},
+        {:sku => '48', :proveedor => 8, :costo => 3256, :tipo => 'compuesto', :nombre => 'Pasta de Sémola', :categoria => 'CEREALES Y LEGUMBRES'},
+        {:sku => '49', :proveedor => 1, :costo => 717, :tipo => 'compuesto', :nombre => 'Leche Descremada', :categoria => 'LECHES Y DERIVADOS'}]
+    return datos_base
+  end
+
+  def self.get_dato(sku)
+    datos_base = {:proveedor => ProductoManager.get_datos_producto.find{|alm| alm[:sku] == sku}[:proveedor],
+                  :costo => ProductoManager.get_datos_producto.find{|alm| alm[:sku] == sku}[:costo]}
+    return datos_base
+  end
+
+  def self.define_type_order(oc)
+    type = ProductoManager.get_datos_producto.find{|alm| alm[:sku] == oc[:sku]}[:tipo]
+    return type
   end
 end

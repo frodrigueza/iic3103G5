@@ -19,9 +19,19 @@
 <% else %>
     <table class="table">
         <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>SKU</th>
+          <th>Categoría</th>
+          <th>Cantidad</th>
+        </tr>
+        </thead>
+        <% @productos_pulmon.each do |producto| %>
             <tr>
-                <th>SKU</th>
-                <th>Cantidad</th>
+              <td class="nomb"><%= ProductoManager.get_nombre(producto[:_id]) %></td>
+              <td class="sku"><%= producto[:_id].to_s %></td>
+              <td class="cat"><%= ProductoManager.get_categoria(producto[:_id]) %></td>
+              <td class="cant"><%= producto[:total].to_s %></td>
             </tr>
         </thead>
         <% @productos_pulmon.each do |producto| %>
