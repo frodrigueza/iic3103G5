@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h5>Almacenes</h5>
+			</div>
+
+			<div class="panel-body">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <a type="button" id="boton_todos" class="btn btn-primary active">Todos los Almacenes</a>
+                    <a type="button" id="boton_recepcion" class="btn btn-primary inactive">Almacén de Recepción</a>
+                    <a type="button" id="boton_libre" class="btn btn-primary inactive">Almacén Libre</a>
+                    <a type="button" id="boton_despacho" class="btn btn-primary inactive">Almacén de Despacho</a>
+                    <a type="button" id="boton_pulmon" class="btn btn-primary inactive">Bodega Pulmón</a>
+                    <% if false then%>
+                    /* Hay que hacer un javascript que al apretar cada uno de estos botones,
+                    * se le añada la clase active si no la tiene, a las otras se lo borre si la tiene,
+                    * que tambien haga display none o block de lo que viene a continuación.
+                    <% end %>
+                </div>
+            </div>
+
+            <%= render 'despacho' %>
+            <%= render 'libre' %>
+            <%= render 'pulmon' %>
+            <%= render 'recepcion' %>
+            <%= render 'todos' %>
+
+
+        </div>
+	</div>
+</div>

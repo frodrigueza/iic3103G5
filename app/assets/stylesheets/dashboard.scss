@@ -1,0 +1,12 @@
+// Place all the styles related to the dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#despacho, #pulmon, #libre, #recepcion, #todos{
+  margin-left: 10px;
+  margin-right: 10px;
+  table{
+    width:500px;
+    margin-left: 200px;
+  }
+}

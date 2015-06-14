@@ -243,4 +243,111 @@ class BodegaManager
 
   end
 
+  def self.obtener_cantidades_bodega(almacen)
+
+    products = []
+    if almacen == "todos" or almacen == "libre"
+      parametros = HttpManager.get_skus_with_stock(GroupInfo.almacen_libre)
+
+      if parametros!=nil
+
+        parametros.each do |producto|
+          products = BodegaManager.push_products_total(products, producto)
+        end
+      end
+    end
+
+    if almacen == "todos" or almacen == "pulmon"
+      parametros=HttpManager.get_skus_with_stock(GroupInfo.almacen_pulmon)
+
+      if parametros!=nil
+
+        parametros.each do |producto|
+          products = BodegaManager.push_products_total(products, producto)
+        end
+      end
+    end
+
+    if almacen == "todos" or almacen == "recepcion"
+      parametros=HttpManager.get_skus_with_stock(GroupInfo.almacen_recepcion)
+
+      if parametros!=nil
+
+        parametros.each do |producto|
+          products = BodegaManager.push_products_total(products, producto)
+        end
+      end
+    end
+
+    if almacen == "todos" or almacen == "despacho"
+      parametros=HttpManager.get_skus_with_stock(GroupInfo.almacen_despacho)
+
+      if parametros!=nil
+
+        parametros.each do |producto|
+          products = BodegaManager.push_products_total(products, producto)
+        end
+      end
+    end
+    return products
+    # Retorna todos los productos
+  end
+
+  # Hay que cambiarle el nombre
+  def self.push_products_total(products, producto)
+    temp = products.find{|prod| prod[:_id] == producto[:_id]}
+    if temp.nil?
+      products.push producto
+    else
+      temp = {:id => temp[:_id], :total => temp[:total] + producto[:total]}
+      products.delete_if{|prod| prod[:_id] == producto[:_id]}
+      products.push temp
+    end
+  end
+
+  def self.capacidad_bodega(bodega)
+
+    almacenes = HttpManager.get_almacenes
+    porcentaje = 0.to_f
+
+    if bodega == 'todos'
+      libre = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_libre}
+      recepcion = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_recepcion}
+      despacho = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_despacho}
+      porcentaje = (libre[:usedSpace]
+                  + recepcion[:usedSpace]
+                  + despacho[:usedSpace]).to_f / (libre[:totalSpace]
+                                              + recepcion[:totalSpace]
+                                              + despacho[:totalSpace])*100
+
+    elsif bodega == 'libre'
+
+      libre = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_libre}
+      uso_libre = libre[:usedSpace].to_f / libre[:totalSpace] * 100
+      porcentaje = uso_libre
+
+    elsif bodega == 'recepcion'
+
+      recepcion = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_recepcion}
+      uso_recepcion = recepcion[:usedSpace].to_f / recepcion[:totalSpace] * 100
+      porcentaje = uso_recepcion
+
+    elsif bodega == 'despacho'
+
+      despacho = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_despacho}
+      uso_despacho = despacho[:usedSpace].to_f / despacho[:totalSpace] * 100
+      porcentaje = uso_despacho
+
+    elsif bodega == 'pulmon'
+
+      pulmon = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_pulmon}
+      uso_pulmon = pulmon[:usedSpace].to_f / pulmon[:totalSpace] * 100
+      porcentaje = uso_pulmon
+
+    end
+
+    return porcentaje
+    # Retorna la cantidad disponible.
+  end
+
 end

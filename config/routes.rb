@@ -24,6 +24,12 @@ Rails.application.routes.draw do
     post 'invoice_rejected' 
   end
 
+  namespace :dashboard do
+    get 'index'
+
+    put 'almacenes'
+  end
+
   namespace :orders do
     get 'obtain_order'
     get 'show_order'

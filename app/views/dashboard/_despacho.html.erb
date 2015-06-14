@@ -1,0 +1,32 @@
+<div class="panel panel-default" id="despacho" style="display: none">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Almacén de Despacho</div>
+  <div class="panel-body">
+    <span> Uso: </span>
+    <div class="progress">
+      <div class="progress-bar <% if @capacidad_despacho.to_i < 30 %> progress-bar-info <%elsif @capacidad_despacho.to_i < 70 %> progress-bar-warning <%else%> progress-bar-danger <%end%>" role="progressbar" aria-valuenow="<% @capacidad_despacho %>" aria-valuemin="0" aria-valuemax="100" style="width: <% @capacidad_despacho %>; min-width: 2em">
+        <%= @capacidad_despacho.to_i.to_s %> %
+      </div>
+    </div>
+  </div>
+
+  <% if @productos_despacho.count() == 0 %>
+      <div class="alert alert-danger" role="alert">No hay productos en esta bodega</div>
+  <% else %>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Cantidad</th>
+        </tr>
+        </thead>
+        <% @productos_despacho.each do |producto| %>
+            <tr>
+              <td class="sku"><%= producto[:_id].to_s %></td>
+              <td class="cant"><%= producto[:total].to_s %></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+
+</div>
