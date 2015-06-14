@@ -138,7 +138,7 @@ class HttpManager
 
 	end
 
-	def self.rechabzar_factura(body)
+	def self.rechazar_factura(body)
 
 		url = @@uri + 'zeuz/reject/'
 
