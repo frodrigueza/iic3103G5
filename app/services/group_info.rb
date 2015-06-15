@@ -51,7 +51,7 @@ class GroupInfo
   	return "556489e7efb3d7030091bdcd" if not @@produccion
   end
 
-    def self.almacen_pulmon
+  def self.almacen_pulmon
     return "55648ae7f89fed0300525292" if @@produccion
   	return "556489e7efb3d7030091bf2a" if not @@produccion
   end

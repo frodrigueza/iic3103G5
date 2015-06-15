@@ -33,12 +33,6 @@
               <td class="cat"><%= ProductoManager.get_categoria(producto[:_id]) %></td>
               <td class="cant"><%= producto[:total].to_s %></td>
             </tr>
-        </thead>
-        <% @productos_pulmon.each do |producto| %>
-        <tr>
-          <td class="sku"><%= producto[:_id].to_s %></td>
-          <td class="cant"><%= producto[:total].to_s %></td>
-      </tr>
       <% end %>
     </table>
 <% end %>

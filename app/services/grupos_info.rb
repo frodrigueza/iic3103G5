@@ -24,9 +24,8 @@ class GruposInfo
 	        return "556489daefb3d7030091bab6" if not GroupInfo.en_produccion
 	      when "8"
 	        return "55648ad3f89fed0300525003" if GroupInfo.en_produccion
-	        return "556489daefb3d7030091bab8" if not GroupInfo.en_produccion
-	      
-	    end
+	        return "556489daefb3d7030091bab8" if not GroupInfo.en_produccion    
+    end
 
 	end
 

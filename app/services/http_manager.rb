@@ -18,13 +18,13 @@ class HttpManager
 
 	def self.crear_oc(body)
 
-		url = @@uri +'atenea/crear' 
+		url = @@uri + 'atenea/crear' 
 
 		response = HTTParty.put(url, 
 			:body => body.to_json,
     		:headers => { 'Content-Type' => 'application/json'})
 		
-		order_hash = parse_body(response)
+		return parse_body(response)
 	
 	end
 
@@ -34,7 +34,7 @@ class HttpManager
 
 		response = HTTParty.post(url, :body => {}.to_json, :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -45,7 +45,7 @@ class HttpManager
 
 		response = HTTParty.post(url , :body => {:rechazo => body[:rechazo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -55,7 +55,7 @@ class HttpManager
 
 		response = HTTParty.delete(url, :body => { :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -69,7 +69,7 @@ class HttpManager
 
 	    response = HTTParty.get(url)
 		
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -100,7 +100,7 @@ class HttpManager
 
 		response = HTTParty.post(url, :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -111,7 +111,7 @@ class HttpManager
 
 		response = HTTParty.put(url , :body => {:oc => id_oc}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -122,7 +122,7 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -134,7 +134,7 @@ class HttpManager
 
 		response = HTTParty.post(url , :body => {:id => id_f}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -144,7 +144,7 @@ class HttpManager
 
 		response = HTTParty.post(url , :body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -154,7 +154,18 @@ class HttpManager
 
 		response = HTTParty.post(url , :body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
+
+	end
+
+	# :proveedor, :cliente, :total
+	def self.crear_boleta(body)
+
+		url = @@uri + 'zeuz/boleta/' 
+
+		response = HTTParty.put(url , :body => {proveedor: body[:proveedor],cliente: body[:cliente],total: body[:total]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+
+		return parse_body(response)
 
 	end
 
@@ -166,7 +177,7 @@ class HttpManager
 			:query => {:monto => body[:monto] , :origen => body[:origen], :destino => body[:destino]},
 			:headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -176,7 +187,7 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -188,7 +199,7 @@ class HttpManager
 			:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]},
 			:headers =>{ 'Content-Type' => 'application/json'})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -200,7 +211,7 @@ class HttpManager
 
 		response = HTTParty.get(url)
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -278,7 +289,7 @@ class HttpManager
 			:body => {:productoId => body[:id_p].to_s, :almacenId => body[:id_a].to_s}.to_json, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -294,7 +305,7 @@ class HttpManager
 			:body => {:productoId => body[:id_p].to_s, :almacenId => body[:id_a].to_s}.to_json, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -322,7 +333,7 @@ class HttpManager
 		# 	aux.push sku.symbolize_keys
 		# end
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -346,7 +357,7 @@ class HttpManager
 		# 	aux.push sku.symbolize_keys
 		# end
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 
@@ -360,7 +371,7 @@ class HttpManager
 
 		response = HTTParty.get(url , :headers => {'Authorization' => header})
 
-		order_hash = parse_body(response)
+		return parse_body(response)
 
 	end
 

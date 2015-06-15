@@ -20,8 +20,8 @@ class PedidoManager
             if not GroupInfo.skus.include? insumo[:sku]
               # Si no, generar OC con sku y cantidad faltante, revisar fecha de entrega,
                 # notificar nueva OC a otro grupo, etc.
-              proveedor = ProductoManager.get_dato(insumo[:sku])[:proveedor]
-              precio_unitario = ProductoManager.get_dato(insumo[:sku])[:costo]
+              proveedor = ProductoManager.get_datos_sku(insumo[:sku])[:proveedor]
+              precio_unitario = ProductoManager.get_datos_sku(insumo[:sku])[:costo]
               order = HttpManager.crear_oc(sku: insumo[:sku], proveedor: proveedor, canal: "b2b", precioUnitario: precio_unitario,
                cantidad: cantidad_faltante, cliente: GroupInfo.grupo, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega))
               response = GruposManager.new_order(group: proveedor, order_id: order[:_id])
@@ -36,7 +36,7 @@ class PedidoManager
             else
               # Si es nuestro, "extraer" cantidad faltante
               # COMO SE EXTRAEN LAS MATERIAS PRIMAS??
-              costo = ProductoManager.get_dato(insumo[:sku])[:costo]
+              costo = ProductoManager.get_datos_sku(insumo[:sku])[:costo]
               trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
               LogManager.new_log(pedido, "Transferido a la cuenta de banco de la fabrica: $ #{trx[:monto]}.")
               HttpManager.producir_stock(sku: insumo[:sku],cantidad: insumo[:cantidad], trxId: trx[:_id])
@@ -57,7 +57,7 @@ class PedidoManager
           LogManager.new_log(pedido, "Insumo de sku: #{insumo[:sku]} enviado al almacen de despacho.")
         end
         # producirStock
-        costo = ProductoManager.get_dato(pedido[:sku])[:costo]
+        costo = ProductoManager.get_datos_sku(pedido[:sku])[:costo]
         trx = HttpManager.transferir(monto: costo, origen: GroupInfo.cuenta_banco, destino: GroupInfo.cuenta_banco_fabrica)
         LogManager.new_log(pedido , "Trasferencia realizada del banco a la fábrica. Monto: #{costo}.")
         HttpManager.producir_stock(sku: pedido[:sku], cantidad: OrdersManager.cantidad_de_lotes(pedido), trxId: trx[:_id])
@@ -66,8 +66,13 @@ class PedidoManager
     else
       BodegaManager.mover_a_despacho(pedido[:sku], pedido[:cantidad])
       LogManager.new_log(pedido, "Product de sku: #{pedido[:sku]} movido a bodega de despacho. Cantidad: #{pedido[:cantidad]}.")
-      factura = FacturaManager.emitir_factura(pedido)
-      LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
+      if pedido[:canal] #== "b2b"
+        factura = FacturaManager.emitir_factura(pedido)
+        LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
+      else 
+        boleta = HttpManager.crear_boleta(pedido)
+        LogManager.new_log(pedido , "Boeta creada: #{boleta[:_id]}.")
+      end
       BodegaManager.despachar(pedido)
       LogManager.new_log(pedido , "Product de sku: #{pedido[:sku]} despachado a grupo #{pedido[:cliente]}. Cantidad: #{pedido[:cantidad]}.")
     end
