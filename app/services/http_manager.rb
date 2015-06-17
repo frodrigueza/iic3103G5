@@ -32,7 +32,9 @@ class HttpManager
 
 		url = @@uri + 'atenea/recepcionar/' + id_oc.to_s
 
-		response = HTTParty.post(url, :body => {}.to_json, :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url,
+			:body => {}.to_json, 
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -43,7 +45,9 @@ class HttpManager
 
 		url = @@uri + 'atenea/rechazar/' + body[:id_oc].to_s
 
-		response = HTTParty.post(url , :body => {:rechazo => body[:rechazo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url ,
+			:body => {:rechazo => body[:rechazo]}.to_json ,
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -53,7 +57,9 @@ class HttpManager
 
 		url = @@uri + 'atenea/anular/' + body[:id_oc].to_s
 
-		response = HTTParty.delete(url, :body => { :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.delete(url,
+			:body => { :motivo => body[:motivo]}.to_json ,
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -109,7 +115,9 @@ class HttpManager
 
 		url = @@uri + 'zeuz/' 
 
-		response = HTTParty.put(url , :body => {:oc => id_oc}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.put(url , 
+			:body => {:oc => id_oc}.to_json , 
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -132,7 +140,9 @@ class HttpManager
 
 		url = @@uri + 'zeuz/pay/'
 
-		response = HTTParty.post(url , :body => {:id => id_f}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , 
+			:body => {:id => id_f}.to_json , 
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -142,7 +152,9 @@ class HttpManager
 
 		url = @@uri + 'zeuz/reject/'
 
-		response = HTTParty.post(url , :body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , 
+			:body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , 
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -152,18 +164,22 @@ class HttpManager
 
 		url = @@uri + 'zeuz/cancel/'
 
-		response = HTTParty.post(url , :body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.post(url , 
+			:body => {:id => body[:id_f] , :motivo => body[:motivo]}.to_json , 
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
 	end
 
-	# :proveedor, :cliente, :total
+	# params = :proveedor, :cliente, :total
 	def self.crear_boleta(body)
 
 		url = @@uri + 'zeuz/boleta/' 
 
-		response = HTTParty.put(url , :body => {proveedor: body[:proveedor],cliente: body[:cliente],total: body[:total]}.to_json , :headers =>{ 'Content-Type' => 'application/json'})
+		response = HTTParty.put(url , 
+			:body => {proveedor: body[:proveedor],cliente: body[:cliente],total: body[:total]}.to_json ,
+			:headers =>{ 'Content-Type' => 'application/json'})
 
 		return parse_body(response)
 
@@ -243,8 +259,9 @@ class HttpManager
 
 		header = @@auth_header + hash
 
-		response = HTTParty.get(url , :query => {:almacenId => id_a.to_s}, :headers => {'Authorization' => header})
-
+		response = HTTParty.get(url ,
+			:query => {:almacenId => id_a.to_s},
+			:headers => {'Authorization' => header})
 
 		response_json = JSON.parse(response.body)
 		aux = []
@@ -264,7 +281,9 @@ class HttpManager
 
 		header = @@auth_header + hash
 
-		response = HTTParty.get(url, :query => {:almacenId => body[:id_a].to_s, :sku => body[:sku], :limit => body[:limit] }, :headers => {'Authorization' => header})
+		response = HTTParty.get(url, 
+			:query => {:almacenId => body[:id_a].to_s, :sku => body[:sku], :limit => body[:limit] },
+			:headers => {'Authorization' => header})
 
 		response_json = JSON.parse(response.body)
 
@@ -321,41 +340,21 @@ class HttpManager
 			:body => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}.to_json, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' }) 
 
-			# :query => {:productoId => body[:id_p].to_s, :direccion => body[:direccion].to_s, :precio => body[:precio], :pedidoId => body[:orden_de_compra_id]}, 
-			# :body => {}.to_json,
-			# :headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
-
-
-		# response_json = JSON.parse(response.body)
-
-		# aux = []
-		# response_json.each do |sku|
-		# 	aux.push sku.symbolize_keys
-		# end
-
 		return parse_body(response)
 
 	end
 
+	# params = :sku, :cantidad, :trxId
 	def self.producir_stock(body)
 
 		url = @@url_bodega + 'fabrica/fabricar'
 
-		hash = BodegaHash.crear_hash('PUT' + body[:sku].to_s + body[:cantidad].to_s + body[:trx_id].to_s )
+		hash = BodegaHash.crear_hash('PUT' + body[:sku].to_s + body[:cantidad].to_s + body[:trxId].to_s)
 
 		header = @@auth_header + hash
-
 		response = HTTParty.put(url, 
-			:body => {:sku => body[:sku].to_s, :cantidad => body[:cantidad].to_s, :trxId => body[:trx_id].to_s}.to_json, 
+			:body => {:sku => body[:sku].to_s, :cantidad => body[:cantidad], :trxId => body[:trxId].to_s}.to_json, 
 			:headers => {'Authorization' => header , 'Content-Type' => 'application/json' })
-
-
-		# response_json = JSON.parse(response.body)
-
-		# aux = []
-		# response_json.each do |sku|
-		# 	aux.push sku.symbolize_keys
-		# end
 
 		return parse_body(response)
 

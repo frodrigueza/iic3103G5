@@ -39,8 +39,6 @@ Rails.application.routes.draw do
   end
 
   namespace :orders do
-    get 'obtain_order'
-    get 'show_order'
     get 'check_pedidos'
     get 'check_ftp'
     get 'clear_pedidos'
@@ -52,7 +50,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#index'
+  root 'home#pedidos'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
