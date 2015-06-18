@@ -34,7 +34,8 @@ class OrdersManager
                                  :cantidad_producida => "",
                                  :compras_insumos => "",
                                  :numero_facturas => "",
-                                 :movimientos_bancarios => ""
+                                 :movimientos_bancarios => "",
+                                 :despachado => false
                                  )
             insumos = []
             tipo = ProductoManager.get_datos_sku(oc[:sku])[:tipo]

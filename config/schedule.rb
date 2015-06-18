@@ -18,7 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-set :environment, "development"
+#set :environment, "development"
 
 every 10.minutes do
   runner "PedidoManager.check_pedidos", :output => 'tmp/check_pedidos.log'
