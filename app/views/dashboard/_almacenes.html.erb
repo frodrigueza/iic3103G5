@@ -20,11 +20,11 @@
                 </div>
             </div>
 
-            <%= render 'despacho' %>
-            <%= render 'libre' %>
-            <%= render 'pulmon' %>
-            <%= render 'recepcion' %>
-            <%= render 'todos' %>
+            <%= render partial: "almacen", locals: {capacidad: @capacidad_libre, productos: @productos_libre, nombre_almacen: "libre"} %>
+            <%= render partial: "almacen", locals: {capacidad: @capacidad_despacho, productos: @productos_despacho, nombre_almacen: "despacho"} %>
+            <%= render partial: "almacen", locals: {capacidad: @capacidad_recepcion, productos: @productos_recepcion, nombre_almacen: "recepcion"} %>
+            <%= render partial: "almacen", locals: {capacidad: @capacidad_pulmon, productos: @productos_pulmon, nombre_almacen: "pulmon"} %>
+            <%= render partial: "almacen", locals: {capacidad: @capacidad_todos, productos: @productos_todos, nombre_almacen: "todos"} %>
 
 
         </div>

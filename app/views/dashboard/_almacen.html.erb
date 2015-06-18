@@ -1,0 +1,36 @@
+<div class="panel panel-default" id= <%= nombre_almacen %> style="display: none">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Almacén de <%= nombre_almacen %></div>
+  <div class="panel-body">
+    <span> Uso: </span>
+    <div class="progress">
+      <div class="progress-bar <% if capacidad.to_i < 30 %> progress-bar-info <%elsif capacidad.to_i < 70 %> progress-bar-warning <%else%> progress-bar-danger <%end%>" role="progressbar" aria-valuenow="<% capacidad %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= capacidad %>%; min-width: 2em">
+        <%= capacidad.to_i.to_s %> %
+      </div>
+    </div>
+  </div>
+
+  <% if productos.count() == 0 %>
+      <div class="alert alert-danger" role="alert">No hay productos en esta bodega</div>
+  <% else %>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>SKU</th>
+          <th>Categoría</th>
+          <th>Cantidad</th>
+        </tr>
+        </thead>
+        <% productos.each do |producto| %>
+            <tr>
+              <td class="nomb"><%= ProductoManager.get_nombre(producto[:_id]) %></td>
+              <td class="sku"><%= producto[:_id].to_s %></td>
+              <td class="cat"><%= ProductoManager.get_categoria(producto[:_id]) %></td>
+              <td class="cant"><%= producto[:total].to_s %></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+
+</div>
