@@ -1,0 +1,65 @@
+1. Nos conectamos por SSH a nuestra maquina virtual
+	ssh administrator@integra5.ing.puc.cl
+		password: M8yF.3@Pd
+
+Entramos a la maquina virtual que tiene SO ubuntu 14.04 (o la version que hubiesemos elegido) y nos encontramos en el directorio raiz
+
+2. Cambiamos hacia el directorio iic3103 (es una carpeta)
+	cd iic3103
+
+Estamos en el directorio raíz de nuestra app rails
+
+3. Vemos si puma (web server que estamos usando para correr nuestra app) está corriendo
+	sudo ps aux | grep puma
+		Si nos entrega algo de este estilo:
+			adminis+ 26784  0.0  0.2  11748  2264 pts/5    S+   18:12   0:00 grep --color=auto puma
+			root     31373  0.0 18.5 680136 188208 ?       Sl   Jun16   0:31 puma 2.11.3 (unix:///tmp/my_app.sock) [iic3103G5]
+		Significa que puma está corriendo. Con eso pasamos al punto (5)
+
+Como puma no está corriendo, veremos que ocurre ejecutando el siguiente comando:
+
+4.	rvmsudo bundle exec puma -e production -b unix:///tmp/my_app.sock --pidfile /home/administrator/puma.pid
+		Este comando hecha a andar puma en modo servidor, que es igual al modo que lo hacemos localmente. El beneficio de hacerlo de esta
+		manera es que podemos ver los logs(errores si existiesen) en tiempo real en la consola y si apretamos Ctrl+C se detiene el servidor.
+
+		Si al momento de correr este comando y refrescar la página en chrome de nuestro proyecto, la pagina se cae, los errores debiesen quedar 
+		escritos en la consola donde tenemos corriendo puma.
+
+		Si no existen errores, entonces dejaremos corriendo puma por atrás con el siguiente comando
+		rvmsudo bundle exec puma -e production -d -b unix:///tmp/my_app.sock --pidfile /home/administrator/puma.pid
+
+		Nótese que ahora el comando posee un "-d", esto significa "Daemonize" que lo que hace es crear un "daemon" (o algo asi) que deja el puma
+		ejecutándose por atrás.
+
+Como puma está corriendo perfectamente, podemos hacer un git pull para efectuar cambios que hayamos subido al git desde nuestro PC local.
+5.	git pull
+		Esto traera los nuevos cambios desde el servidor.
+			PRECAUCION: nunca editar un archivo de la aplicacion que esta en el servidor manualmente, ya que generará conflictos al hacer pull
+			y estos conflictos, a diferencia de localmente, no pueden ser resueltos con un editor de texto como sublime, sino que hay que hacerlos
+			a mano y esto puede llevar muchisimo tiempo y lata.
+
+6.	Si no hubieron merge conflicts (que eso es lo ideal)
+	6.1 hacemos bundle install si instalamos gemas nuevas
+	6.2 Corremos las migraciones, si es que hay nuevas
+		RAILS_ENV=production bundle exec rake db:migrate
+	6.3 Precompilamos los assets si hicimos cambios en los CSS, JS, o agregamos imagenes
+		RAILS_ENV=production bundle exec rake assets:precompile
+
+7.	Los cambios se han hecho satisfactoriamente, ahora solo falta reiniciar puma
+	7.1 sudo ps aux | grep puma
+		Nos entregará algo de este estilo:
+			adminis+ 26784  0.0  0.2  11748  2264 pts/5    S+   18:12   0:00 grep --color=auto puma
+			root     31373  0.0 18.5 680136 188208 ?       Sl   Jun16   0:31 puma 2.11.3 (unix:///tmp/my_app.sock) [iic3103G5]
+
+		Si no nos entrega algo de ese estilo (2 lineas), ejecutamos el punto 3 y 4 nuevamente y solucionamos el problema
+		Si nos entregó algo como esas 2 líneas, el número que reemplaze a 31373 en la segunda linea será el id del proceso puma, lo llamaremos pid
+
+	7.2	Luego reiniciamos puma
+		sudo kill -s SIGUSR2 pid 
+			donde pid = 31373 en este caso particular, puede tomar cualquier valor, usamos el que nos de el punto 7.1
+
+8. Podemos comprobar si todo salio bien entrando a la pagina del proyecto y si sale un error, ejecutamos el punto 3 y 4.
+
+
+
+
