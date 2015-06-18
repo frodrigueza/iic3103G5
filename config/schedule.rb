@@ -18,12 +18,14 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-#set :environment, "development"
+set :environment, "development"
 
 every 10.minutes do
   runner "PedidoManager.check_pedidos", :output => 'tmp/check_pedidos.log'
+  puts "Check pedidos : " + DateTime.now.to_s, :output => 'tmp/check_pedidos.log'
 end
 
 every 2.hours do
   runner "SftpService.read_new_orders", :output => 'tmp/read_new_orders.log'
+  puts "Read new orders : " + DateTime.now.to_s, :output => 'tmp/read_new_orders.log'
 end
