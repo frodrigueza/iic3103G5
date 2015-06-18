@@ -34,10 +34,11 @@ class OrdersManager
                                  :cantidad_producida => "",
                                  :compras_insumos => "",
                                  :numero_facturas => "",
-                                 :movimientos_bancarios => ""
+                                 :movimientos_bancarios => "",
+                                 :despachado => false
                                  )
             insumos = []
-            tipo = ProductoManager.define_type_order(oc)
+            tipo = ProductoManager.get_datos_sku(oc[:sku])[:tipo]
             if tipo == "insumo"
               pedido[:producto_compuesto] = false
               insumos.push create_insumos(pedido[:sku], pedido[:cantidad])
@@ -115,7 +116,7 @@ class OrdersManager
 
     def self.cantidad_de_lotes(pedido)
         lote = ProductoManager.insumos_necesarios.find{|encontrados| encontrados['sku_final'] == pedido[:sku] }['cant_lote']
-        cantidad_de_lotes = (pedido[:cantidad].to_f/lote.to_f).ceil
+        return (pedido[:cantidad].to_f/lote.to_f).ceil
     end
 
     def self.detect_insumos(pedido)

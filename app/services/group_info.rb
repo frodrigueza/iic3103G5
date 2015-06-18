@@ -8,6 +8,7 @@ class GroupInfo
 
 
   # skus que trabaja la empresa
+  #insumo= 26,27,44 compuesto= 5,28,29,30
   def self.skus
     return ["5", "26", "27", "28", "29", "30", "44"]
   end
@@ -51,7 +52,7 @@ class GroupInfo
   	return "556489e7efb3d7030091bdcd" if not @@produccion
   end
 
-    def self.almacen_pulmon
+  def self.almacen_pulmon
     return "55648ae7f89fed0300525292" if @@produccion
   	return "556489e7efb3d7030091bf2a" if not @@produccion
   end

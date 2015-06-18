@@ -31,7 +31,6 @@ class BodegaManager
           break
         end 
       end
-
       #puts numeroEnDespacho
       
       body = {:id_a => GroupInfo.almacen_libre, :sku => sku}
