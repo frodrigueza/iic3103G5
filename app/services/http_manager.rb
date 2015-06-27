@@ -1,13 +1,13 @@
 class HttpManager
 
-	#@@uri = GroupInfo.url_api_curso
+	@@uri = GroupInfo.url_api_curso
 
 	@@auth_header = 'INTEGRACION grupo5:' 
 
-	#@@url_bodega = GroupInfo.url_api_bodega
+	@@url_bodega = GroupInfo.url_api_bodega
 
-	#@@url_esb = GrupoInfo.url_esb
-	@@url_esb = 'http://chiri.ing.puc.cl/integra5/'
+	@@url_esb = GrupoInfo.url_esb
+	#@@url_esb = 'http://chiri.ing.puc.cl/integra5/'
 
 	def self.parse_body(response)
 		order_hash = JSON.parse(response.body)
