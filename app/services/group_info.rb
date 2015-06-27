@@ -6,14 +6,13 @@ class GroupInfo
     return @@produccion
   end
 
-
   # skus que trabaja la empresa
-  #insumo= 26,27,44 compuesto= 5,28,29,30
+  # insumo= 26,27,44 compuesto= 5,28,29,30
   def self.skus
-    return ["5", "26", "27", "28", "29", "30", "44"]
+    %w[5 26 27 28 29 30 44]
   end
 
-  #desarrollo
+  # desarrollo
   def self.id
   	return "55648ad2f89fed0300524ff9" if @@produccion
     return "556489daefb3d7030091baae" if not @@produccion
@@ -81,6 +80,4 @@ class GroupInfo
     return 'moyas.ing.puc.cl'if @@produccion
     return 'chiri.ing.puc.cl'if not @@produccion
   end
-
-
 end
