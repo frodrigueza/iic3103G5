@@ -1,6 +1,6 @@
 class GroupInfo
 
-  @@produccion = true
+  @@produccion = false
 
   def self.en_produccion
     return @@produccion
@@ -80,6 +80,11 @@ class GroupInfo
   def self.url_ftp
     return 'moyas.ing.puc.cl'if @@produccion
     return 'chiri.ing.puc.cl'if not @@produccion
+  end
+
+  def self.url_esb
+    return 'http://moyas.ing.puc.cl/integra5/' if @@produccion
+    return 'http://chiri.ing.puc.cl/integra5/' if not @@produccion
   end
 
 

@@ -1,10 +1,13 @@
 class HttpManager
 
-	@@uri = GroupInfo.url_api_curso
+	#@@uri = GroupInfo.url_api_curso
 
 	@@auth_header = 'INTEGRACION grupo5:' 
 
-	@@url_bodega = GroupInfo.url_api_bodega
+	#@@url_bodega = GroupInfo.url_api_bodega
+
+	#@@url_esb = GrupoInfo.url_esb
+	@@url_esb = 'http://chiri.ing.puc.cl/integra5/'
 
 	def self.parse_body(response)
 		order_hash = JSON.parse(response.body)
@@ -374,14 +377,38 @@ class HttpManager
 
 	end
 
+	# body {:sku, :fecha}
+	def self.get_precio(body)
+
+		url = @@url_esb + 'getPrecios/'
+
+		puts "2"
+
+		response = HTTParty.get(url , :query => {:sku => body[:sku].to_s , :fecha => body[:fecha].to_s})
+
+		return parse_body(response)
+
+	end
+
+	#{:tweet}
+	def self.tweet(body)
+
+		url = @@url_esb + 'insertUrl/'
+
+		response = HTTParty.get(url , :query => {:tweet => body[:tweet]})
+
+		return parse_body(response)
+
+	end
+
+
+
 	def self.test
 		puts "hola"
-		body = { :monto => '2',
-				 :origen => '55648ad3f89fed0300524ffd',
-				 :destino => '55648ad3f89fed0300524ffd'
+		body = { :tweet => 'prueba de ruby',
 				}
 
-		hash = transferir(body)
+		hash = tweet(body)
 	end
 
 end
