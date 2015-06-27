@@ -28,10 +28,12 @@ class PedidoManager
               LogManager.new_log(pedido , "Insumo de sku: #{order[:sku]} enviado a comprar. Cantidad: #{order[:cantidad]}, Proveedor: grupo #{order[:proveedor]}, Orden de compra: #{order[:_id]}.")
               if not response
                 LogManager.new_log(pedido , "Falló notificación de orden de compra: #{order[:_id]} al grupo #{order[:proveedor]}.")
-              elsif response[:status] == 400
+              elsif response.code == 400
                 LogManager.new_log(pedido , "Orden de compra: #{order[:_id]} rechazada por el grupo #{order[:proveedor]}.")
-              else
+              elsif response.code == 200
                 LogManager.new_log(pedido , "Orden de compra: #{order[:_id]} aceptada por el grupo #{order[:proveedor]}.")
+              else
+                LogManager.new_log(pedido , "Falló notificación de orden de compra: #{order[:_id]} al grupo #{order[:proveedor]} recibió status: #{response.code}.")
               end
             else
               # Si es nuestro, "extraer" cantidad faltante
