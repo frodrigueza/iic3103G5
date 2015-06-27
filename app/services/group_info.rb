@@ -80,4 +80,9 @@ class GroupInfo
     return 'moyas.ing.puc.cl'if @@produccion
     return 'chiri.ing.puc.cl'if not @@produccion
   end
+
+  def self.url_esb
+    return 'http://moyas.ing.puc.cl/integra5/' if @@produccion
+    return 'http://chiri.ing.puc.cl/integra5/' if not @@produccion
+  end
 end
