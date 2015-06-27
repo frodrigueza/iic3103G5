@@ -1,6 +1,6 @@
 class GroupInfo
 
-  @@produccion = false
+  @@produccion = true
 
   def self.en_produccion
     return @@produccion
