@@ -32,6 +32,8 @@ class PedidoManager
                 LogManager.new_log(pedido , "Orden de compra: #{order[:_id]} rechazada por el grupo #{order[:proveedor]}.")
               elsif response.code == 200
                 LogManager.new_log(pedido , "Orden de compra: #{order[:_id]} aceptada por el grupo #{order[:proveedor]}.")
+              elsif response.code == 500
+                LogManager.new_log(pedido , "Ocurrió un error en la orden de compra: #{order[:_id]} enviada al grupo #{order[:proveedor]}, que notificó status: #{response.code}, lo que implica que es un error interno del proveedor.")
               else
                 LogManager.new_log(pedido , "Falló notificación de orden de compra: #{order[:_id]} al grupo #{order[:proveedor]} recibió status: #{response.code}.")
               end
@@ -74,7 +76,7 @@ class PedidoManager
         LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
       else 
         boleta = HttpManager.crear_boleta(pedido)
-        LogManager.new_log(pedido , "Boeta creada: #{boleta[:_id]}.")
+        LogManager.new_log(pedido , "Boleta creada: #{boleta[:_id]}.")
       end
       BodegaManager.despachar(pedido)
       LogManager.new_log(pedido , "Product de sku: #{pedido[:sku]} despachado a cliente #{pedido[:cliente]}. Cantidad: #{pedido[:cantidad]}.")
