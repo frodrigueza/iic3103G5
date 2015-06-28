@@ -48,6 +48,10 @@ gem 'devise'
 #gema para tener output en base 64 (documentacion http://www.rubydoc.info/gems/rubysl-base64/2.0.0/Base64)
 gem 'rubysl-base64'
 
+#Bunny RabbitMq
+gem "bunny", ">= 1.7.0"
+
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -85,4 +85,10 @@ class GroupInfo
     return 'http://moyas.ing.puc.cl/integra5/' if @@produccion
     return 'http://chiri.ing.puc.cl/integra5/' if not @@produccion
   end
+
+  def self.url_cola
+    return 'amqp://zioohigg:f31hQpoYF3Lbv1g2ms93swBGU22x1y_C@owl.rmq.cloudamqp.com/zioohigg' if @@produccion
+    return 'amqp://wdbztoic:uglKVZNnHmwzvbGHM92I9ugVuaHyT9f3@owl.rmq.cloudamqp.com/wdbztoic' if not @@produccion
+  end
+
 end

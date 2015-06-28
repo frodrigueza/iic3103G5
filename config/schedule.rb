@@ -27,3 +27,9 @@ end
 every 6.hours do
   runner "SftpService.read_new_orders", :output => 'tmp/read_new_orders.log'
 end
+
+#Descomentar para revisar pedidos en la cola a cada 30 minutos
+#every 30.minutes do
+#  runner "ColaManager.recibir", :output => 'tmp/cola.log'
+#end
+
