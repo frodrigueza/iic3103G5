@@ -6,7 +6,7 @@ class HttpManager
 
 	@@url_bodega = GroupInfo.url_api_bodega
 
-	@@url_esb = GrupoInfo.url_esb
+	@@url_esb = GroupInfo.url_esb
 	#@@url_esb = 'http://chiri.ing.puc.cl/integra5/'
 
 	def self.parse_body(response)
