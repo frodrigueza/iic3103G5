@@ -298,7 +298,7 @@ class BodegaManager
     if temp.nil?
       products.push producto
     else
-      temp = {:id => temp[:_id], :total => temp[:total] + producto[:total]}
+      temp = {:_id => temp[:_id], :total => temp[:total] + producto[:total]}
       products.delete_if{|prod| prod[:_id] == producto[:_id]}
       products.push temp
     end

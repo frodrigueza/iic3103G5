@@ -6,7 +6,7 @@ class HttpManager
 
 	@@url_bodega = GroupInfo.url_api_bodega
 
-	@@url_esb = GrupoInfo.url_esb
+	@@url_esb = GroupInfo.url_esb
 	#@@url_esb = 'http://chiri.ing.puc.cl/integra5/'
 
 	def self.parse_body(response)
@@ -386,12 +386,12 @@ class HttpManager
 
 		response = HTTParty.get(url , :query => {:sku => body[:sku].to_s , :fecha => body[:fecha].to_s})
 
-		return parse_body(response)
+		return parse_body(response) #listo
 
 	end
 
 	#{:tweet}
-	def self.tweet(body)
+	def self.tweet(body) #listo
 
 		url = @@url_esb + 'insertUrl/'
 
