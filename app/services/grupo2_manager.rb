@@ -2,10 +2,17 @@ class Grupo2Manager
   # params = { group: , order_id: }
   def self.new_order(params)
     order_id = params[:order_id]
-
+    order = HttpManager.get_oc(order_id)
     url = uri + 'new_order/'
+    date = DateTime.parse(order[:fechaEntrega]).strftime("%Y-%m-%d")
     request_params = {
-      order_id: order_id
+      order_id: order_id,
+      client: order[:cliente],
+      provider: order[:proveedor],
+      sku: order[:sku],
+      delivery_date: date,
+      quantity: order[:cantidad],
+      price: order[:precioUnitario]
     }
     return response = HTTParty.post(url, :body => request_params.to_json , headers: headers)
   end
