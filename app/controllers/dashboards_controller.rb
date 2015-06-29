@@ -25,9 +25,9 @@ class DashboardsController < ApplicationController
 		end
 	end
 
-	def orders_by_deliver_date
+	def orders_by_created_at_date
 		respond_to do |format|
-			format.json { render json: DashboardsManager.orders_by_deliver_date(params[:canal]) }
+			format.json { render json: DashboardsManager.orders_by_created_at_date(params[:canal]) }
 		end
 	end
 end
