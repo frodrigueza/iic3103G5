@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'ig/post_promociones'
+
   # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
   # If you would like to change where this engine is mounted, simply change the :at option to something different.
@@ -15,6 +17,12 @@ Rails.application.routes.draw do
   # get 'sftp/get_new_orders'
 
   # get 'b2b/documentation'
+
+  namespace :ig do
+
+    post 'post_promociones'
+
+  end
 
   namespace :b2b do 
     get 'documentation'
