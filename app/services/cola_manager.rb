@@ -28,9 +28,10 @@ class ColaManager
 				mensaje[:sku] == "44"
 
 			   #fecha = Time.at(mensaje[:fin]).utc
-			   mensaje_tweeter = "OFERTA! Sku: #{mensaje[:sku]} a sólo #{mensaje[:precio]} pesos!"
+			   mensaje_tweeter = "OFERTA DE LA COLA! Sku: #{mensaje[:sku]} a sólo #{mensaje[:precio]} pesos!"
 
-			   
+			   body = {:tweet => mensaje_tweeter}
+			   HttpManager.tweet(body)
 			   #AQUI SE DEBERIA MANDAR MENSAJE DE TWITTER
 			
 

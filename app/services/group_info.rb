@@ -1,6 +1,6 @@
 class GroupInfo
 
-  @@produccion = true
+  @@produccion = false
 
   def self.en_produccion
     return @@produccion
@@ -89,6 +89,10 @@ class GroupInfo
   def self.url_cola
     return 'amqp://zioohigg:f31hQpoYF3Lbv1g2ms93swBGU22x1y_C@owl.rmq.cloudamqp.com/zioohigg' if @@produccion
     return 'amqp://wdbztoic:uglKVZNnHmwzvbGHM92I9ugVuaHyT9f3@owl.rmq.cloudamqp.com/wdbztoic' if not @@produccion
+  end
+
+  def self.ig_access_token
+    return '2049758554.1fb234f.540af7caceca41cdbe122d62addd7826'    
   end
 
 end

@@ -397,7 +397,7 @@ class HttpManager
 
 		response = HTTParty.get(url , :query => {:tweet => body[:tweet]})
 
-		return parse_body(response)
+		return response
 
 	end
 
