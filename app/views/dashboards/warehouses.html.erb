@@ -1,0 +1,37 @@
+<%= render layout:'dashboards/layout' do %>
+
+	<div class="row">
+		<nav>
+			<ul class="pager">
+				<li class="option active" id="option_1"><a href="#">Todos los almacenes</a></li>
+				<li class="option active" id="option_2"><a href="#">Recepcion</a></li>
+				<li class="option active" id="option_3"><a href="#">Libre</a></li>
+				<li class="option active" id="option_4"><a href="#">Despacho</a></li>
+				<li class="option active" id="option_5"><a href="#">Pulmón</a></li>
+			</ul>
+		</nav>
+	</div>
+
+	<div class="row not_together">
+		<div class="row option_content" id="option_content_1">
+			<%= render 'warehouse', locals: {capacidad: @capacidad_todos, productos: @productos_todos, nombre_almacen: "todos"} %>
+		</div>
+
+		<div class="row option_content" style="display:none" id="option_content_2">
+			<%= render 'warehouse', locals: {capacidad: @capacidad_recepcion, productos: @productos_recepcion, nombre_almacen: "recepcion"} %>
+		</div>
+
+		<div class="row option_content" id="option_content_3" style="display:none">
+			<%= render 'warehouse', locals: {capacidad: @capacidad_libre, productos: @productos_libre, nombre_almacen: "libre"} %>
+		</div>
+
+		<div class="row option_content" style="display:none" id="option_content_4">
+			<%= render 'warehouse', locals: {capacidad: @capacidad_despacho, productos: @productos_despacho, nombre_almacen: "despacho"} %>
+		</div>
+
+		<div class="row option_content" style="display:none" id="option_content_5">
+			<%= render 'warehouse', locals: {capacidad: @capacidad_pulmon, productos: @productos_pulmon, nombre_almacen: "pulmon"} %>
+		</div>
+
+	</div>
+<% end %>

@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'ig/post_promociones'
+
+  namespace 'dashboards' do 
+    get 'warehouses'
+    get 'orders'
+    get 'skus_by_canal'
+    get 'orders_by_deliver_date'
+  end
+
 
   # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
