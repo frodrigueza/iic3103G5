@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>Dashboards</h1>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<ul class="nav nav-tabs">
+		
+		<li role="presentation" class="<%= params[:action] == 'warehouses' ? 'active' : '' %>">
+			<%= link_to 'Bodegas', dashboards_warehouses_path %>
+		</li>
+
+		<li role="presentation" class="<%= params[:action] == 'orders' ? 'active' : '' %>">
+			<%= link_to 'Pedidos', dashboards_orders_path %>
+		</li>
+
+	</ul>
+</div>
+
+<div class="row">
+	<%= yield %>	
+</div>

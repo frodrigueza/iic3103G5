@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  namespace 'dashboards' do 
+    get 'warehouses'
+    get 'orders'
+    get 'skus_by_canal'
+    get 'orders_by_deliver_date'
+  end
+
   # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
   # If you would like to change where this engine is mounted, simply change the :at option to something different.

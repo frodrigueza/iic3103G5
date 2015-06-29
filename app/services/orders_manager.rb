@@ -134,6 +134,4 @@ class OrdersManager
         insumo = Insumo.create(:sku => sku, :cantidad => cantidad)
         return insumo
     end
-
-
 end
