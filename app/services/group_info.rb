@@ -6,14 +6,13 @@ class GroupInfo
     return @@produccion
   end
 
-
   # skus que trabaja la empresa
-  #insumo= 26,27,44 compuesto= 5,28,29,30
+  # insumo= 26,27,44 compuesto= 5,28,29,30
   def self.skus
-    return ["5", "26", "27", "28", "29", "30", "44"]
+    %w[5 26 27 28 29 30 44]
   end
 
-  #desarrollo
+  # desarrollo
   def self.id
   	return "55648ad2f89fed0300524ff9" if @@produccion
     return "556489daefb3d7030091baae" if not @@produccion
@@ -82,5 +81,14 @@ class GroupInfo
     return 'chiri.ing.puc.cl'if not @@produccion
   end
 
+  def self.url_esb
+    return 'http://moyas.ing.puc.cl/integra5/' if @@produccion
+    return 'http://chiri.ing.puc.cl/integra5/' if not @@produccion
+  end
+
+  def self.url_cola
+    return 'amqp://zioohigg:f31hQpoYF3Lbv1g2ms93swBGU22x1y_C@owl.rmq.cloudamqp.com/zioohigg' if @@produccion
+    return 'amqp://wdbztoic:uglKVZNnHmwzvbGHM92I9ugVuaHyT9f3@owl.rmq.cloudamqp.com/wdbztoic' if not @@produccion
+  end
 
 end
