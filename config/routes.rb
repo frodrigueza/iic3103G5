@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   namespace 'dashboards' do 
     get 'warehouses'
     get 'orders'
-    get 'skus_by_canal'
+    get 'orders_by_sku_group_by_canal'
     get 'orders_by_created_at_date'
+    get 'quantities_by_sku_group_by_canal'
   end
 
 

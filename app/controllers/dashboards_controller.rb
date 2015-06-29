@@ -19,9 +19,9 @@ class DashboardsController < ApplicationController
 		
 	end
 
-	def skus_by_canal
+	def orders_by_sku_group_by_canal
 		respond_to do |format|
-			format.json { render json: DashboardsManager.skus_by_canal }
+			format.json { render json: DashboardsManager.orders_by_sku_group_by_canal }
 		end
 	end
 
@@ -29,5 +29,12 @@ class DashboardsController < ApplicationController
 		respond_to do |format|
 			format.json { render json: DashboardsManager.orders_by_created_at_date(params[:canal]) }
 		end
+	end
+
+	def quantities_by_sku_group_by_canal
+		respond_to do |format|
+			format.json { render json: DashboardsManager.quantities_by_sku_group_by_canal }
+		end
+		
 	end
 end

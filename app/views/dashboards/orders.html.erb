@@ -1,22 +1,36 @@
 <%= render layout:'dashboards/layout' do %>
 
-	<div class="row">
+	<!-- <div class="row">
 		<nav>
 			<ul class="pager">
-				<li class="option active" id="option_1"><a href="#">SKUs / canal</a></li>
-				<li class="option active" id="option_2"><a href="#">Entregas / tiempo</a></li>
+				<li class="option active" id="option_1"><a href="#">SKUs</a></li>
+				<li class="option active" id="option_2"><a href="#">Pedidos</a></li>
 			</ul>
 		</nav>
-	</div>
+	</div> -->
 	
-	<div class="row option_content" id="option_content_1">
+	<div class="row option_content not_together" id="option_content_1">
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Nivel de consumo de SKUs según canal
 				</div>
 				<div class="panel-body">
-					<div id="orders_by_canal_chart">
+					<div id="orders_by_sku_group_by_canal">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row option_content not_together" id="option_content_1">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Cantidad ordenada según SKU
+				</div>
+				<div class="panel-body">
+					<div id="quantities_by_sku_group_by_canal">
 					</div>
 				</div>
 			</div>

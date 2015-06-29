@@ -16,7 +16,7 @@ var orders_by_deliver_date_function = function() {
         });
 
 		$.ajax({
-            url: '/dashboards/orders_by_created_at_date?canal=e_commerce',
+            url: '/dashboards/orders_by_created_at_date?canal=e-commerce',
             dataType: 'json',
             success: function(data){
             	e_commerce_data = data;
@@ -45,7 +45,7 @@ var orders_by_deliver_date_function = function() {
 	                },
 	                yAxis: {
 	                    title: {
-	                        text: 'Cantidad de pedidos recibidos'
+	                        text: 'Pedidos recibidos en el tiempo'
 	                    }
 	                },
 	                tooltip: {

@@ -1,6 +1,8 @@
 class DashboardsManager
 
-    def self.skus_by_canal
+
+    # pedidos segun SKU, agrupados por canal
+    def self.orders_by_sku_group_by_canal
         aux_array = [
             {
                 name: 'ftp',
@@ -25,6 +27,37 @@ class DashboardsManager
         array = []
         GroupInfo.skus.each do |s|
             array << sku_count_for_canal(canal, s)
+        end
+
+        array
+    end
+
+    # cantidad ordenada segun SKU, agrupados por canal
+    def self.quantities_by_sku_group_by_canal
+        aux_array = [
+            {
+                name: 'ftp',
+                data: total_ordered_quantities('ftp')
+            },
+            {
+                name: 'b2b',
+                data: total_ordered_quantities('b2b')
+            },
+            {
+                name: 'e-commerce',
+                data: total_ordered_quantities('e-commerce')
+            }
+        ]
+    end
+
+    def self.total_ordered_quantity(canal, sku)
+        Pedido.where(sku: sku, canal: canal).inject(0){|sum, o| o.cantidad ? sum + o.cantidad : sum }
+    end
+
+    def self.total_ordered_quantities(canal)
+        array = []
+        GroupInfo.skus.each do |s|
+            array << total_ordered_quantity(canal, s)
         end
 
         array
