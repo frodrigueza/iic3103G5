@@ -58,7 +58,7 @@ var ready = function() {
 			            column: {
 			                stacking: 'normal',
 			                dataLabels: {
-			                    enabled: true,
+			                    enabled: false,
 			                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
 			                    style: {
 			                        textShadow: '0 0 0px black'
