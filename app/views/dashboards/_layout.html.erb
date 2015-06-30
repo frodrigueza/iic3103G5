@@ -8,13 +8,17 @@
 
 <div class="row">
 	<ul class="nav nav-tabs">
-		
+
 		<li role="presentation" class="<%= params[:action] == 'warehouses' ? 'active' : '' %>">
 			<%= link_to 'Bodegas', dashboards_warehouses_path %>
 		</li>
 
 		<li role="presentation" class="<%= params[:action] == 'orders' ? 'active' : '' %>">
 			<%= link_to 'Pedidos', dashboards_orders_path %>
+		</li>
+
+		<li role="presentation" class="<%= params[:action] == 'social' ? 'active' : '' %>">
+			<%= link_to 'Social', dashboards_social_path %>
 		</li>
 
 	</ul>

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'orders_by_sku_group_by_canal'
     get 'orders_by_created_at_date'
     get 'quantities_by_sku_group_by_canal'
+    get 'social'
   end
 
   devise_for :users
