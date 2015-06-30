@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  
   namespace 'dashboards' do 
     get 'warehouses'
     get 'orders'
