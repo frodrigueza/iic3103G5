@@ -1,22 +1,15 @@
 Rails.application.routes.draw do
 
   
-  namespace 'dashboards' do 
+  namespace :dashboards do 
     get 'warehouses'
     get 'orders'
     get 'orders_by_sku_group_by_canal'
     get 'orders_by_created_at_date'
     get 'quantities_by_sku_group_by_canal'
+    get 'social'
   end
 
-
-  # This line mounts Spree's routes at the root of your application.
-  # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
-  # If you would like to change where this engine is mounted, simply change the :at option to something different.
-  #
-  # We ask that you don't use the :as option here, as Spree relies on it being the default of "spree"
-  mount Spree::Core::Engine, :at => '/ecommerce'
-        
   devise_for :users
   get 'home/index'
   get 'home/pedidos'
@@ -29,6 +22,7 @@ Rails.application.routes.draw do
   namespace :ig do
 
     post 'post_promociones'
+    get 'post_promociones'
 
   end
 
@@ -46,12 +40,6 @@ Rails.application.routes.draw do
     post 'invoice_created'
     post 'invoice_paid'
     post 'invoice_rejected' 
-  end
-
-  namespace :dashboard do
-    get 'index'
-
-    put 'almacenes'
   end
 
   namespace :orders do

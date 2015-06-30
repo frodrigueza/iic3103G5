@@ -7,9 +7,10 @@ class IgController < ApplicationController
 
   	if(params['hub.challenge'] != nil) #perfecto
 
-  		respond_to do |format|
-			format.json { render json: params['hub.challenge'], status: 200}
-		end
+      render body: params['hub.challenge'].to_s
+  		#respond_to do |format|
+			#format.json { render text: params['hub.challenge'], status: 200}
+
 
   	else
   		IgManager.tag(params)

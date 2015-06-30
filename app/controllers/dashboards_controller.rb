@@ -12,13 +12,36 @@ class DashboardsController < ApplicationController
 		@productos_recepcion = BodegaManager.obtener_cantidades_bodega('recepcion')
 		@productos_despacho = BodegaManager.obtener_cantidades_bodega('despacho')
 		@productos_pulmon = BodegaManager.obtener_cantidades_bodega('pulmon')
-		@productos_todos = (@productos_libre + @productos_recepcion + @productos_despacho + @productos_pulmon).uniq
+		@productos_todos = (@productos_libre + @productos_recepcion + @productos_despacho + @productos_pulmon)
+
+		aux = []
+		@productos_todos.each do |p1|
+			total = p1[:total]
+			@productos_todos.each do |p2|
+				if p1[:_id] == p2[:_id] && !(p1 === p2)
+					total += p2[:total]
+				end
+			end
+
+			aux << {
+				_id: p1[:_id],
+				total: total
+			}
+		end
+
+		@productos_todos = aux.uniq
 	end
 
 	def orders
 		
 	end
 
+	def social
+		
+	end
+
+
+	# AJAX
 	def orders_by_sku_group_by_canal
 		respond_to do |format|
 			format.json { render json: DashboardsManager.orders_by_sku_group_by_canal }
