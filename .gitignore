@@ -52,3 +52,4 @@ bower.json
 .powenv
 
 /sftp_files
+/db/schema.rb
