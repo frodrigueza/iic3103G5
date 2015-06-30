@@ -2,28 +2,34 @@ class IgManager
 
 	def self.tag(params)
 
-		params_json = params[:_json]
+		if(params[:meta]== nil)
 
-		params_json.each do |update|
+			params_json = params[:_json]
 
-			url ='https://api.instagram.com/v1/tags/' + update[:object_id].to_s + '/media/recent/'
+			params_json.each do |update|
 
-			response = HTTParty.get(url,
-				:query => {:access_token => GroupInfo.ig_access_token })
+				url ='https://api.instagram.com/v1/tags/' + update[:object_id].to_s + '/media/recent/'
 
-			text = response['data'][0]['caption']['text'].to_s
+				response = HTTParty.get(url,
+					:query => {:access_token => GroupInfo.ig_access_token })
 
-			#text = '#promociones #queso en láminas #oferta sku=40 precio=400 codigo=123abc'
+				text = response['data'][0]['caption']['text'].to_s
 
-			if text.include? "sku" and text.include? "precio" and text.include? "codigo"
+				#text = '#promociones #queso en láminas #oferta sku=40 precio=400 codigo=123abc'
 
-				body = {:tweet => crear_tweet(text)}
+				if text.include? "sku" and text.include? "precio" and text.include? "codigo"
 
-				HttpManager.tweet(body)
+					##TODO Actualizar el precio de ese sku en la base de datos spree	
 
-			end
+					body = {:tweet => crear_tweet(text)}
 
-		end	
+					HttpManager.tweet(body)
+
+				end
+
+			end	
+
+		end
 
 	end
 
