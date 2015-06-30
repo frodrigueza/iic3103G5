@@ -51,4 +51,4 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-/sfpt_files
+/sftp_files
