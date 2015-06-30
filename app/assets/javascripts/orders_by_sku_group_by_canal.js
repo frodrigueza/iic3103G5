@@ -28,7 +28,7 @@ var ready = function() {
 			            				"Tela de algodón (30)", 
 			            				"Agave (44)"],
 			            title: {
-			                text: 'Pedidos (sku)'
+			                text: 'Productos (sku)'
 			            }
 			        },
 
@@ -37,6 +37,12 @@ var ready = function() {
 			            min: 0,
 			            title: {
 			                text: 'Numero de pedidos'
+			            },
+			            stackLabels: {
+			                enabled: true,
+			                style: {
+			                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+			                }
 			            }
 			        },
 
@@ -50,7 +56,14 @@ var ready = function() {
 
 			        plotOptions: {
 			            column: {
-			                stacking: 'normal'
+			                stacking: 'normal',
+			                dataLabels: {
+			                    enabled: true,
+			                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+			                    style: {
+			                        textShadow: '0 0 0px black'
+			                    }
+			                }
 			            }
 			        },
 
