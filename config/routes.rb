@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :ig do
 
     post 'post_promociones'
+    get 'post_promociones'
 
   end
 
