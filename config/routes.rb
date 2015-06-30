@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   
-  namespace 'dashboards' do 
+  namespace :dashboards do 
     get 'warehouses'
     get 'orders'
     get 'orders_by_sku_group_by_canal'
@@ -40,12 +40,6 @@ Rails.application.routes.draw do
     post 'invoice_created'
     post 'invoice_paid'
     post 'invoice_rejected' 
-  end
-
-  namespace :dashboard do
-    get 'index'
-
-    put 'almacenes'
   end
 
   namespace :orders do
