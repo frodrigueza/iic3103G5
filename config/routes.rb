@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     get 'orders_by_created_at_date'
     get 'quantities_by_sku_group_by_canal'
     get 'social'
+    get 'service_levels_by_countries'
+    get 'clients'
+    get 'bank'
   end
 
   get 'pedidos/:id' => 'pedidos#index', via: :get

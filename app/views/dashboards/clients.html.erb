@@ -1,0 +1,18 @@
+<%= render layout:'dashboards/layout' do %>
+	
+	<div class="row option_content not_together" id="option_content_1">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<%= fa_icon 'file-text-o' %> Nivel de servicio por pais
+				</div>
+				<div class="panel-body">
+					<div id="service_levels_by_countries">
+						<%= fa_icon 'spinner', class:'fa-spin' %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<% end %>
