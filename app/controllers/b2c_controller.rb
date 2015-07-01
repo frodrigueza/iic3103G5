@@ -11,7 +11,11 @@ class B2cController < ApplicationController
   end
 
   def pagar
-    total = params[:precioUnitario].to_i * params[:cantidad].to_i
+    precioUnitario = params[:precioUnitario].to_i
+    if promo = Promo.activas.find_by(codigo: params[:promocion])
+      precioUnitario = promo[:precio]
+    end
+    total = precioUnitario * params[:cantidad].to_i
     boleta = HttpManager.crear_boleta(cliente: params[:cliente], proveedor: GroupInfo.id, total: total)
     params[:boletaId] = boleta[:_id]
     callbackUrl = (url_for(controller: 'b2c', action: 'pagado') + "?#{params.except(:controller, :action, :promocion).to_query}")

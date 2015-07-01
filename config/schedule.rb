@@ -33,3 +33,7 @@ every 5.minutes do
   runner "ColaManager.recibir"
 end
 
+every 1.minutes do
+  runner "ProductoManager.actualizar_precios"
+end
+
