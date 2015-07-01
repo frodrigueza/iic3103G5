@@ -122,7 +122,7 @@ class DashboardsManager
         [
             countries,
             {
-                name: 'Recibidas',
+                name: 'No Despachadas',
                 data: received
             },
             {

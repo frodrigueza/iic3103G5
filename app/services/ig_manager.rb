@@ -55,6 +55,8 @@ class IgManager
 
 		codigo = codigo[codigo.index('=')+1 .. -1]
 
+		Promo.create(sku: sku, precio: precio.to_i, codigo: codigo)
+
 		return mensaje_tweeter = "OFERTA DE INSTAGRAM! Sku: " + sku +" a sólo " + precio + " pesos! Código: " + codigo
 
 	end
