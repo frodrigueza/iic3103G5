@@ -1,6 +1,6 @@
 class IgManager
 
-	def self.tag(params)
+	def self.tag(params)#perfecto
 
 		if(params[:meta]== nil)
 
@@ -19,7 +19,7 @@ class IgManager
 
 				if text.include? "sku" and text.include? "precio" and text.include? "codigo"
 
-					##TODO Actualizar el precio de ese sku en la base de datos spree	
+					##TODO Actualizar el precio de ese sku en la base de datos 	
 
 					body = {:tweet => crear_tweet(text)}
 
