@@ -15,6 +15,7 @@ class PedidosController < ApplicationController
     @count = (@pedidos.count)/50 +1
     @page = params[:page] ? params[:page].to_i : 1
     @pedidos_pagina = @pedidos[(@page-1)*50...@page*50]
+    @primer_numero = (@page-1)*50+1
 
 
   end

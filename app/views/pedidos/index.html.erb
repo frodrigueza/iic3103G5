@@ -26,6 +26,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th></th>
           <th>Pedido</th>
           <th>Canal</th>
           <th>Cliente</th>
@@ -36,6 +37,8 @@
       </thead>
       <% @pedidos_pagina.each do |p| %>
         <tr>
+          <td><%= @primer_numero %></td>
+          <td><%= p.oc_id %></td>
           <td><%= p.oc_id %></td>
           <td><%= p.canal %></td>
           <td><%= p.cliente %></td>
@@ -43,6 +46,7 @@
           <td><%= f_date(p.fecha_entrega) %></td>
           <td><%= link_to 'detalles', action: 'index', id: p.oc_id %></td>
         </tr>
+        <% @primer_numero= @primer_numero+1 %>
       <% end %>
     </table>
   </div>
