@@ -10,17 +10,15 @@ var orders_by_deliver_date_function = function() {
             dataType: 'json',
             success: function(data){
             	ftp_data = data;
-            	console.log('ftp');
             }
 
         });
 
 		$.ajax({
-            url: '/dashboards/orders_by_created_at_date?canal=e-commerce',
+            url: '/dashboards/orders_by_created_at_date?canal=b2c',
             dataType: 'json',
             success: function(data){
             	e_commerce_data = data;
-            	console.log('e-commerce');
             }
 
         });
@@ -64,7 +62,7 @@ var orders_by_deliver_date_function = function() {
 	                        data: ftp_data
 	                    },
 	                    {
-	                        name: 'e-commerce',
+	                        name: 'b2c',
 	                        data: e_commerce_data
 	                    },
 	                    {

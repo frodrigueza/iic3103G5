@@ -29,9 +29,9 @@
       <thead>
         <tr>
           <th></th>
-          <th>Pedido</th>
           <th>Id orden de compra</th>
           <th>Canal</th>
+          <th>Cantidad</th>
           <th>Cliente</th>
           <th>Sku</th>
           <th>Fecha de entrega</th>
@@ -42,8 +42,8 @@
         <tr>
           <td><%= @primer_numero %></td>
           <td><%= p.oc_id %></td>
-          <td><%= p.oc_id %></td>
           <td><%= p.canal %></td>
+          <td><%= p.cantidad %></td>
           <td><%= p.cliente %></td>
           <td><%= p.sku %></td>
           <td><%= f_date(p.fecha_entrega) %></td>
