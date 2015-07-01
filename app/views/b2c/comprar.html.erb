@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1>E-Commerce</h1>
+</div>
+<div class="col-md-4">
+<form role="form">
+<div class="form-group">
+  <label for="sku">Producto:</label>
+  <%= select_tag(:sku, options_for_select(@productos.map { |p| ["#{p[:nombre]} (sku: #{p[:sku]})", p[:sku]]}, @sku), class: "form-control") %>
+</div>
+  <div class="form-group">
+    <label for="cliente">Nombre Cliente:</label>
+    <input type="text" class="form-control" id="cliente">
+  </div>
+  <div class="form-group">
+    <label for="direccion">Dirección:</label>
+    <input type="text" class="form-control" id="direccion">
+  </div>
+  <div class="form-group">
+    <label for="cantidad">Cantidad: (Unidades)</label>
+    <input type="number" class="form-control" id="cantidad" min="0">
+  </div>
+  <div class="form-group">
+    <label>Precio Unitario:</label>
+    <h4 id="precio"><%= number_to_currency @precio %></h4>
+  </div>
+  <button type="submit" class="btn btn-danger">
+  <span class="glyphicon glyphicon-usd"></span> Pagar
+  </button>
+</form>
+<br>
+</div>
+<!-- sku: insumo[:sku], proveedor: proveedor, canal: "b2b", precioUnitario: precio_unitario,
+               cantidad: cantidad_faltante, cliente: GroupInfo.grupo, fechaEntrega: Helpers.time_to_unix(pedido.fecha_entrega) -->

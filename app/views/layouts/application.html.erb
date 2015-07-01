@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Grupo 5 | IIC3103 </title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
-  <%= csrf_meta_tags %>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-  <!-- highcharts -->
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://rawgit.com/pablojim/highcharts-ng/master/dist/highcharts-ng.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script> 
-
-</head>
-<body>
-	<%= render 'layouts/nav_top_bar' %>
-
-	<div class="container content">
-		<%= yield %>
-	</div>
-
-	<div class="row footer">
-		Grupo 5 | Taller de Integración | iic3103
-		<br>
-		Contacto Jefe Grupo: gaibacache@uc.cl (+569 77499004)
-		<br>
-		Guillermo Ibacache <br>
-		José Pedro Terrazas <br>
-		Felipe Rodríguez <br>
-		Damir Mandakovic <br>
-		Matías Vergara <br>
-	</div>
-
-
-</body>
+  <head>
+    <title>Grupo 5 | IIC3103 </title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
+    <%= csrf_meta_tags %>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://rawgit.com/pablojim/highcharts-ng/master/dist/highcharts-ng.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  </head>
+  <body>
+    <%= render 'layouts/nav_top_bar' %>
+    <div class="container content">
+      <div class="container">
+        <div class="row">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <div class="row footer">
+      Grupo 5 | Taller de Integración | iic3103
+    <br>
+      Contacto Jefe Grupo: gaibacache@uc.cl (+569 77499004)
+    <br>
+      Guillermo Ibacache <br>
+      José Pedro Terrazas <br>
+      Felipe Rodríguez <br>
+      Damir Mandakovic <br>
+      Matías Vergara <br>
+    </div>
+  </body>
 </html>

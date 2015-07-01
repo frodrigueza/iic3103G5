@@ -43,7 +43,7 @@ class GruposInfo
         return "55648ae7f89fed030052512f" if GroupInfo.en_produccion
         return "556489e7efb3d7030091bc67" if not GroupInfo.en_produccion
       when "4"
-        return "55648ae6f89fed03005251d0" if GroupInfo.en_produccion
+        return "55648ae7f89fed03005251d0" if GroupInfo.en_produccion
         return "556489e7efb3d7030091bd07" if not GroupInfo.en_produccion
       when "6"
         return "55648ae7f89fed0300525293" if GroupInfo.en_produccion
