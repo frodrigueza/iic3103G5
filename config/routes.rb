@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-  
-  namespace :dashboards do 
+  devise_for :users
+
+  namespace :dashboards do
     get 'warehouses'
     get 'orders'
     get 'orders_by_sku_group_by_canal'
@@ -10,36 +11,24 @@ Rails.application.routes.draw do
     get 'social'
   end
 
-  devise_for :users
-  get 'home/index'
-  get 'home/pedidos'
-  get 'home/test'
-
-  # get 'sftp/get_new_orders'
-
-  # get 'b2b/documentation'
+  match 'pedidos/(:id)' => 'pedidos#index', via: :get
 
   namespace :ig do
-
     post 'post_promociones'
     get 'post_promociones'
-
   end
 
-  namespace :b2b do 
+  namespace :b2b do
     get 'documentation'
-
     put 'new_user'
     post 'get_token'
-
     post 'new_order'
     post 'order_accepted'
     post 'order_canceled'
     post 'order_rejected'
-
     post 'invoice_created'
     post 'invoice_paid'
-    post 'invoice_rejected' 
+    post 'invoice_rejected'
   end
 
   namespace :orders do
@@ -50,11 +39,17 @@ Rails.application.routes.draw do
     get 'clear_insumos'
   end
 
+  namespace :b2c do
+    get 'comprar'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#pedidos'
+  root 'b2c#index'
+
+  match ':controller/(:action/(:id))', via: [:get, :post]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

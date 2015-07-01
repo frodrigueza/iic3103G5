@@ -1,0 +1,7 @@
+<%= render 'titulo' %>
+<% if @oc %>
+  <%= render 'info_table' %>
+  <%= render 'logs_table' %>
+<% else %>
+  <%= 'Pedido no encontrado id: ' + params[:id] %>
+<% end %>
