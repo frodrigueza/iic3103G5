@@ -30,6 +30,6 @@ end
 
 #Revisar pedidos en la cola a cada 30 minutos
 every 5.minutes do
-  runner "ColaManager.recibir", :output => 'tmp/cola.log'
+  runner "ColaManager.recibir"
 end
 

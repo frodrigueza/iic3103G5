@@ -21,6 +21,14 @@
 			<%= link_to 'Social', dashboards_social_path %>
 		</li>
 
+		<li role="presentation" class="<%= params[:action] == 'clients' ? 'active' : '' %>">
+			<%= link_to 'Clientes', dashboards_clients_path %>
+		</li>
+
+		<li role="presentation" class="<%= params[:action] == 'bank' ? 'active' : '' %>">
+			<%= link_to 'Banco', dashboards_bank_path %>
+		</li>
+
 	</ul>
 </div>
 

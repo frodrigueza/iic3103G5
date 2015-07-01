@@ -12,9 +12,16 @@ class PedidosController < ApplicationController
       render 'pedido'
     end
     @pedidos = Pedido.all.order fecha_entrega: :desc
+    @count = (@pedidos.count)/20 +1
+    @page = params[:page] ? params[:page].to_i : 1
+    @pedidos_pagina = @pedidos[(@page-1)*20...@page*20]
+
+
   end
 
   # def index
   #   @pedidos = Pedido.all.order :fecha_entrega
   # end
+
+
 end

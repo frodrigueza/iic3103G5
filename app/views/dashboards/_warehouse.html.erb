@@ -4,17 +4,20 @@
     </div>
 
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <span> Uso: </span>
 
-                <div class="progress">
-                    <div class="progress-bar <% if locals[:capacidad].to_i < 30 %> progress-bar-info <% elsif locals[:capacidad].to_i < 70 %> progress-bar-warning <% else %> progress-bar-danger <% end %>" role="progressbar" aria-valuenow="<% locals[:capacidad] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= locals[:capacidad] %>%; min-width: 2em">
-                        <%= locals[:capacidad].to_i.to_s %> %
+        <% if locals[:nombre_almacen] != 'todos' && locals[:nombre_almacen] != 'pulmon' %>
+            <div class="row">
+                <div class="col-md-12">
+                    <span> Uso: </span>
+
+                    <div class="progress">
+                        <div class="progress-bar <% if locals[:capacidad].to_i < 30 %> progress-bar-info <% elsif locals[:capacidad].to_i < 70 %> progress-bar-warning <% else %> progress-bar-danger <% end %>" role="progressbar" aria-valuenow="<% locals[:capacidad] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= locals[:capacidad] %>%; min-width: 2em">
+                            <%= locals[:capacidad].to_i.to_s %> %
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <% end %>
 
 
         <div class="row">

@@ -40,6 +40,14 @@ class DashboardsController < ApplicationController
 		
 	end
 
+	def clients
+		
+	end
+
+	def bank
+		@transactions = DashboardsManager.bank_transactions.reverse
+	end
+
 
 	# AJAX
 	def orders_by_sku_group_by_canal
@@ -58,6 +66,11 @@ class DashboardsController < ApplicationController
 		respond_to do |format|
 			format.json { render json: DashboardsManager.quantities_by_sku_group_by_canal }
 		end
-		
+	end
+
+	def service_levels_by_countries
+		respond_to do |format|
+			format.json { render json: DashboardsManager.service_levels_by_countries }
+		end
 	end
 end
