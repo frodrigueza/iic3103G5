@@ -218,7 +218,7 @@ class HttpManager
 			:query => {:fechaInicio => body[:fecha_inicio] , :fechaFin => body[:fecha_fin], :id => body[:id_cb], :limit => body[:limit]},
 			:headers =>{ 'Content-Type' => 'application/json'})
 
-		return parse_body(response)
+		return response.body
 
 	end
 

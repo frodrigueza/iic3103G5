@@ -81,4 +81,72 @@ class DashboardsManager
         (Pedido.all.min_by{|x| x.created_at.to_date}.created_at.to_date..Pedido.all.max_by{|x| x.created_at.to_date}.created_at.to_date)
     end
 
+
+    # nivel de servicio por pais
+    def self.service_level(pais_id)
+        if pais_id == (9 || 10)
+            delivered_orders = Pedido.where(canal: 'ftp', cliente: 9, despachado: true) + Pedido.where(canal: 'ftp', cliente: 10, despachado: true)
+            total_orders = Pedido.where(canal:'ftp', cliente: 9) + Pedido.where(canal:'ftp', cliente: 10)
+        elsif pais_id == (20 || 21)
+            delivered_orders = Pedido.where(canal: 'ftp', cliente: 20, despachado: true) + Pedido.where(canal: 'ftp', cliente: 21, despachado: true)
+            total_orders = Pedido.where(canal:'ftp', cliente: 21) + Pedido.where(canal:'ftp', cliente: 20)
+        else
+            delivered_orders = Pedido.where(canal: 'ftp', cliente: pais_id, despachado: true)
+            total_orders = Pedido.where(canal:'ftp', cliente: pais_id)
+        end
+
+        if total_orders.count == 0 
+            return nil
+        else
+            return [total_orders.count, delivered_orders.count]
+        end
+    end
+
+    def self.service_levels_by_countries
+        delivered = []
+        received = []
+        countries = []
+
+        (1..21).each do |i|
+            if i != 10 && i != 21
+                ser_level = service_level(i)
+
+                if ser_level != nil
+                    received << ser_level[0]
+                    delivered << ser_level[1]
+                    countries << GruposInfo.get_pais(i.to_s)
+                end
+            end
+        end
+
+        [
+            countries,
+            {
+                name: 'Recibidas',
+                data: received
+            },
+            {
+                name: 'Despachadas',
+                data: delivered
+            }
+        ]
+    end
+
+
+    # cartola del banco
+    def self.bank_transactions
+        start_date = Helpers.time_to_unix(DateTime.now - 200.days)
+        end_date = Helpers.time_to_unix(DateTime.now)
+        bank_account_id = GroupInfo.cuenta_banco
+
+        body = {
+            fecha_inicio: start_date,
+            fecha_fin: end_date,
+            id_cb: bank_account_id,
+            limit: 10
+        }
+        aux = HttpManager.obtener_cartola(body)
+        transacciones = JSON.parse("["+aux.split('[').last.to_s)
+    end
+
 end
