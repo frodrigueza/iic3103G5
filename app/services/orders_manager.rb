@@ -83,14 +83,14 @@ class OrdersManager
       answer = {
         status: 400,
         content: {
-          mensaje: 'El proveedor numero #{oc[:proveedor]} no corresponde a nuestra empresa, nosotros somos la empresa #{GroupInfo.grupo}'
+          mensaje: "El proveedor numero #{oc[:proveedor]} no corresponde a nuestra empresa, nosotros somos la empresa #{GroupInfo.grupo}"
         }
       }
     elsif oc[:canal] == 'b2b' and not %w[1 2 3 4 6 7 8].include? oc[:cliente]
       answer = {
         status: 400,
         content: {
-          mensaje: 'Cliente inválido debe ser uno de los siguientes [1,2,3,4,6,7,8]'
+          mensaje: "Cliente inválido debe ser uno de los siguientes [1,2,3,4,6,7,8]"
         }
       }
       # corresponde a los skus que nosostros trabajamos
@@ -98,14 +98,14 @@ class OrdersManager
       answer = {
         status: 400,
         content: {
-          mensaje: 'Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus #{GroupInfo.skus}'
+          mensaje: "Nosotros como empresa 5 no manejamos ese SKU, solo manejamos los skus #{GroupInfo.skus}"
         }
       }
     else
       answer = {
         status: 200,
         content: {
-          mensaje: 'La orden de compra #{oc[:_id]} ha sido recepcionada correctamente'
+          mensaje: "La orden de compra #{oc[:_id]} ha sido recepcionada correctamente"
         }
       }
     end
