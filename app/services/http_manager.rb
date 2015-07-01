@@ -224,6 +224,8 @@ class HttpManager
 
 	def self.obtener_cuenta(id_cb)
 
+		id_cb = GroupInfo.cuenta_banco
+
 		url = @@uri + 'apolo/banco/cuenta/' + id_cb.to_s
 
 		puts url
