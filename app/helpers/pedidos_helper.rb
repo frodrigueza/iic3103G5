@@ -26,7 +26,9 @@ module PedidosHelper
 	end
 
 	def f_date(date)
-		date.to_time.strftime("%v - %R")
+		if date
+			date.to_time.strftime("%v - %R")
+		end
 	end
 
 	def previous_page(n)
