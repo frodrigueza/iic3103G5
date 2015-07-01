@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     get 'social'
   end
 
-  match 'pedidos/(:id)' => 'pedidos#index', via: :get
+  get 'pedidos/:id' => 'pedidos#index', via: :get
+  get 'pedidos' => 'pedidos#index', via: :get
 
   namespace :ig do
     post 'post_promociones'

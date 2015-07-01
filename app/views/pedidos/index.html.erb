@@ -1,9 +1,28 @@
 <%= render 'titulo' %>
+<nav class="pull-right">
+  <ul class="pagination">
+    <li>
+      <%= link_to pedidos_path(page: previous_page(@page)) do %>
+        <span aria-hidden="true">&laquo;</span>
+      <% end %>
+    </li>
+    <% for i in 1..@count %>
+      <li class= "<%= 'active' if i == @page %>">
+      <%= link_to i, pedidos_path(page: i)%>
+      </li>
+    <%end%>  
+    <li>
+      <%= link_to pedidos_path(page: next_page(@page)) do %>
+        <span aria-hidden="true">&raquo;</span>
+      <% end %>
+    </li>
+  </ul>
+</nav>
 <div class="col-md-12">
   <div class="panel panel-primary">
     <div class="panel-heading">
       Ordenes de compra almacenadas
-      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -15,7 +34,7 @@
           <th></th>
         </tr>
       </thead>
-      <% @pedidos.each do |p| %>
+      <% @pedidos_pagina.each do |p| %>
         <tr>
           <td><%= p.oc_id %></td>
           <td><%= p.canal %></td>
