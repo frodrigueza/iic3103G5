@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h1>E-Commerce</h1>
+</div>
+<% @productos.each do |p| %>
+  <div class="col-sm-4 col-lg-4 col-md-4">
+    <div class="thumbnail">
+      <%= image_tag "#{p[:nombre].downcase}.jpg" %>
+      <div class="caption">
+        <h4 class="pull-right"><%= number_to_currency p[:precio] %></h4>
+        <h4><a><%= p[:nombre] %></a></h4>
+        <h4><small><i><%= "sku: #{p[:sku]}" %></i></small></h4>
+        <p><%= "#{p[:categoria]} - #{p[:tipo]}" %></p>
+        <%= link_to b2c_comprar_path(sku: p[:sku]), class: "btn btn-success pull-right" do %>
+          <span class="glyphicon glyphicon-shopping-cart"></span> Comprar
+        <% end %>
+      </div>
+      <div class="ratings">
+        <p class="pull-right"><%= rand(1..20) %> reviews</p>
+        <p>
+          <% r = rand(1..5) %>
+          <% for i in 1..5 do %>
+            <span class="glyphicon glyphicon-star<%= '-empty' if i > r %>"></span>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
