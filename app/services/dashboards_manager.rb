@@ -13,8 +13,8 @@ class DashboardsManager
                 data: skus_counts_for_canal('b2b')
             },
             {
-                name: 'e-commerce',
-                data: skus_counts_for_canal('e-commerce')
+                name: 'b2c',
+                data: skus_counts_for_canal('b2c')
             }
         ]
     end
@@ -44,8 +44,8 @@ class DashboardsManager
                 data: total_ordered_quantities('b2b')
             },
             {
-                name: 'e-commerce',
-                data: total_ordered_quantities('e-commerce')
+                name: 'b2c',
+                data: total_ordered_quantities('b2c')
             }
         ]
     end
