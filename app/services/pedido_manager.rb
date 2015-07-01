@@ -74,7 +74,7 @@ class PedidoManager
       if pedido[:canal] == "b2b"
         factura = FacturaManager.emitir_factura(pedido)
         LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
-      else 
+      elsif pedido[:canal] == "ftp"
         boleta = HttpManager.crear_boleta(pedido)
         LogManager.new_log(pedido , "Boleta creada: #{boleta[:_id]}.")
       end

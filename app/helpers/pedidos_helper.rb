@@ -1,4 +1,4 @@
-module HomeHelper
+module PedidosHelper
 	def f_key(atr)
 		atr = atr.gsub('_',' ')
 		atr = atr.capitalize
@@ -27,5 +27,13 @@ module HomeHelper
 
 	def f_date(date)
 		date.to_time.strftime("%v - %R")
+	end
+
+	def previous_page(n)
+		return n>1 ? n-1 : 1
+	end
+
+	def next_page(n)
+		return n<@count ? n+1 : @count
 	end
 end

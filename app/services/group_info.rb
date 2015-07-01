@@ -12,7 +12,6 @@ class GroupInfo
     %w[5 26 27 28 29 30 44]
   end
 
-  # desarrollo
   def self.id
   	return "55648ad2f89fed0300524ff9" if @@produccion
     return "556489daefb3d7030091baae" if not @@produccion
@@ -94,5 +93,16 @@ class GroupInfo
   def self.ig_access_token
     return '2049758554.1fb234f.540af7caceca41cdbe122d62addd7826'    
   end
+
+  def self.url_pago_en_linea
+    return 'http://moyas.ing.puc.cl/banco/pagoenlinea' if @@produccion
+    return 'http://chiri.ing.puc.cl/banco/pagoenlinea' if not @@produccion
+  end
+
+  def self.clave_ecommerce
+      return 'Hy:RksMp' if @@produccion
+      return '@qvtvLhh' if not @@produccion
+    end
+
 
 end
