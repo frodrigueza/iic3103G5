@@ -27,18 +27,19 @@ class ColaManager
 				mensaje[:sku] == "28" or mensaje[:sku] == "29" or mensaje[:sku] == "30" or 
 				mensaje[:sku] == "44"
 
-			   #fecha = Time.at(mensaje[:fin]).utc
-			   mensaje_tweeter = "OFERTA DE LA COLA! Sku: #{mensaje[:sku]} a sólo #{mensaje[:precio]} pesos!"
+			   fecha_init = Time.at((mensaje[:inicio].to_i)/1000)
+			   fecha_fin = Time.at((mensaje[:fin].to_i)/1000)
+			   numero_sku = mensaje[:sku]
+			   precio = mensaje[:precio]
+				
+			   
+			   mensaje_tweeter = "OFERTA COLA! Sku: #{mensaje[:sku]} a sólo #{mensaje[:precio]}. Hasta: #{fecha_fin}"
+
 
 			   body = {:tweet => mensaje_tweeter}
 			   HttpManager.tweet(body)
-			   #AQUI SE DEBERIA MANDAR MENSAJE DE TWITTER
-			
-
-			else
-				#puts "El SKU #{mensaje[:sku]} no es uno de nuestros SKUs"
-
-				#fecha = Time.at(mensaje[:fin]).utc
+			   
+			   #Parámetros que vienen en la cola: numero_sku, precio, fecha_init, fecha_fin 
 
 				
 			end

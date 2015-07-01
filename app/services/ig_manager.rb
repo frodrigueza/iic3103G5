@@ -1,6 +1,6 @@
 class IgManager
 
-	def self.tag(params)
+	def self.tag(params)#perfecto
 
 		if(params[:meta]== nil)
 
@@ -17,13 +17,17 @@ class IgManager
 
 				#text = '#promociones #queso en láminas #oferta sku=40 precio=400 codigo=123abc'
 
-				if text.include? "sku" and text.include? "precio" and text.include? "codigo"
+				if text.include? "sku" and text.include? "precio" and text.include? "codigo" and 
 
-					##TODO Actualizar el precio de ese sku en la base de datos spree	
+					##TODO Actualizar el precio de ese sku en la base de datos 	
 
-					body = {:tweet => crear_tweet(text)}
+					tweet = crear_tweet(text)
 
-					HttpManager.tweet(body)
+					if tweet != "no"
+
+						HttpManager.tweet(tweet: tweet)
+
+					end
 
 				end
 
@@ -38,6 +42,10 @@ class IgManager
 		sku = text[text.index('sku')..-1].split(' ')[0]
 
 		sku = sku[sku.index('=')+1 .. -1]
+
+		if !GroupInfo.skus.include? sku
+			return "no"
+		end 
 
 		precio = text[text.index('precio')..-1].split(' ')[0]
 

@@ -58,7 +58,7 @@ class PedidoManager
         # Dejar insumos en almacen de despacho
         pedido.insumos.each do |insumo|
           BodegaManager.mover_a_despacho(insumo[:sku], insumo[:cantidad])
-          LogManager.new_log(pedido, "Insumo de sku: #{insumo[:sku]} movido al almacen de despacho. Cantidad: #{insumo[:cantidad]}")
+          LogManager.new_log(pedido, "#{pedido[:cantidad]} unidades de insumo de sku: [#{pedido[:sku]}] en almacen de despacho.")
         end
         # producirStock
         costo = ProductoManager.get_datos_sku(pedido[:sku])[:costo] * pedido[:cantidad]
@@ -66,12 +66,12 @@ class PedidoManager
         LogManager.new_log(pedido , "Trasferencia realizada del banco a la fábrica. Monto: #{costo}.")
         cantidad_a_producir = OrdersManager.cantidad_de_lotes(pedido) * ProductoManager.insumos_necesarios.find{|encontrados| encontrados['sku_final'] == pedido[:sku] }['cant_lote']
         response = HttpManager.producir_stock(sku: pedido[:sku], cantidad: cantidad_a_producir, trxId: trx[:_id])
-        LogManager.new_log(pedido, "Producto de sku: #{pedido[:sku]} enviado a producir. Cantidad: #{cantidad_a_producir}, Disponible: #{response[:disponible]}")
+        LogManager.new_log(pedido, "Producto de sku: [#{pedido[:sku]}] enviado a producir. Cantidad: #{cantidad_a_producir}, Disponible: #{response[:disponible]}")
       end
     else
       BodegaManager.mover_a_despacho(pedido[:sku], pedido[:cantidad])
-      LogManager.new_log(pedido, "Producto de sku: #{pedido[:sku]} movido a almacen de despacho. Cantidad: #{pedido[:cantidad]}")
-      if pedido[:canal] #== "b2b"
+      LogManager.new_log(pedido, "#{pedido[:cantidad]} unidades de producto de sku: [#{pedido[:sku]}] en almacen de despacho.")
+      if pedido[:canal] == "b2b"
         factura = FacturaManager.emitir_factura(pedido)
         LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
       else 
@@ -79,7 +79,7 @@ class PedidoManager
         LogManager.new_log(pedido , "Boleta creada: #{boleta[:_id]}.")
       end
       BodegaManager.despachar(pedido)
-      LogManager.new_log(pedido , "Product de sku: #{pedido[:sku]} despachado a cliente #{pedido[:cliente]}. Cantidad: #{pedido[:cantidad]}.")
+      LogManager.new_log(pedido , "Product de sku: [#{pedido[:sku]}] despachado a cliente #{pedido[:cliente]}. Cantidad: #{pedido[:cantidad]}.")
     end
   end
 
@@ -90,6 +90,7 @@ def self.check_pedidos
   pedidos.each do |pedido|
     check_ready(pedido) if HttpManager.exist_order(pedido[:oc_id])
   end
+  BodegaManager.ordenar_bodega(0)
 end
 
 
