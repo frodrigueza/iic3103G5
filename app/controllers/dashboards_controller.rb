@@ -46,6 +46,12 @@ class DashboardsController < ApplicationController
 
 	def bank
 		@transactions = DashboardsManager.bank_transactions.reverse
+		@bank_result = HttpManager.obtener_cuenta(5)[:saldo]
+		if @bank_result >= 0
+			@bank_state = 'succes'
+		else
+			@bank_state = 'danger'
+		end
 	end
 
 
