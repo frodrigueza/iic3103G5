@@ -107,7 +107,7 @@ class GruposInfo
       when "8"
         return "55648ae7f89fed0300525420" if GroupInfo.en_produccion
         return "556489e7efb3d7030091bf89" if not GroupInfo.en_produccion
-      
+      end
     end
 
     def self.get_direccion(cliente)
