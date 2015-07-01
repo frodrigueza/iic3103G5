@@ -71,7 +71,7 @@ class PedidoManager
     else
       BodegaManager.mover_a_despacho(pedido[:sku], pedido[:cantidad])
       LogManager.new_log(pedido, "#{pedido[:cantidad]} unidades de producto de sku: [#{pedido[:sku]}] en almacen de despacho.")
-      if pedido[:canal] #== "b2b"
+      if pedido[:canal] == "b2b"
         factura = FacturaManager.emitir_factura(pedido)
         LogManager.new_log(pedido , "Factura emitida: #{factura[:_id]}.")
       else 
@@ -90,6 +90,7 @@ def self.check_pedidos
   pedidos.each do |pedido|
     check_ready(pedido) if HttpManager.exist_order(pedido[:oc_id])
   end
+  BodegaManager.ordenar_bodega(0)
 end
 
 

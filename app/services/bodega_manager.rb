@@ -349,4 +349,53 @@ class BodegaManager
     # Retorna la cantidad disponible.
   end
 
+  def self.ordenar_bodega(parametro)
+    almacenes = HttpManager.get_almacenes
+    libre = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_libre}
+    recepcion = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_recepcion}
+    despacho = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_despacho}
+    pulmon = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_pulmon}
+    devoluciones = almacenes.find{|alm| alm[:_id] == GroupInfo.almacen_devoluciones}
+
+    if(parametro == 10)
+      alm = vaciar_almacen(recepcion, libre, "recepcion")
+      num = alm[:usedSpace]
+      while num > 10
+        alm = vaciar_almacen(recepcion, libre, "recepcion")
+        num = alm[:usedSpace]
+      end
+      alm = vaciar_almacen(pulmon, libre, "pulmon")
+      num = alm[:usedSpace]
+      while num > 10
+        alm = vaciar_almacen(pulmon, libre, "pulmon")
+        num = alm[:usedSpace]
+      end
+    else
+      vaciar_almacen(pulmon, libre, "pulmon")
+      vaciar_almacen(recepcion, libre, "recepcion")
+    end
+  end
+
+  def self.vaciar_almacen(almacen, libre, nombre)
+    cant_almacen = almacen[:usedSpace]
+    cap_libre = libre[:totalSpace] - libre[:usedSpace]
+    tipo_producto = HttpManager.get_skus_with_stock(almacen[:_id])
+    tipo_producto.each do |p|
+      cantidad = 0
+      body = {:id_a => almacen[:_id], :sku => p[:_id].to_i}
+      stock = HttpManager.get_stock(body)
+      if !stock.nil?
+        while cantidad < p[:total] and cantidad < 100 and cant_almacen > 0 and cap_libre > 0
+          Rails.logger.debug("Producto número " + cantidad.to_s + "de sku [" + p[:_id].to_s + "], almacén: " + nombre)
+          HttpManager.mover_stock({:id_a => libre[:_id], :id_p => stock[cantidad][:_id].to_s})
+          cant_almacen -= 1
+          cap_libre -= 1
+          cantidad += 1
+        end
+      end
+    end
+    almacenes = HttpManager.get_almacenes
+    return almacenes.find{|alm| alm[:_id] == almacen[:_id]}
+  end
+
 end
