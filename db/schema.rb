@@ -51,11 +51,10 @@ ActiveRecord::Schema.define(version: 20150701004209) do
     t.integer  "sku"
     t.string   "nombre"
     t.integer  "precio"
-    t.string   "descripcion"
     t.string   "categoria"
     t.string   "tipo"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
