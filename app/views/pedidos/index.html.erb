@@ -1,23 +1,25 @@
 <%= render 'titulo' %>
-<nav class="pull-right">
-  <ul class="pagination">
-    <li>
-      <%= link_to pedidos_path(page: previous_page(@page)) do %>
-        <span aria-hidden="true">&laquo;</span>
-      <% end %>
-    </li>
-    <% for i in 1..@count %>
-      <li class= "<%= 'active' if i == @page %>">
-      <%= link_to i, pedidos_path(page: i)%>
+<div class="col-md-12">
+  <nav class="pull-right">
+    <ul class="pagination">
+      <li>
+        <%= link_to pedidos_path(page: previous_page(@page)) do %>
+          <span aria-hidden="true">&laquo;</span>
+        <% end %>
       </li>
-    <%end%>  
-    <li>
-      <%= link_to pedidos_path(page: next_page(@page)) do %>
-        <span aria-hidden="true">&raquo;</span>
-      <% end %>
-    </li>
-  </ul>
-</nav>
+      <% for i in 1..@count %>
+        <li class= "<%= 'active' if i == @page %>">
+        <%= link_to i, pedidos_path(page: i)%>
+        </li>
+      <%end%>  
+      <li>
+        <%= link_to pedidos_path(page: next_page(@page)) do %>
+          <span aria-hidden="true">&raquo;</span>
+        <% end %>
+      </li>
+    </ul>
+  </nav>
+</div>
 <div class="col-md-12">
   <div class="panel panel-primary">
     <div class="panel-heading">
@@ -28,6 +30,7 @@
         <tr>
           <th></th>
           <th>Pedido</th>
+          <th>Id orden de compra</th>
           <th>Canal</th>
           <th>Cliente</th>
           <th>Sku</th>
