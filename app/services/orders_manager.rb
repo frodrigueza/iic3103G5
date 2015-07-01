@@ -25,7 +25,7 @@ class OrdersManager
     unless pedido
       pedido = Pedido.create(oc_id: oc[:_id],
                              canal: oc[:canal],
-                             cliente: oc[:cliente].to_i,
+                             cliente: oc[:cliente],
                              fecha_entrega: DateTime.parse(oc[:fechaEntrega].to_s).utc,
                              sku: oc[:sku],
                              cantidad: oc[:cantidad],
