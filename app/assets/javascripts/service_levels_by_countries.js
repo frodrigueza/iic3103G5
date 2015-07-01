@@ -66,7 +66,7 @@ var ready = function() {
 			            }
 			        },
 
-			        series: [received, delivered]
+			        series: [delivered, received]
 			    });
 
             }
