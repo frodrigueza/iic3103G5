@@ -29,7 +29,6 @@ class GruposInfo
 
     end
 
-<<<<<<< HEAD
     def self.get_id_cuenta(cuenta)
         case cuenta
         when "55648ad3f89fed0300524ffe" || "556489daefb3d7030091bab3"
@@ -81,7 +80,6 @@ class GruposInfo
 
         end 
 
-=======
 	end
 
 	def self.get_recepcion_id(group_id)
@@ -109,8 +107,7 @@ class GruposInfo
       when "8"
         return "55648ae7f89fed0300525420" if GroupInfo.en_produccion
         return "556489e7efb3d7030091bf89" if not GroupInfo.en_produccion
-      
->>>>>>> bf2a749b0e0465250e573aef9cc43f13eeb00e60
+      end
     end
 
     def self.get_direccion(cliente)
