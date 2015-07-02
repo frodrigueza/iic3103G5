@@ -18,10 +18,11 @@ class B2cController < ApplicationController
     total = precioUnitario * params[:cantidad].to_i
     boleta = HttpManager.crear_boleta(cliente: params[:cliente], proveedor: GroupInfo.id, total: total)
     params[:boletaId] = boleta[:_id]
-    callbackUrl = (url_for(controller: 'b2c', action: 'pagado') + "?#{params.except(:controller, :action, :promocion).to_query}")
+    callbackUrl = url_for(controller: 'b2c', action: 'pagado') + "?#{params.except(:controller, :action, :promocion).to_query}"
+    cancelUrl = url_for(controller: 'b2c', action: 'index')
     params = {
-      callbackUrl: URI.encode_www_form_component(callbackUrl),
-      cancelUrl: URI.encode_www_form_component(url_for(controller: 'b2c', action: 'index')),
+      callbackUrl: callbackUrl,
+      cancelUrl: cancelUrl,
       boletaId: boleta[:_id]
     }
     redirect_to(GroupInfo.url_pago_en_linea + "?#{params.to_query}")
@@ -39,6 +40,8 @@ class B2cController < ApplicationController
     )
     OrdersManager.manage_order(order[:_id])
     pedido = Pedido.find_by(oc_id: order[:_id])
-    LogManager.new_log(pedido , "Boleta creada: #{params.require(:boletaId)}.")
+    boletaId = params.require(:boletaId)
+    LogManager.new_log(pedido , "Boleta creada: #{boletaId}.")
   end
+
 end
